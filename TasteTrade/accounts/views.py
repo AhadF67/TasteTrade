@@ -5,7 +5,7 @@ from .forms import LoginForm
 from .forms import UserForm
 from .forms import SupplierSignUpForm
 
-def register(request):
+def signup_Bus(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
@@ -14,13 +14,13 @@ def register(request):
     else:
         form = UserForm()
 
-    return render(request, 'accounts/register.html', {'form': form})
+    return render(request, 'accounts/signup_Bus.html', {'form': form})
 
 
 # views.py
 
 
-def signup (request):
+def signup_Sup (request):
     if request.method == 'POST':
         form = SupplierSignUpForm(request.POST, request.FILES)
         if form.is_valid():
@@ -30,7 +30,7 @@ def signup (request):
     else:
         form = SupplierSignUpForm()
 
-    return render(request, 'accounts/sign_up.html', {'form': form})
+    return render(request, 'accounts/signup_Sup.html', {'form': form})
 
 
 def login_view(request):
