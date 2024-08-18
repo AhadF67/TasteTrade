@@ -12,7 +12,7 @@ def signup_Bus(request):
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('success')  # Redirect to a success page or login page
+            return redirect('success') 
     else:
         form = UserForm()
 
@@ -23,14 +23,15 @@ def signup_Sup (request):
     if request.method == 'POST':
         form = SupplierSignUpForm(request.POST, request.FILES)
         if form.is_valid():
-            # Handle form processing, save files, etc.
-            # Save the form data or create a new Supplier model instance
+      
             pass
     else:
         form = SupplierSignUpForm()
 
     return render(request, 'accounts/signup_Sup.html', {'form': form})
 
+import logging
+logger = logging.getLogger(__name__)
 
 def login_view(request):
     if request.method == 'POST':
@@ -38,12 +39,17 @@ def login_view(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
+            logger.debug(f"Attempting to authenticate user with email: {email}")
             user = authenticate(request, username=email, password=password)
+            print(user,email,password)
+
+            print('success')
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Redirect to home or any other page after login
+                return redirect('success')
             else:
                 form.add_error(None, 'Invalid email or password')
+                logger.debug('Authentication failed')
     else:
         form = LoginForm()
 

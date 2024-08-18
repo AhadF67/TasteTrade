@@ -28,6 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+# settings.py
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
+
+
 # Application definition
 
 INSTALLED_APPS = [
