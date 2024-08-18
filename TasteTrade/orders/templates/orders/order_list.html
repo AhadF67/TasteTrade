@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order List</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    {% for order in orders %}
+        <div class="order-card">
+            <h3>Order #{{ order.order_number }}</h3>
+            <p>Total: ${{ order.total }}</p>
+            <p>Status: {{ order.get_status_display }}</p>
+
+            {% if order.status == 'in_progress' %}
+                <a href="{% url 'delete_order' order.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'cancel_order' order.id %}" class="btn btn-warning">Cancel</a>
+            {% elif order.status == 'confirmed' %}
+                <a href="{% url 'checkout_order' order.id %}" class="btn btn-success">Checkout</a>
+            {% elif order.status == 'completed' %}
+                <a href="{% url 'review_order' order.id %}" class="btn btn-primary">Review</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+</body>
+</html>
