@@ -23,7 +23,9 @@
           {{ form.as_p }}
         </div>
         <div class="modal-footer">
+          <!-- Back Button -->
           <button type="button" class="btn btn-secondary" id="backToShipping">Back</button>
+          <!-- Pay Button -->
           <button type="submit" class="btn btn-primary">Pay</button>
         </div>
       </form>
@@ -40,10 +42,8 @@
     $('#paymentDetailsModal').modal('show');
     
     $('#backToShipping').click(function() {
-      $('#paymentDetailsModal').modal('hide');
-      setTimeout(function() {
-        $('#shippingDetailsModal').modal('show');
-      }, 500); // Delay to ensure the second modal is completely hidden
+      // Redirect to the shipping details page
+      window.location.href = '{% url "shipping_details" %}'; // Replace with the correct URL name or path
     });
   });
 </script>

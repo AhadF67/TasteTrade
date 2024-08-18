@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 
 @login_required
@@ -68,4 +69,32 @@ def payment_details(request):
     else:
         form = PaymentForm()
     return render(request, 'orders/payment_details.html', {'form': form})
+
+def delete_pop(request):
+    return render(request, 'orders/delete_POP.html')
+
+def cancel_pop(request):
+    return render(request, 'orders/cancel_POP.html')
+
+def confirm_pop(request):
+    return render(request, 'orders/confirm_POP.html')
+
+def reject_pop(request):
+    return render(request, 'orders/reject_POP.html')
+
+def review_sup_pop(request):
+    return render(request, 'orders/review_sup.html')
+
+def review_bus_pop(request):
+    return render(request, 'orders/review_bus.html')
+
+def submit_rating(request):
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        comment = request.POST.get('comment')
+        # saving here
+        return redirect('success')  
+    
+    return HttpResponse("Invalid request method.", status=405)
+
 

@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success</title>
+    <title>Confirmation</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+<div class="modal fade" id="rejectOrderModal" tabindex="-1" role="dialog" aria-labelledby="rejectOrderModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content text-center">
+      <div class="modal-header justify-content-start">
+        <button type="button" class="close ml-0" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
       <div class="modal-body">
-        <i class="fas fa-check-circle fa-5x text-success"></i>
-        <h3 class="mt-3">Successful!</h3>
+        <h5>Are you sure you want to reject the order?</h5>
       </div>
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-primary" id="closeButton">Close</button>
+        <button type="button" class="btn btn-primary" id="yesButton">Yes</button>
       </div>
     </div>
   </div>
@@ -28,19 +32,13 @@
 
 <script>
   $(document).ready(function() {
-    $('#successModal').modal('show');
+    $('#rejectOrderModal').modal('show');
 
-    // Capture the previous page URL
-    var previousPageUrl = document.referrer;
-
-    // Redirect to the previous page when the close button is clicked
-    $('#closeButton').click(function() {
-      if (previousPageUrl) {
-        window.location.href = previousPageUrl;
-      } else {
-        // If no referrer is found, close the modal
-        $('#successModal').modal('hide');
-      }
+    // Handle the "Yes" button click event
+    $('#yesButton').click(function() {
+      // Add your logic here for when the "Yes" button is clicked
+      alert('Order rejected');
+      $('#rejectOrderModal').modal('hide');
     });
   });
 </script>
