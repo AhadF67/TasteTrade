@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign up / Supplier</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Sign up / Supplier</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-field">
+                {{ form.name.label_tag }}<br>
+                {{ form.name }}
+            </div>
+            <div class="form-field">
+                {{ form.number.label_tag }}<br>
+                {{ form.number }}
+            </div>
+            <div class="form-field">
+                {{ form.email.label_tag }}<br>
+                {{ form.email }}
+            </div>
+            <div class="form-field">
+                {{ form.password.label_tag }}<br>
+                {{ form.password }}
+            </div>
+            <div class="form-field">
+                {{ form.re_password.label_tag }}<br>
+                {{ form.re_password }}
+            </div>
+            <div class="form-field">
+                {{ form.cr.label_tag }}<br>
+                {{ form.cr }} <button type="button"><img src="{% static 'images/upload_icon.png' %}" alt="Upload"></button>
+            </div>
+            <div class="form-field">
+                {{ form.location.label_tag }}<br>
+                {{ form.location }}
+            </div>
+            <div class="form-field">
+                {{ form.bank_account.label_tag }}<br>
+                {{ form.bank_account }} <button type="button"><img src="{% static 'images/upload_icon.png' %}" alt="Upload"></button>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>
