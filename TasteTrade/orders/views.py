@@ -43,3 +43,31 @@ def contact_us(request):
     else:
         form = ContactUsForm()
     return render(request, 'orders/contact_us.html', {'form': form})
+
+def success(request):
+    return render(request, 'orders/success.html')
+
+
+from django.shortcuts import render, redirect
+from .forms import ShippingForm, PaymentForm
+
+def shipping_details(request):
+    if request.method == 'POST':
+        form = ShippingForm(request.POST)
+        if form.is_valid():
+            return redirect('payment_details')  # Redirect to payment details modal
+    else:
+        form = ShippingForm()
+    return render(request, 'orders/shipping_details.html', {'form': form})
+
+def payment_details(request):
+    if request.method == 'POST':
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            return redirect('success')  # Redirect to success page
+    else:
+        form = PaymentForm()
+    return render(request, 'orders/payment_details.html', {'form': form})
+
+def success(request):
+    return render(request, 'success.html')
