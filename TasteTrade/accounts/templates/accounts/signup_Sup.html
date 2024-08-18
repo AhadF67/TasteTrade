@@ -1,4 +1,4 @@
-{% load static %}
+<!-- {% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +10,10 @@
         <h2>Sign up / Supplier</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="form-field">
+                {{ form.username.label_tag }}<br>
+                {{ form.username }}
+            </div>
             <div class="form-field">
                 {{ form.name.label_tag }}<br>
                 {{ form.name }}
@@ -46,4 +50,115 @@
         </form>
     </div>
 </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up / Supplier</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF; 
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="email"],
+        .form-container input[type="password"],
+        .form-container input[type="number"],
+        .form-container input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #67594B; 
+            border-radius: 5px;
+            background-color: #FAFAF5; 
+            box-sizing: border-box;
+            color: #67594B;
+        }
+
+        .form-container input::placeholder {
+            color: #67594B; 
+            text-align: left; 
+        }
+
+        .form-container input[type="submit"] {
+            background-color: #67594B; 
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .form-container input[type="submit"]:hover {
+            background-color: #3e2d28;
+        }
+
+        h2 {
+            color: #67594B;
+            text-align: center;
+            font-family: "Arial", sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sign up / Supplier</h2>
+        <div class="form-container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-field">
+                    <input type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-field">
+                    <input type="text" name="name" placeholder="Name">
+                </div>
+                <div class="form-field">
+                    <input type="number" name="number" placeholder="Number">
+                </div>
+                <div class="form-field">
+                    <input type="email" name="email" placeholder="Email">
+                </div>
+                <div class="form-field">
+                    <input type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-field">
+                    <input type="password" name="re_password" placeholder="Re Password">
+                </div>
+                <div class="form-field">
+                    <input type="text" name="cr" placeholder="CR">
+                </div>
+                <div class="form-field">
+                    <input type="text" name="location" placeholder="Location">
+                </div>
+                <div class="form-field">
+                    <input type="text" name="bank_account" placeholder="Bank Account">
+                </div>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</body>
 </html>
+
+
+
+
+

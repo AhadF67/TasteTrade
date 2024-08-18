@@ -5,7 +5,7 @@ from .forms import LoginForm
 from .forms import UserForm
 from .forms import SupplierSignUpForm
 from .models import Profile
-
+import logging
 
 def signup_Bus(request):
     if request.method == 'POST':
@@ -30,32 +30,29 @@ def signup_Sup (request):
 
     return render(request, 'accounts/signup_Sup.html', {'form': form})
 
-import logging
+
 logger = logging.getLogger(__name__)
 
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('email')
+            username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
-            logger.debug(f"Attempting to authenticate user with email: {email}")
-            user = authenticate(request, username=email, password=password)
-            print(user,email,password)
+            logger.debug(f"Attempting to authenticate user with username: {username}")
+            user = authenticate(request, username=username, password=password)
+            print(user, username, password)
 
-            print('success')
             if user is not None:
                 login(request, user)
-                return redirect('success')
+                return redirect('success')  
             else:
-                form.add_error(None, 'Invalid email or password')
+                form.add_error(None, 'Invalid username or password')
                 logger.debug('Authentication failed')
     else:
         form = LoginForm()
 
     return render(request, 'accounts/login.html', {'form': form})
-
-
 
 def profile_view(request, profile_id):
     profile = get_object_or_404(Profile, id=profile_id)
