@@ -1,9 +1,11 @@
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 from .forms import UserForm
 from .forms import SupplierSignUpForm
+from .models import Profile
+
 
 def signup_Bus(request):
     if request.method == 'POST':
@@ -15,9 +17,6 @@ def signup_Bus(request):
         form = UserForm()
 
     return render(request, 'accounts/signup_Bus.html', {'form': form})
-
-
-# views.py
 
 
 def signup_Sup (request):
@@ -49,3 +48,9 @@ def login_view(request):
         form = LoginForm()
 
     return render(request, 'accounts/login.html', {'form': form})
+
+
+
+def profile_view(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id)
+    return render(request, 'accounts/profile_Sup.html', {'profile': profile})
