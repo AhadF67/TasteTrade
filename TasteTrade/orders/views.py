@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def order_list(request):
     if not request.user.is_authenticated:
-        return redirect('login')  # Replace 'login' with your login URL or view name
+        return redirect('login_view')  # Replace 'login' with your login URL or view name
     orders = Order.objects.filter(user=request.user)
     return render(request, 'orders/order_list.html', {'orders': orders})
 
@@ -42,4 +42,4 @@ def contact_us(request):
             return redirect('success')  # Redirect to a success page or any other page
     else:
         form = ContactUsForm()
-    return render(request, 'contact_us.html', {'form': form})
+    return render(request, 'orders/contact_us.html', {'form': form})
