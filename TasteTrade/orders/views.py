@@ -30,3 +30,16 @@ def review_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     # Implement review logic here
     return redirect('order_list')
+
+from django.shortcuts import render, redirect
+from .forms import ContactUsForm
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            # Process the form data (e.g., send an email)
+            return redirect('success')  # Redirect to a success page or any other page
+    else:
+        form = ContactUsForm()
+    return render(request, 'contact_us.html', {'form': form})
