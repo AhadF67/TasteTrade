@@ -35,6 +35,7 @@
     </div>
 </body>
 </html> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +46,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #FFFFFF; 
+            background-color: #FFFFFF;
         }
 
         .form-container {
@@ -55,10 +56,20 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center; 
         }
 
         .form-field {
             margin-bottom: 15px;
+            text-align: left; 
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            color: #67594B;
+            font-weight: bold;
+            font-size: 14px; 
         }
 
         .form-container input[type="text"],
@@ -68,20 +79,20 @@
         .form-container input[type="file"] {
             width: 100%;
             padding: 10px;
-            border: 1px solid #67594B; 
+            border: 1px solid #67594B;
             border-radius: 5px;
-            background-color: #FAFAF5; 
+            background-color: #FAFAF5;
             box-sizing: border-box;
-            color: #67594B; 
+            color: #67594B;
         }
 
         .form-container input::placeholder {
-            color: #67594B; 
-            text-align: left; 
+            color: #67594B;
+            text-align: left;
         }
 
         .form-container input[type="submit"] {
-            background-color: #67594B; 
+            background-color: #67594B;
             color: #fff;
             padding: 10px;
             border: none;
@@ -92,7 +103,7 @@
         }
 
         .form-container input[type="submit"]:hover {
-            background-color: #3e2d28; 
+            background-color: #3e2d28;
         }
 
         h2 {
@@ -100,14 +111,27 @@
             text-align: center;
             font-family: "Arial", sans-serif;
         }
+
+        .image-preview {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Sign up / Business</h2>
         <div class="form-container">
+            <img id="image-preview" class="image-preview" src="" alt="Preview">
+
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                
                 <div class="form-field">
                     <input type="text" name="username" placeholder="Username">
                 </div>
@@ -126,10 +150,30 @@
                 <div class="form-field">
                     <input type="password" name="re_password" placeholder="Re Password">
                 </div>
+                <div class="form-field">
+                    <label for="cr-upload">Logo:</label>
+                    <input type="file" id="image-upload" name="image" accept="image/*" required>
+                </div>
                 
                 <input type="submit" value="Submit">
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('image-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('image-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('image-preview').src = '';
+            }
+        });
+    </script>
 </body>
 </html>
+
