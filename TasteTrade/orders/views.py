@@ -68,6 +68,3 @@ def payment_details(request):
     else:
         form = PaymentForm()
     return render(request, 'orders/payment_details.html', {'form': form})
-
-def success(request):
-    return render(request, 'success.html')

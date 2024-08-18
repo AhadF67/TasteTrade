@@ -1,6 +1,13 @@
-{% extends 'base.html' %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
 <div class="modal fade" id="paymentDetailsModal" tabindex="-1" role="dialog" aria-labelledby="paymentDetailsModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -16,7 +23,7 @@
           {{ form.as_p }}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#shippingDetailsModal" data-dismiss="modal">Back</button>
+          <button type="button" class="btn btn-secondary" id="backToShipping">Back</button>
           <button type="submit" class="btn btn-primary">Pay</button>
         </div>
       </form>
@@ -24,9 +31,21 @@
   </div>
 </div>
 
+<!-- Include jQuery and Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-  $(document).ready(function(){
+  $(document).ready(function() {
     $('#paymentDetailsModal').modal('show');
+    
+    $('#backToShipping').click(function() {
+      $('#paymentDetailsModal').modal('hide');
+      setTimeout(function() {
+        $('#shippingDetailsModal').modal('show');
+      }, 500); // Delay to ensure the second modal is completely hidden
+    });
   });
 </script>
-{% endblock %}
+</body>
+</html>
