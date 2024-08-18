@@ -4,11 +4,12 @@ from .models import User
 from django import forms
 
 class UserForm(forms.ModelForm):
+    username = forms.CharField(max_length=150)
     re_password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
-        fields = ['name', 'number', 'email', 'password']
+        fields = ['username','name', 'number', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput(),
         }
@@ -24,6 +25,7 @@ class UserForm(forms.ModelForm):
 
 
 class SupplierSignUpForm(forms.Form):
+    username = forms.CharField(max_length=150, required=True)
     name = forms.CharField(max_length=100)
     number = forms.CharField(max_length=15)
     email = forms.EmailField()
@@ -37,5 +39,5 @@ class SupplierSignUpForm(forms.Form):
 
 
 class LoginForm(forms.Form):
-    email = forms.EmailField()
+    username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput())
