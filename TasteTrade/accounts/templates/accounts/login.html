@@ -21,6 +21,12 @@
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center; 
+        }
+
+        .form-container img {
+            max-width: 150px; 
+            margin-bottom: 20px; 
         }
 
         .form-field {
@@ -71,6 +77,7 @@
 <body>
     <div class="container">
         <div class="form-container">
+            <img src="{% static 'images/logoo.png' %}" alt="Logo">
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-field">
@@ -80,8 +87,13 @@
                 <div class="form-field">
                     <input type="password" name="password" placeholder="Password">
                 </div>
-               
                 <input type="submit" value="Submit">
+                <div class="links">
+                    <a href="forgot-password">Forget your password?</a>  |
+
+                    <a href="/create-account/">Create a new account</a> 
+                </div>
+
             </form>
         </div>
     </div>
