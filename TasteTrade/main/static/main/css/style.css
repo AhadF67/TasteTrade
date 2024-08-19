@@ -1,0 +1,29 @@
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 30px 50px; 
+  align-items: center;
+
+}
+.logo {
+  width: 120px;
+  height: 120px;
+}
+
+.button {
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 8px; 
+  margin-right: 10px;
+  background-color: #FAFAF5;
+}
+
+.header {
+  padding: 60px;
+  text-align: center;
+  font-size: 30px;
+  background: image()
+}
+

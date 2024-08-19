@@ -1,5 +1,5 @@
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.http import HttpRequest
 from django.shortcuts import render
 
 def main_home(request):
