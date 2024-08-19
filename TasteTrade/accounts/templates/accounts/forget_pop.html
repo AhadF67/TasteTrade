@@ -1,83 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .btn-arrow {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #007bff;
-            color: white;
-            border-radius: 50%;
-            border: none;
-        }
-
-        .modal-footer {
-            justify-content: flex-end;
-        }
-    </style>
-</head>
-<body>
-<div class="modal fade" id="enterEmailModal" tabindex="-1" role="dialog" aria-labelledby="enterEmailModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content text-center">
-      <div class="modal-header">
-        <h5 class="modal-title" id="enterEmailModalLabel">Enter Your Email</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form id="emailForm" method="post" action="{% url 'password_reset' %}">
-        {% csrf_token %}
-        <div class="modal-body">
-          <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn-arrow" id="nextArrow">&rarr;</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content text-center">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <h5 class="modal-title" id="confirmationModalLabel">You will receive an email to reset your password</h5>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script>
-    $(document).ready(function() {
-      $('#enterEmailModal').modal('show');
-  
-      $('#nextArrow').click(function(e) {
-        e.preventDefault();
-        $('#enterEmailModal').modal('hide');
-        $('#confirmationModal').modal('show');
-      });
-    });
-  </script>
-  </body>
-  </html> -->
-  
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -88,16 +9,6 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #FFFFFF;
-        }
-
-        .form-container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
 
         .form-field {
@@ -139,63 +50,84 @@
             font-size: 16px;
         }
 
-       
-
         .btn-arrow {
-        display: inline-flex; 
-        align-items: center; 
-        padding: 10px 20px; 
-        font-size: 16px; 
-        background-color: #3e2d28; 
-        color: white; 
-        border-radius: 5px; 
-        border: none; 
-        cursor: pointer; 
-        text-align: center; 
-        text-decoration: none; 
-        line-height: 1.5;
-        margin-left: auto; 
-        margin-top: 20px; 
-        margin-bottom: 10px; 
-    }
+            display: inline-flex; 
+            align-items: center; 
+            padding: 10px 20px; 
+            font-size: 16px; 
+            background-color: #67594B; 
+            color: white; 
+            border-radius: 5px; 
+            border: none; 
+            cursor: pointer; 
+            text-align: center; 
+            text-decoration: none; 
+            line-height: 1.5;
+            margin-left: auto; 
+            margin-top: 20px; 
+            margin-bottom: 10px; 
+        }
 
-    .btn-arrow:hover {
-        background-color: #67594B; 
-    }
+        .btn-arrow:hover {
+            background-color: #3e2d28; 
+        }
 
-    .btn-arrow:before {
-        font-size: 20px; 
-        margin-left: 8px; 
-    }
-    .form-field {
-        text-align: right; 
-    }
+        .btn-arrow:before {
+            font-size: 20px; 
+            margin-left: 8px; 
+        }
 
         .modal-header, .modal-footer {
-            display: none;
+            border: none;
+        }
+
+        .modal-body {
+            padding: 20px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-<div class="form-container">
-    <h2>Enter Your Email</h2>
-</br>
-    <form id="emailForm" method="post" action="{% url 'password_reset' %}">
-        {% csrf_token %}
-        <div class="form-field">
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+<!-- Button to trigger modal -->
+<button type="button" class="btn-arrow" data-toggle="modal" data-target="#emailModal">
+    Reset Password
+</button>
+
+<!-- Modal for email input -->
+<div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-container">
+                    <h2>Enter Your Email</h2>
+                    <br>
+                    <form id="emailForm" method="post" action="{% url 'password_reset' %}">
+                        {% csrf_token %}
+                        <div class="form-field">
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-field" style="position: relative;">
+                            <button type="submit" class="btn-arrow">&rarr;</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="form-field" style="position: relative;">
-            <button type="submit" class="btn-arrow">&rarr;</button>
-        </div>
-    </form>
+    </div>
 </div>
 
-<div class="form-container" style="display: none;" id="confirmationContainer">
-    <h2>Password Reset</h2>
-    <p>You will receive an email to reset your password</p>
-    <button type="button" class="btn-submit">OK</button>
+<!-- Modal for confirmation -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h2>Password Reset</h2>
+                <p>You will receive an email to reset your password</p>
+                <button type="button" class="btn-submit" onclick="hideConfirmation()">OK</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Include jQuery and Bootstrap JavaScript -->
@@ -206,14 +138,14 @@
     $(document).ready(function() {
         $('#emailForm').submit(function(e) {
             e.preventDefault();
-            $('.form-container').hide();
-            $('#confirmationContainer').show();
+            $('#emailModal').modal('hide');
+            $('#confirmationModal').modal('show');
         });
     });
 
     function hideConfirmation() {
-        $('#confirmationContainer').hide();
-        $('.form-container').show();
+        $('#confirmationModal').modal('hide');
+        $('#emailModal').modal('show');
     }
 </script>
 </body>
