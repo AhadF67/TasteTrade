@@ -1,15 +1,15 @@
 # myapp/forms.py
 from django import forms
-from .models import User
+from django.contrib.auth.models import User
 from django import forms
 
 class UserForm(forms.ModelForm):
     username = forms.CharField(max_length=150)
-    re_password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
-        fields = ['username','name', 'number', 'email', 'password']
+        fields = ['username', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput(),
         }
