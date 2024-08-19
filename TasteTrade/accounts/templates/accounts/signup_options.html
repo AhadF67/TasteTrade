@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,11 +6,51 @@
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .btn-lg-custom {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-body {
+            text-align: center;
             padding: 20px;
-            font-size: 24px;
+        }
+
+        .btn-lg-custom {
+            padding: 10px 20px; /* Reduced padding for a cleaner look */
+            font-size: 16px; /* Adjusted font size */
             width: 100%;
             margin: 10px 0;
+            border-radius: 5px; /* Rounded corners */
+            border: none; /* Remove border */
+        }
+
+        .btn-primary {
+            background-color: #67594B; /* Match the form-container style */
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #3e2d28; /* Darker shade on hover */
+        }
+
+        .btn-success {
+            background-color: #4CAF50; /* Adjust as needed */
+            color: #fff;
+        }
+
+        .btn-success:hover {
+            background-color: #388E3C; /* Darker shade on hover */
         }
     </style>
 </head>
@@ -27,6 +67,120 @@
         <h3 class="mb-4">Sign Up</h3>
         <a href="{% url 'signup_Bus' %}" class="btn btn-primary btn-lg-custom">Sign up as Business Owner</a>
         <a href="{% url 'signup_Sup' %}" class="btn btn-success btn-lg-custom">Sign up as Supplier</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#signupModal').modal('show');
+  });
+</script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border: 1px solid #67594B;
+            max-width: 600px; /* Increase width to match the design */
+            margin: 50px auto;
+        }
+
+        .modal-header {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .modal-body {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .btn-lg-custom {
+            padding: 40px 20px; /* Increase padding for a larger button */
+            font-size: 18px; /* Adjust font size */
+            width: 45%; /* Adjust width to fit side by side */
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #67594B;
+            background-color: #FAFAF5;
+            color: #67594B;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-lg-custom:hover {
+         background-color: #ECE9E4; /* تغيير خلفية الزر عند التحريك */
+         text-decoration: none; /* منع تغيير النص ليكون تحت الخط */
+         color: #67594B; /* تثبيت اللون ليبقى بنفس اللون الأصلي */
+}
+
+        .btn-lg-custom .icon {
+            font-size: 24px;
+            margin-top: 10px;
+            color: #67594B;
+        }
+
+        .close {
+            font-size: 24px;
+            color: #67594B;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .close:focus {
+            outline: none;
+        }
+
+        h3 {
+            color: #67594B;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <a href="{% url 'signup_Bus' %}" class="btn-lg-custom">
+            Sign up as Business Owner
+            <span class="icon">&#8594;</span>
+        </a>
+        <a href="{% url 'signup_Sup' %}" class="btn-lg-custom">
+            Sign up as Supplier
+            <span class="icon">&#8594;</span>
+        </a>
       </div>
     </div>
   </div>

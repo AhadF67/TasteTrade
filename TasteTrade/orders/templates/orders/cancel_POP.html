@@ -6,6 +6,57 @@
     <title>Confirmation</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+        }
+
+        .modal-content {
+            border-radius: 5px;
+            border: 1px solid #67594B;
+            background-color: #FAFAF5;
+        }
+
+        .modal-header, .modal-footer {
+            border: none;
+            background-color: #FAFAF5;
+        }
+
+        .modal-header .close {
+            color: #67594B;
+            font-size: 24px;
+        }
+
+        .modal-body {
+            padding: 20px;
+            text-align: center;
+            color: #67594B;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .btn-primary {
+          background-color: #67594B; /* اللون الأساسي */
+         border: none;
+         border-radius: 5px;
+         color: #fff;
+         padding: 10px 20px;
+         font-size: 16px;
+         cursor: pointer;
+         }
+
+.btn-primary:hover {
+    background-color: #3e2d28; 
+}
+
+.btn-primary:active {
+    background-color: #f5ece9; 
+}
+    </style>
 </head>
 <body>
 <div class="modal fade" id="rejectOrderModal" tabindex="-1" role="dialog" aria-labelledby="rejectOrderModalLabel" aria-hidden="true">
@@ -37,10 +88,12 @@
     // Handle the "Yes" button click event
     $('#yesButton').click(function() {
       // Add your logic here for when the "Yes" button is clicked
-      alert('Order canceled');
+      
       $('#rejectOrderModal').modal('hide');
     });
   });
 </script>
 </body>
 </html>
+
+

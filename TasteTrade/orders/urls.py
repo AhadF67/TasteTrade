@@ -11,12 +11,15 @@ urlpatterns = [
     path('success/', views.success, name='success'),
     path('shipping-details/', views.shipping_details, name='shipping_details'),
     path('payment-details/', views.payment_details, name='payment_details'),
+
     path('delete-pop/', views.delete_pop, name='delete_pop'),
     path('reject-pop/', views.reject_pop, name='reject_pop'),
     path('cancel-pop/', views.cancel_pop, name='cancel_pop'),
     path('confirm-pop/', views.confirm_pop, name='confirm_pop'),
+
     path('review-sup/', views.review_sup_pop, name='review_sup'),
     path('review-bus/', views.review_bus_pop, name='review_bus'),
+    
     path('submit_rating/', views.submit_rating, name='submit_rating'),
 ]
 
