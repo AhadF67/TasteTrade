@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -60,7 +60,6 @@
     </div>
   </div>
   
-  <!-- Include jQuery and Bootstrap JavaScript -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
   
@@ -76,5 +75,146 @@
     });
   </script>
   </body>
-  </html>
+  </html> -->
   
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            text-align: left; 
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            color: #67594B;
+            font-weight: bold;
+            font-size: 14px; 
+        }
+
+        .form-container input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #67594B;
+            border-radius: 5px;
+            background-color: #FAFAF5;
+            box-sizing: border-box;
+            color: #67594B;
+        }
+
+        .form-container input::placeholder {
+            color: #67594B;
+            text-align: left;
+        }
+
+        .btn-submit {
+            background-color: #67594B;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+       
+
+        .btn-arrow {
+        display: inline-flex; 
+        align-items: center; 
+        padding: 10px 20px; 
+        font-size: 16px; 
+        background-color: #3e2d28; 
+        color: white; 
+        border-radius: 5px; 
+        border: none; 
+        cursor: pointer; 
+        text-align: center; 
+        text-decoration: none; 
+        line-height: 1.5;
+        margin-left: auto; 
+        margin-top: 20px; 
+        margin-bottom: 10px; 
+    }
+
+    .btn-arrow:hover {
+        background-color: #67594B; 
+    }
+
+    .btn-arrow:before {
+        font-size: 20px; 
+        margin-left: 8px; 
+    }
+    .form-field {
+        text-align: right; 
+    }
+
+        .modal-header, .modal-footer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Enter Your Email</h2>
+</br>
+    <form id="emailForm" method="post" action="{% url 'password_reset' %}">
+        {% csrf_token %}
+        <div class="form-field">
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-field" style="position: relative;">
+            <button type="submit" class="btn-arrow">&rarr;</button>
+        </div>
+    </form>
+</div>
+
+<div class="form-container" style="display: none;" id="confirmationContainer">
+    <h2>Password Reset</h2>
+    <p>You will receive an email to reset your password</p>
+    <button type="button" class="btn-submit">OK</button>
+</div>
+
+<!-- Include jQuery and Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#emailForm').submit(function(e) {
+            e.preventDefault();
+            $('.form-container').hide();
+            $('#confirmationContainer').show();
+        });
+    });
+
+    function hideConfirmation() {
+        $('#confirmationContainer').hide();
+        $('.form-container').show();
+    }
+</script>
+</body>
+</html>
