@@ -26,20 +26,15 @@ def signup_Bus(request):
 
 def signup_Sup(request):
     if request.method == 'POST':
-        form = SupplierSignUpForm(request.POST, request.FILES)
+        form = UserForm(request.POST)
         if form.is_valid():
-            user = User.objects.create_user(
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password']
-            )
-            Profile.objects.create(
-                user=user,
-                name=form.cleaned_data['name'],
-                user_type='sup'
-            )
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            Profile.objects.create(user=user, name=user.username, user_type='sup')
             return redirect('success')
     else:
-        form = SupplierSignUpForm()
+        form = UserForm()
     return render(request, 'accounts/signup_Sup.html', {'form': form})
 
 
@@ -55,11 +50,11 @@ def login_view(request):
                 # Get user profile
                 profile = Profile.objects.get(user=user)
                 if profile.user_type == 'sup':
-                    return redirect('main/home_sup')
+                    return render(request, 'main/home_sup.html')
                 elif profile.user_type == 'bus':
-                    return redirect('main/home_bus')
+                    return render(request, 'main/home_bus.html')
                 else:
-                    return redirect('main/main_home')
+                    return render(request, 'main/main_home.html')
             else:
                 messages.error(request, "Invalid credentials. Please try again.", extra_tags="alert-danger")
     else:
