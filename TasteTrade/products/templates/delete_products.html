@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+<style>
+     body {
+            background-color: #f0f0f0;
+        }
+        .form-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-header {
+            background-color: #f8f4ea;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            font-size: 24px;
+        }
+        .form-body {
+            padding: 20px;
+        }
+</style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">Delete Product</div>
+        <div class="form-body">
+            <p>Are you sure you want to delete the product "{{ product.name }}"?</p>
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                <a href="{% url 'product_list' %}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+   
+</div>
+</body>
+</html>
