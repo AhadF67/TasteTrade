@@ -11,18 +11,28 @@ from .models import Profile
 from .forms import UserForm, SupplierSignUpForm
 from django.contrib import messages
 
+import logging
+
 def signup_Bus(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            Profile.objects.create(user=user, name=user.username, user_type='bus')
-            return redirect('success')
+            try:
+                user = form.save(commit=False)
+                user.set_password(form.cleaned_data['password'])
+                user.save()
+                profile = Profile.objects.create(user=user, name=user.username, user_type='bus')
+                logging.info(f"Profile created for user {user.username} with ID {profile.id}")
+                return redirect('success')
+            except Exception as e:
+                logging.error(f"Error creating profile for user {user.username}: {str(e)}")
+                messages.error(request, "There was an error creating your profile. Please try again.")
+        else:
+            logging.warning("Form is not valid.")
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Bus.html', {'form': form})
+
 
 def signup_Sup(request):
     if request.method == 'POST':
