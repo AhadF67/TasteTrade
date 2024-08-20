@@ -13,7 +13,7 @@ class ProductForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
             'expiry_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }

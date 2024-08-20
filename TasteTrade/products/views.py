@@ -17,13 +17,13 @@ def is_supplier(user):
 
 
 @login_required
-@user_passes_test(is_supplier)
+#@user_passes_test(is_supplier)
 def supplier_dashboard(request):
     products = Product.objects.filter(supplier=request.user)
     return render(request, 'supplier_dashboard.html', {'products': products})
 
 @login_required
-@user_passes_test(is_supplier)
+#@user_passes_test(is_supplier)
 def add_product(request, product_id=None):
     if product_id:
         product = get_object_or_404(Product, pk=product_id)
@@ -41,7 +41,7 @@ def add_product(request, product_id=None):
 
 
 @login_required
-@user_passes_test(is_supplier)
+#@user_passes_test(is_supplier)
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id, supplier=request.user)
     if request.method == 'POST':
@@ -55,7 +55,7 @@ def edit_product(request, product_id):
 
 
 @login_required
-@user_passes_test(is_supplier)
+#@user_passes_test(is_supplier)
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id, supplier=request.user)
     if request.method == 'POST':
