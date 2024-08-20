@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "tailwindcss": "^3.4.10"
+  },
+  "dependencies": {
+    "postcss-simple-vars": "^7.0.1"
+  }
+}

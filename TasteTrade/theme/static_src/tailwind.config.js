@@ -45,7 +45,10 @@ module.exports = {
         extend: {
           backgroundImage: {
             'hero-image': "url('/Users/boshraali/Documents/python/TasteTrade/TasteTrade/main/static/main/images/image.png')",
-          }
+          },
+          colors: {
+            customWhite: '#FAFAF5',
+          },
         },
     },
     plugins: [

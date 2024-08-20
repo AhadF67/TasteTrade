@@ -7,7 +7,7 @@ from django.http import HttpResponse
 @login_required
 def order_list(request):
     if not request.user.is_authenticated:
-        return redirect('login_view')  # Replace 'login' with your login URL or view name
+        return redirect('login_view')  
     orders = Order.objects.filter(user=request.user)
     return render(request, 'orders/order_list.html', {'orders': orders})
 
@@ -18,7 +18,7 @@ def delete_order(request, order_id):
 
 def cancel_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    order.status = 'cancelled'  # Assuming 'cancelled' is a valid status you add
+    order.status = 'cancelled'  
     order.save()
     return redirect('order_list')
 

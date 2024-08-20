@@ -1,0 +1,56 @@
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 30px 50px; 
+  align-items: center;
+
+}
+.logo {
+  width: 120px;
+  height: 120px;
+}
+
+.button {
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 8px; 
+  margin-right: 10px;
+  background-color: #FAFAF5;
+}
+
+.header {
+  padding: 60px;
+  text-align: center;
+  font-size: 30px;
+  background: image()
+}
+
+footer.footer {
+  padding: 10px 10px 32px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logo-container {
+  width: 100px;
+}
+
+.social-icons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding-bottom: 32px;
+}
+
+.social-icons img {
+  width: 20px;
+  height: 20px;
+}

@@ -162,11 +162,12 @@
 }
 
 
-        .modal-content {
+.modal-content {
             border-radius: 10px;
             border: 1px solid #67594B;
             background-color: #FAFAF5;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
 
         .modal-header {
@@ -228,23 +229,24 @@
 
 
         .btn-primary {
-    background-color: #67594B; /* اللون الأساسي للزر */
+    background-color: #67594B; 
     border: none;
     color: #fff;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-    width: 100%; /* ضبط عرض الزر */
+    width: 100%; 
 }
 
 .btn-primary:hover {
-    background-color: #3e2d28; /* اللون عند المرور فوق الزر */
+    background-color: #3e2d28; 
 }
 
 .btn-primary:active {
-    background-color: #5c4b4b; /* اللون الجديد عند الضغط على الزر */
-    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2); /* تأثير الظل عند الضغط */
+    background-color: #5c4b4b; 
+    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2); 
+    
 }
         
     </style>
@@ -271,10 +273,12 @@
             <input type="email" id="email" name="email" placeholder="Email" required>
           </div>
           <div class="form-group">
+            <input type="text" name="phone" placeholder="Phone " required>
+          </div>
+          <div class="form-group">
             <label for="message"></label>
             <textarea id="message" name="message" placeholder="Message" required></textarea>
         </div>
-          <!-- Add other form fields as necessary -->
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Submit</button>
@@ -284,7 +288,6 @@
   </div>
 </div>
 
-<!-- Include jQuery and Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 
