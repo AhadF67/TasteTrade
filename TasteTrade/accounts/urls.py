@@ -11,6 +11,8 @@ urlpatterns = [
     path('signup-pop/', views.signup_pop, name='signup_pop'),
     path('forget-pop/', views.forget_pop, name='forget_pop'),
     
+    path('logout-pop/', views.logout_pop, name='logout_pop'),
+    
     path('password-reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
     path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),

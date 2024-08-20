@@ -14,8 +14,8 @@
     <div class="container-fluid">
       <img class="logo" src="{% static 'main/images/logo.png' %}" alt="Logo">
       <div class="d-flex">
-        <a class="btn btn-primary me-2" href="{% url 'forget_pop' %}">Profile</a>
-        <a class="btn btn-secondary" href="{% url 'forget_pop' %}">Logout</a>
+        <a class="btn btn-primary me-2" href="{% url 'profile_view' profile_id=user.profile.id %}">Profile</a>
+        <a class="btn btn-secondary" href="{% url 'logout_pop' %}">Logout</a>
       </div>
     </div>
   </nav>

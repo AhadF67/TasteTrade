@@ -70,3 +70,6 @@ def signup_pop(request):
 
 def forget_pop(request):
     return render(request, 'accounts/forget_pop.html')
+
+def logout_pop(request):
+    return render(request, 'accounts/logout_pop.html')
