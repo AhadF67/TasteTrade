@@ -9,38 +9,77 @@
   <link href="{% static 'main/css/style.css' %}" rel="stylesheet">
 </head>
 <body>
+  <style>
+
+footer.footer {
+  padding: 10px 10px 100px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-left: 3rem;
+}
+
+.footer-section a {
+  color: black;
+  text-decoration: none;
+}
+
+.logo-container img {
+  width: 60px;
+  height: 40px;
+}
+
+.social-icons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding-bottom: 32px;
+}
+
+.social-icons img {
+  width: 20px;
+  height: 20px;
+}
+
+  </style>
   {% block header %}
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
       <img class="logo" src="{% static 'main/images/logo.png' %}" alt="Logo">
       <div class="d-flex">
-        <a class="btn btn-primary me-2" href="{% url 'profile_view' profile_id=user.profile.id %}">Profile</a>
-        <a class="btn btn-secondary" href="{% url 'logout_pop' %}">Logout</a>
+        <a class="button" href="{% url 'profile_view' profile_id=user.profile.id %}">Profile</a>
+        <a class="button" href="{% url 'logout_pop' %}">Logout</a>
       </div>
     </div>
   </nav>
 {% endblock %}
 
   {% block content %}{% endblock %}
-  <hr/>
-<footer class="px-4 pt-4 pb-5 d-flex flex-row gap-5">
-  <div class="d-flex flex-column gap-2">
-    <div style="width: 100px;">
-      <img src="{% static 'main/images/logo1.png' %}" alt="logo">
+  <hr />
+  <footer class="footer">
+    <div class="footer-section">
+      <div class="logo-container">
+        <img src="{% static 'main/images/logo1.png' %}" alt="logo">
+      </div>
+      <div class="social-icons">
+        <img src="https://img.icons8.com/ios-glyphs/30/twitterx--v2.png" alt="twitterx--v2"/>
+        <img src="https://img.icons8.com/material-outlined/24/instagram-new--v1.png" alt="instagram-new--v1"/>
+        <img src="https://img.icons8.com/ios-glyphs/30/youtube-play.png" alt="youtube-play"/>
+        <img src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="linkedin"/>
+      </div>
     </div>
-    <div class="d-flex flex-row gap-2 pb-5"> 
-      <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/twitterx--v2.png" alt="twitterx--v2"/>
-      <img width="20" height="20" src="https://img.icons8.com/material-outlined/24/instagram-new--v1.png" alt="instagram-new--v1"/>
-      <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/youtube-play.png" alt="youtube-play"/>
-      <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="linkedin"/>
+    <div class="footer-section">
+      <h3>Links</h3>
+      <a href="#">Shop</a>
+      <a href="#">Who We Are</a>
+      <a href="#">Contact Us</a>
     </div>
-  </div>
-  <div class="d-flex flex-column gap-2">
-    <h3>Links</h3>
-    <a href="#">Shop</a>
-    <a href="#">Who We are</a>
-    <a href="#">Contact Us</a>
-  </div>
-</footer> 
+  </footer>  
 </body>
 </html>
