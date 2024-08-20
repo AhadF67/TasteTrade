@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Supplier Dashboard</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            .product-image {
+                height: 150px;
+                width: 100%;
+                background-color: #f0f0f0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .product-container {
+                border: 1px solid #ddd;
+                padding: 15px;
+                text-align: center;
+            }
+            .actionicons {
+                display: flex;
+                justify-content: space-between;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="mt-4">Manage Products</h1>
+            <a href="{% url 'add_product' %}" class="btn btn-primary mb-3">Add New Product</a>
+   
+            <div class="row">
+                {% for product in products %}
+                <div class="col-md-3 mb-4">
+                    <div class="product-container">
+                        <div class="product-image">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+                            {% else %}
+                                <img src="/static/images/default-product.png" alt="Default" class="img-fluid">
+                            {% endif %}
+                        </div>
+                        <h5>{{ product.name }}</h5>
+                        <p>{{ product.price }} SR</p>
+                        <div class="action-icons">
+                            <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{% url 'delete_product' product.id %}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </body>
+    </html>
