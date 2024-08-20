@@ -103,30 +103,43 @@
                 <h3>{{ product.name }}</h3>
                 <p>{{ product.price }} SR</p>
 
-                <form method="POST" enctype="multipart/form-data">
+                <form method="POST" novalidate>
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" id="quantity" name="quantity" value="{{ form.quantity.value }}">
+                        {{ form.quantity.label_tag }} {{ form.quantity }}
                     </div>
                     <div class="form-group">
-                        <label for="category">Category</label>
-                        <select class="form-control" id="category" name="category">
-                            {% for category in form.category.field.queryset %}
-                                <option value="{{ category.id }}" {% if category.id == form.category.value %}selected{% endif %}>{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
+                        {{ form.category.label_tag }} {{ form.category }}
                     </div>
                     <div class="form-group">
-                        <label for="expiry_date">Expiry Date</label>
-                        <input type="date" class="form-control" id="expiry_date" name="expiry_date" value="{{ form.expiry_date.value }}">
+                        {{ form.expiry_date.label_tag }} {{ form.expiry_date }}
                     </div>
-
-                    <button type="submit" class="btn-place-order">Place Order</button>
+                    <div class="form-group">
+                        {{ form.description.label_tag }} {{ form.description }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="total">Total</label>
+                        <input type="text" id="total" value="{{ initial_total }}" class="form-control" disabled>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-place-order">Place Order</button>
                 </form>
+                
             </div>
         </div>
     </div>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.querySelector('#id_quantity');
+            const totalInput = document.querySelector('#total');
+            const pricePerItem = parseFloat('{{ product.price }}') || 0;
+        
+            quantityInput.addEventListener('input', function() {
+                const quantity = parseInt(quantityInput.value) || 1;
+                totalInput.value = (quantity * pricePerItem).toFixed(2);
+            });
+        });
+    </script>
 </body>
 </html>

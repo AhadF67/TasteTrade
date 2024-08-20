@@ -71,7 +71,7 @@ def order_product(request, product_id):
         if form.is_valid():
             order = form.save(commit=False)
             order.product = product
-            order.user = request.user  # Assuming the user is logged in
+            order.user = request.user
             order.total_price = order.quantity * product.price  # Calculate total price
             order.save()
             return redirect('order_confirmation')

@@ -28,9 +28,9 @@ class Product(models.Model):
 
 class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products_order_set')
     quantity = models.PositiveIntegerField()
-    category = models.CharField(max_length=100)  # Adjust this based on your category setup
+    category = models.CharField(max_length=100)
     expiry_date = models.DateField()
     description = models.TextField(blank=True, null=True) 
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
