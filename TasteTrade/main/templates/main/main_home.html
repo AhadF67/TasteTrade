@@ -1,52 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Home Page</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+{% extends "main/base.html" %}
+{% load static %}
 
-        .header {
-            background-color: #343a40;
-            color: #ffffff;
-            padding: 15px;
-            text-align: center;
-        }
+{% block title %}Home Page{% endblock %}
 
-        .header a {
-            color: #ffffff;
-            margin: 0 15px;
-            text-decoration: none;
-        }
-
-        .header a:hover {
-            text-decoration: underline;
-        }
-
-        .container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <a href="{% url 'signup_pop' %}">Sign Up</a>
-        <a href="{% url 'login_view' %}">Login</a>
+{% block content %}
+<main>
+  <div class="relative h-[600px] overflow-hidden bg-cover bg-[50%] bg-no-repeat" style="background-image: url('{% static "main/images/image.png" %}');">
+    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden  bg-fixed">
+    <div class="flex h-full items-center justify-end">
+      <div class="w-1/3 text-right md:px-12">
+        <h1 class="mb-6 text-3xl font-light">Empowering small and family-owned businesses with reliable, tailored supply solutions that fuel your success and growth.</h1>
+      </div>
     </div>
-
-    <div class="container">
-        <!-- Body is empty as per your request -->
-    </div>
-</body>
-</html>
+  </div>
+  </div>
+  <div class="flex flex-row gap-12 py-32 px-20 ">
+    <div>WHAT WE BELIEVE</div>
+    <div class="w-2/3">At our core, we believe in the power of small and family-owned businesses to drive innovation, foster community, and create lasting impact. We are committed to supporting these enterprises with integrity, personalized service, and dependable supply solutions that align with their unique needs and values. Our mission is to build lasting relationships based on trust and mutual success, ensuring that every small and family business we serve has the tools and support necessary to achieve their full potential. We stand by the principle that when local businesses thrive, communities flourish, and the economy grows stronger together.</div>
+  </div>
+</main>
+{% endblock %}
