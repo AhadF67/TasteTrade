@@ -1,46 +1,45 @@
-{% load static tailwind_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %} {% endblock %}</title>
+  <title>{% block title %}{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="{% static 'main/css/style.css' %}" rel="stylesheet">
-  {% tailwind_css %}
 </head>
 <body>
-  <nav class="nav-bar">
-    <div>
+  <nav class="navbar">
+    <div class="container-fluid">
       <img class="logo" src="{% static 'main/images/logo.png' %}">
-    </div>
-    <div>
-      <a class="button">Login</a>
-      <a class="button">Sign Up</a>
+      <div class="d-flex">
+        <a class="btn btn-primary me-2">Login</a>
+        <a class="btn btn-secondary">Sign Up</a>
+      </div>
     </div>
   </nav>
-  {% block content %}
-
-  {% endblock %}
+  {% block content %}{% endblock %}
   <hr/>
-  <footer class="px-10 pt-10 pb-32 flex flex-row gap-32">
-    <div class="flex flex-col gap-2">
-      <div class="w-[100px]">
+  <footer class="px-4 pt-4 pb-5 d-flex flex-row gap-4">
+    <div class="d-flex flex-column gap-2">
+      <div style="width: 100px;">
         <img src="{% static 'main/images/logo1.png' %}">
       </div>
-      <div class="flex flex-row gap-2 pb-32"> 
+      <div class="d-flex gap-2 pb-3">
         <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/twitterx--v2.png" alt="twitterx--v2"/>
         <img width="20" height="20" src="https://img.icons8.com/material-outlined/24/instagram-new--v1.png" alt="instagram-new--v1"/>
         <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/youtube-play.png" alt="youtube-play"/>
         <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="linkedin"/>
       </div>
     </div>
-    <div class="flex flex-col gap-2">
+    <div class="d-flex flex-column gap-2">
       <h3>Links</h3>
-      <a>Shop</a>
-      <a>Who We are</a>
-      <a>Contact Us</a>
+      <a href="#" class="text-decoration-none">Shop</a>
+      <a href="#" class="text-decoration-none">Who We Are</a>
+      <a href="#" class="text-decoration-none">Contact Us</a>
     </div>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

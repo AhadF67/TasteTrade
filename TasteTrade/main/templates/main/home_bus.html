@@ -5,32 +5,32 @@
 
 {% block content %}
 <main>
-  <div class="relative h-[600px] overflow-hidden bg-cover bg-[50%] bg-no-repeat" style="background-image: url('{% static "main/images/image.png" %}');">
-    <div class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden  bg-fixed">
-    <div class="flex h-full items-center justify-end">
-      <div class="w-1/3 text-right md:px-12">
-        <h1 class="mb-6 text-3xl font-light">Empowering small and family-owned businesses with reliable, tailored supply solutions that fuel your success and growth.</h1>
+  <div class="position-relative" style="height: 600px; overflow: hidden; background: url('{% static "main/images/image.png" %}') 50%/cover no-repeat;">
+    <div class="position-absolute top-0 bottom-0 start-0 end-0 h-100 w-100" style="background-attachment: fixed;">
+      <div class="d-flex h-100 align-items-center justify-content-end">
+        <div class="col-md-4 text-end pe-md-5">
+          <h1 class="mb-4 fs-2 fw-light">Empowering small and family-owned businesses with reliable, tailored supply solutions that fuel your success and growth.</h1>
+        </div>
       </div>
     </div>
   </div>
-  </div>
-  <div class="flex flex-row gap-10 mt-32 m-10 justify-center">
-    <div class="w-[380px] h-[200px] border border-black rounded-md flex flex-col justify-center items-center gap-10 bg-customWhite">
-      <h3 class="text-xl font-semibold">Explore Products</h3>
+  <div class="d-flex justify-content-center gap-4 mt-5 mx-4">
+    <div class="border border-dark rounded d-flex flex-column justify-content-center align-items-center gap-3 bg-light" style="width: 380px; height: 200px;">
+      <h3 class="fs-5 fw-semibold">Explore Products</h3>
       <img width="30" height="30" src="https://img.icons8.com/material-outlined/24/search--v1.png" alt="search--v1"/>
     </div>
-    <div class="w-[380px] h-[200px] border border-black rounded-md flex flex-col justify-center items-center gap-10 bg-customWhite">
-      <h3 class="text-xl font-semibold">Manage Orders</h3>
+    <div class="border border-dark rounded d-flex flex-column justify-content-center align-items-center gap-3 bg-light" style="width: 380px; height: 200px;">
+      <h3 class="fs-5 fw-semibold">Manage Orders</h3>
       <img width="30" height="30" src="https://img.icons8.com/material-outlined/24/shopping-cart--v1.png" alt="shopping-cart--v1"/>
     </div>
-    <div class="w-[380px] h-[200px] border border-black rounded-md flex flex-col justify-center items-center gap-10 bg-customWhite">
-      <h3 class="text-xl font-semibold">Contact Us</h3>
+    <div class="border border-dark rounded d-flex flex-column justify-content-center align-items-center gap-3 bg-light" style="width: 380px; height: 200px;">
+      <h3 class="fs-5 fw-semibold">Contact Us</h3>
       <img width="32" height="32" src="https://img.icons8.com/windows/32/phone.png" alt="phone"/>
     </div>
   </div>
-  <div class="flex flex-row gap-12 py-32 px-20 ">
+  <div class="d-flex gap-5 py-5 px-5">
     <div>WHAT WE BELIEVE</div>
-    <div class="w-2/3">At our core, we believe in the power of small and family-owned businesses to drive innovation, foster community, and create lasting impact. We are committed to supporting these enterprises with integrity, personalized service, and dependable supply solutions that align with their unique needs and values. Our mission is to build lasting relationships based on trust and mutual success, ensuring that every small and family business we serve has the tools and support necessary to achieve their full potential. We stand by the principle that when local businesses thrive, communities flourish, and the economy grows stronger together.</div>
+    <div class="w-75">At our core, we believe in the power of small and family-owned businesses to drive innovation, foster community, and create lasting impact. We are committed to supporting these enterprises with integrity, personalized service, and dependable supply solutions that align with their unique needs and values. Our mission is to build lasting relationships based on trust and mutual success, ensuring that every small and family business we serve has the tools and support necessary to achieve their full potential. We stand by the principle that when local businesses thrive, communities flourish, and the economy grows stronger together.</div>
   </div>
 </main>
 {% endblock %}
