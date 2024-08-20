@@ -1,3 +1,6 @@
+{% extends "main/base.html" %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +12,20 @@
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 900px; /* Reduced width to make the container smaller */
+            margin: 0 auto; /* Center the container */
+            padding: 15px; /* Reduced padding for a smaller container */
+            background-color: #fff; /* White background for the container */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
         }
         .profile-section {
             display: flex;
-            align-items: flex-start; /* Adjusted to align items to the start */
-            gap: 20px;
+            justify-content: space-between;
+            align-items: flex-start;
             margin-bottom: 20px;
         }
         .profile-pic {
@@ -21,84 +33,120 @@
             height: 100px;
             background-color: #ddd;
             border-radius: 10px;
-            position: relative; /* Needed for positioning the edit button */
+            position: relative;
+        }
+        .edit-profile {
+            padding: 10px 30px; /* Increased horizontal padding to make it rectangular */
+            background-color: #f9f8f4; /* Same background as other buttons */
+            border: 2px solid #67594B; /* Same border as other buttons */
+            border-radius: 10px; /* Same border-radius */
+            color: #67594B; /* Same text color */
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            position: absolute;
+            top: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center; /* Center text vertically */
+            justify-content: center; /* Center text horizontally */
+            width: 150px; /* Adjusted width for a slightly smaller button */
+            height: auto; /* Adjust height to fit content */
+        }
+        .edit-profile:hover {
+            background-color: #f0eae2; /* Hover effect same as other buttons */
         }
         .profile-info {
-            flex: 1;
+            flex: 2;
+            text-align: left;
+            color: #67594B;
+            margin-left: 100px;
         }
         .profile-info h2 {
             margin: 0;
-            color: #67594B;
+            font-size: 20px;
         }
         .profile-info p {
             margin: 10px 0 0;
-            color: #67594B;
+            font-size: 14px;
         }
-        .edit-profile {
-            padding: 10px 10px; /* Smaller padding for a smaller button */
-            background-color: #fff;
-            border: 2px solid #67594B;
-            border-radius: 5px;
-            color: #67594B;
-            cursor: pointer;
-            text-align: center;
-            font-size: 12px; /* Smaller font size */
-            position: absolute;
-            bottom: -50px; /* Adjust this value to control the distance from the bottom of the profile picture */
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        .edit-profile:hover {
-            background-color: #f0eae2;
+        .rating-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .rating {
-            text-align: right;
-            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #67594B;
+            border-radius: 10px;
+            background-color: #f9f8f4;
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .rating-title {
+            font-size: 16px;
+            color: #67594B;
+            margin-bottom: 10px;
         }
         .rating-stars {
             color: #67594B;
-            font-size: 20px;
-        }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 30px;
+            font-size: 18px;
         }
         .button {
-            flex: 1;
-            padding: 15px;
-            background-color: #fff;
+            padding: 10px 20px;
+            background-color: #f9f8f4;
             border: 2px solid #67594B;
-            border-radius: 5px;
-            text-align: center;
+            border-radius: 10px;
             color: #67594B;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            margin: 0 10px;
+            display: inline-block;
+            text-align: center;
+            margin: 10px 0;
         }
         .button:hover {
             background-color: #f0eae2;
         }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .buttons .button {
+            flex: 1;
+            margin: 0 10px;
+        }
     </style>
 </head>
 <body>
-    <div class="profile-section">
-        <div class="profile-pic">
-            <div class="edit-profile">Edit Profile</div>
+    <div class="container">
+        <div class="profile-section">
+            <div class="profile-pic">
+                <div class="edit-profile">Edit Profile</div>
+            </div>
+            <div class="profile-info">
+                <h2>Name: Onion</h2>
+                <p>Description: Apples. Oranges. Limes. Lemons. Guavas. Carrots. Cucumbers. Jicamas. Cauliflowers.</p>
+            </div>
+            <div class="rating-container">
+                <div class="rating">
+                    <div class="rating-title">Rating</div>
+                    <div class="rating-stars">⭐⭐⭐⭐☆</div>
+                </div>
+                <div class="stat-button">
+                    <button class="button">Statistics</button>
+                </div>
+            </div>
         </div>
-        <div class="profile-info">
-            <h2>{{ profile.name }}</h2>
-            <p>{{ profile.description }}</p>
+        <div class="buttons" style="margin-top: 100px;">
+            <button class="button">Orders Summary</button>
+            <button class="button">Reviews Summary</button>
+            <button class="button">PDF Contracts</button>
         </div>
-        <div class="rating">
-            <div class="rating-stars">⭐⭐⭐⭐☆</div>
-            <button class="button" style="width: 150px;">Statistics</button>
-        </div>
-    </div>
-    <div class="buttons">
-        <button class="button">Orders Summary</button>
-        <button class="button">Reviews Summary</button>
-        <button class="button">PDF Contracts</button>
     </div>
 </body>
 </html>
+{% endblock %}
