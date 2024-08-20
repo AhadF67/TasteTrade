@@ -12,11 +12,22 @@
   {% block header %}
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
+<<<<<<< HEAD
       <img class="logo" src="{% static 'main/images/logo.png' %}" alt="Logo">
+=======
+      <img class="logo" src="{% static 'main/images/logo.png' %}">
+<<<<<<< HEAD
+>>>>>>> 5157a97 (resolve conglict)
       <div class="d-flex">
         <a class="btn btn-primary me-2" href="{% url 'forget_pop' %}">Profile</a>
         <a class="btn btn-secondary" href="{% url 'forget_pop' %}">Logout</a>
       </div>
+=======
+    </div>
+    <div>
+      <a href="{% url 'login_view' %}" class="button">Login</a>
+      <a href="{% url 'signup_pop' %}" class="button">Sign Up</a>
+>>>>>>> 79ce2a7 (update style)
     </div>
   </nav>
 {% endblock %}
@@ -24,25 +35,24 @@
   {% block content %}{% endblock %}
 
   <hr/>
-  <footer class="px-4 pt-4 pb-5 d-flex flex-row gap-4">
-    <div class="d-flex flex-column gap-2">
-      <div style="width: 100px;">
-        <img src="{% static 'main/images/logo1.png' %}" alt="Footer Logo">
+  <footer class="footer">
+    <div class="footer-section">
+      <div class="logo-container">
+        <img src="{% static 'main/images/logo1.png' %}">
       </div>
-      <div class="d-flex gap-2 pb-3">
+      <div class="social-icons">
         <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/twitterx--v2.png" alt="twitterx--v2"/>
         <img width="20" height="20" src="https://img.icons8.com/material-outlined/24/instagram-new--v1.png" alt="instagram-new--v1"/>
         <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/youtube-play.png" alt="youtube-play"/>
         <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="linkedin"/>
       </div>
     </div>
-    <div class="d-flex flex-column gap-2">
+    <div class="footer-section">
       <h3>Links</h3>
-      <a href="#" class="text-decoration-none">Shop</a>
-      <a href="#" class="text-decoration-none">Who We Are</a>
-      <a href="#" class="text-decoration-none">Contact Us</a>
+      <a href="#">Shop</a>
+      <a href="#">Who We are</a>
+      <a href="#">Contact Us</a>
     </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </footer>  
 </body>
 </html>
