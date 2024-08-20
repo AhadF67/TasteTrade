@@ -8,79 +8,97 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            background-color: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .header {
+        .profile-section {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 10px;
+            align-items: flex-start; /* Adjusted to align items to the start */
+            gap: 20px;
             margin-bottom: 20px;
         }
         .profile-pic {
             width: 100px;
             height: 100px;
             background-color: #ddd;
-            border-radius: 50%;
+            border-radius: 10px;
+            position: relative; /* Needed for positioning the edit button */
         }
         .profile-info {
             flex: 1;
-            padding-left: 20px;
         }
         .profile-info h2 {
             margin: 0;
+            color: #67594B;
+        }
+        .profile-info p {
+            margin: 10px 0 0;
+            color: #67594B;
+        }
+        .edit-profile {
+            padding: 10px 10px; /* Smaller padding for a smaller button */
+            background-color: #fff;
+            border: 2px solid #67594B;
+            border-radius: 5px;
+            color: #67594B;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px; /* Smaller font size */
+            position: absolute;
+            bottom: -50px; /* Adjust this value to control the distance from the bottom of the profile picture */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .edit-profile:hover {
+            background-color: #f0eae2;
         }
         .rating {
-            display: flex;
-            align-items: center;
+            text-align: right;
+            flex: 1;
         }
         .rating-stars {
-            margin-right: 10px;
+            color: #67594B;
+            font-size: 20px;
         }
         .buttons {
             display: flex;
-            gap: 20px;
-            margin-top: 20px;
+            justify-content: space-between;
+            margin-top: 30px;
         }
         .button {
-            padding: 10px 20px;
-            background-color: #e2e2e2;
-            border: none;
+            flex: 1;
+            padding: 15px;
+            background-color: #fff;
+            border: 2px solid #67594B;
             border-radius: 5px;
+            text-align: center;
+            color: #67594B;
+            font-size: 16px;
             cursor: pointer;
+            margin: 0 10px;
         }
         .button:hover {
-            background-color: #ccc;
+            background-color: #f0eae2;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="profile-pic"></div>
-            <div class="profile-info">
-                <h2>{{ profile.name }}</h2>
-                <p>{{ profile.description }}</p>
-            </div>
-            <div class="rating">
-                <div class="rating-stars">⭐⭐⭐⭐☆</div>
-                <button class="button">Statistics</button>
-            </div>
+    <div class="profile-section">
+        <div class="profile-pic">
+            <div class="edit-profile">Edit Profile</div>
         </div>
-        <div class="buttons">
-            <button class="button">Edit Profile</button>
-            <button class="button">Orders Summary</button>
-            <button class="button">Reviews Summary</button>
-            <button class="button">PDF Contracts</button>
+        <div class="profile-info">
+            <h2>{{ profile.name }}</h2>
+            <p>{{ profile.description }}</p>
         </div>
+        <div class="rating">
+            <div class="rating-stars">⭐⭐⭐⭐☆</div>
+            <button class="button" style="width: 150px;">Statistics</button>
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="button">Orders Summary</button>
+        <button class="button">Reviews Summary</button>
+        <button class="button">PDF Contracts</button>
     </div>
 </body>
 </html>
