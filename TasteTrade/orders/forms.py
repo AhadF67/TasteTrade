@@ -1,4 +1,6 @@
 from django import forms
+from .models import Review
+
 
 class ContactUsForm(forms.Form):
     name = forms.CharField(label='Name', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -19,3 +21,11 @@ class PaymentForm(forms.Form):
     expiry_date = forms.CharField(label='Expiry Date (MM/YY)', max_length=5, widget=forms.TextInput(attrs={'class': 'form-control'}))
     cvv = forms.CharField(label='CVV', max_length=3, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ['order_number', 'supplier_name', 'rating', 'comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={'placeholder': 'Enter your comment'}),
+        }

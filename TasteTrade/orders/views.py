@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-
+from .models import Review
+from .forms import ReviewForm
 
 @login_required
 def order_list(request):
@@ -88,13 +89,37 @@ def review_sup_pop(request):
 def review_bus_pop(request):
     return render(request, 'orders/review_bus.html')
 
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import Review
+
 def submit_rating(request):
     if request.method == 'POST':
+        order_number = request.POST.get('order_number')
+        supplier_name = request.POST.get('supplier_name')
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
-        # saving here
-        return redirect('success')  
-    
-    return HttpResponse("Invalid request method.", status=405)
+
+        # Ensure rating is not None and convert it to integer safely
+        try:
+            rating = int(rating) if rating else 0
+        except ValueError:
+            rating = 0
+
+        # Save the review
+        Review.objects.create(
+            order_number=order_number,
+            supplier_name=supplier_name,
+            rating=rating,
+            comment=comment
+        )
+
+        messages.success(request, 'Your rating has been successfully submitted.')
+        return redirect('review_summary')
+
+    return redirect('home') 
 
 
+def review_summary(request):
+    reviews = Review.objects.all()
+    return render(request, 'orders/review_summary.html', {'reviews': reviews})
