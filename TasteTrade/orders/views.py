@@ -4,13 +4,25 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import Review
 from .forms import ReviewForm
+from accounts.models import Profile
+from products.models import Product
 
 @login_required
 def order_list(request):
-    orders = Order.objects.filter(user=request.user)
     user_profile = Profile.objects.get(user=request.user)
-    user_type = user_profile.user_type  # Assuming 'user_type' is a field in the Profile model
+    user_type = user_profile.user_type
+
+    if user_type == 'sup':
+        # Get the products that belong to the supplier
+        supplier_products = Product.objects.filter(supplier=request.user)
+        # Filter orders based on these products
+        orders = Order.objects.filter(product__in=supplier_products)
+    else:
+        # If the user is a business owner, show their own orders
+        orders = Order.objects.filter(user=request.user)
+
     return render(request, 'orders/order_list.html', {'orders': orders, 'user_type': user_type})
+
 
 from django.shortcuts import redirect, get_object_or_404
 from .models import Order

@@ -18,6 +18,7 @@
         <div class="card mb-3 shadow-sm">
             <div class="card-body">
                 <h3 class="card-title">Order #{{ order.order_number }}</h3>
+                <p class="card-text">Product: {{ order.product.name }}</p>
                 <p class="card-text">Total: ${{ order.total }}</p>
                 <p class="card-text">Status: <span class="badge badge-info">{{ order.get_status_display }}</span></p>
 
