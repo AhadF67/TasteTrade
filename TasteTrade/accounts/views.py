@@ -48,7 +48,7 @@ def signup_Sup(request):
     return render(request, 'accounts/signup_Sup.html', {'form': form})
 
 
-def login_view(request):
+def login_view(request: HttpRequest):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -60,16 +60,17 @@ def login_view(request):
                 # Get user profile
                 profile = Profile.objects.get(user=user)
                 if profile.user_type == 'sup':
-                    return render(request, 'main/home_sup.html')
+                    return redirect('home_sup')  
                 elif profile.user_type == 'bus':
-                    return render(request, 'main/home_bus.html')
+                    return redirect('home_bus') 
                 else:
-                    return render(request, 'main/main_home.html')
+                    return redirect('main_home') 
             else:
                 messages.error(request, "Invalid credentials. Please try again.", extra_tags="alert-danger")
     else:
         form = LoginForm()
     return render(request, 'accounts/login.html', {'form': form})
+
 
 def profile_view(request, profile_id):
     profile = get_object_or_404(Profile, id=profile_id)
