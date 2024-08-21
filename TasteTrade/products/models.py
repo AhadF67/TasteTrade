@@ -18,7 +18,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/')
     is_new = models.BooleanField(default=False)
     rating = models.FloatField(default=0.0)
-    supplier = models.ForeignKey(User, on_delete=models.CASCADE)
+    supplier = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.PositiveIntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     expiry_date = models.DateField()

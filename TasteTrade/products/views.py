@@ -24,20 +24,18 @@ def supplier_dashboard(request):
 
 @login_required
 #@user_passes_test(is_supplier)
-def add_product(request, product_id=None):
-    if product_id:
-        product = get_object_or_404(Product, pk=product_id)
-        form = ProductForm(instance=product)
+def add_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.supplier = request.user  # Set the supplier field
+            product.save()
+            return redirect('product_list')  # Redirect to product list after saving
     else:
         form = ProductForm()
 
-    if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES, instance=product if product_id else None)
-        if form.is_valid():
-            form.save()
-            return redirect('product_list')  # Redirect to product list after saving
-    
-    return render(request, 'add_product.html', {'form': form, 'product': product if product_id else None})
+    return render(request, 'add_product.html', {'form': form})
 
 
 @login_required
@@ -52,6 +50,7 @@ def edit_product(request, product_id):
     else:
         form = ProductForm(instance=product)
     return render(request, 'edit_product.html', {'form': form})
+
 
 
 @login_required

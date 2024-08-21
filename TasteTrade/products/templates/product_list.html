@@ -175,7 +175,7 @@
             <div class="row">
                 {% for product in products %}
                 <div class="col-md-4 mb-4">
-                    <a href="{% url 'add_product' product.id %}">
+                    <a href="{% url 'order_product' product.id %}">
                         <div class="product-container">
                             <div class="product-image">
                                 {% if product.image %}
