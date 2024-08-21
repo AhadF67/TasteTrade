@@ -144,3 +144,7 @@ def submit_rating(request):
 def review_summary(request):
     reviews = Review.objects.all()
     return render(request, 'orders/review_summary.html', {'reviews': reviews})
+
+
+def order_confirmation(request):
+    return render(request, 'order_confirmation.html')

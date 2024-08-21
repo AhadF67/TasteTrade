@@ -23,3 +23,12 @@ class Order(models.Model):
     def __str__(self):
         return f"Order #{self.order_number}"
 
+class Review(models.Model):
+    order_number = models.CharField(max_length=50)
+    supplier_name = models.CharField(max_length=100)
+    rating = models.PositiveIntegerField()
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def _str_(self):
+        return f"Order #{self.order_number} - {self.supplier_name}"
