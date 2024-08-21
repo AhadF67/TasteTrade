@@ -21,4 +21,5 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Order #{self.order_number} by {self.user.username}"
+        return f"Order #{self.order_number}"
+
