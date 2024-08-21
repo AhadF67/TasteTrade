@@ -194,7 +194,7 @@
             background-color: #ddd;
             border-radius: 10px;
             position: relative;
-            background-image: url("{{ profile.image.url }}"); /* Load profile picture */
+            background-image: url("{{ profile.images.url }}"); /* Load profile picture */
             background-size: cover;
             background-position: center;
         }
@@ -288,7 +288,7 @@
 <body>
     <div class="container">
         <div class="profile-section">
-            <div class="profile-pic" style="background-image: url('{{ image_url }}');">
+            <div class="profile-pic" style="background-image: url('{{ images_url }}');">
                 <div class="edit-profile">Edit Profile</div>
             </div>
             <div class="profile-info">

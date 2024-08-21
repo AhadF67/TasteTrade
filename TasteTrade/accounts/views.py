@@ -78,10 +78,9 @@ def profile_view(request, profile_id):
     if profile.image and profile.image.url:
         image_url = profile.image.url
     else:
-        image_url = '/path/to/default/image.png'  # Path to a default image if none exists
+        image_url = '\media\images\default.jpg'  # Path to a default image if none exists
 
-    return render(request, 'accounts/profile_Sup.html', {'profile': profile, 'image_url': image_url})
-
+    return render(request, 'accounts/profile_Sup.html', {'profile': profile, 'images_url': image_url})
 
 def signup_pop(request):
     return render(request, 'accounts/signup_options.html')
