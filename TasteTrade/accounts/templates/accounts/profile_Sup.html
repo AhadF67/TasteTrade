@@ -34,7 +34,7 @@
             background-color: #ddd;
             border-radius: 10px;
             position: relative;
-            overflow: hidden;
+            left: 3%;
         }
         .profile-pic img {
             width: 100%;
@@ -43,10 +43,10 @@
 
         }
         .edit-profile {
-            padding: 5px 10px;
-            background-color: #f9f8f4;
-            border: 2px solid #67594B;
-            border-radius: 10px;
+            padding: 5px 10px; 
+            background-color: #f9f8f4; 
+            border: 2px solid #67594B; 
+            border-radius: 10px; 
             color: #67594B;
             cursor: pointer;
             text-align: center;
@@ -56,10 +56,10 @@
             left: 55%;
             transform: translateX(-50%);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 120px;
-            height: auto;
+            align-items: center; 
+            justify-content: center; 
+            width: 120px; 
+            height: auto; 
         }
         .edit-profile:hover {
             background-color: #f0eae2;
@@ -134,11 +134,13 @@
         <div class="profile-section">
             <div class="profile-pic">
               
-                {% if profile.image %}
+                <!-- {% if profile.image %}
                     <img src="{{ profile.image.url }}" alt="Profile Image">
                 {% else %}
                     <img src="{% static 'images/default.png' %}" alt="Default Profile Image">
-                {% endif %}
+
+                {% endif %} -->
+                    <img src="{{ image_url }}" alt="Profile Image">
               
                 <div class="edit-profile">Edit Profile</div>
             </div>
