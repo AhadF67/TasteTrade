@@ -13,6 +13,7 @@ from django.conf import settings
 from django.templatetags.static import static
 
 
+
 import logging
 
 def signup_Bus(request):
@@ -83,6 +84,19 @@ def profile_view(request, profile_id):
         image_url = static('images/default.jpg')
 
     return render(request, 'accounts/profile_Sup.html', {'profile': profile, 'image_url': image_url})
+
+
+def profile(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id)
+    if profile.image:
+        image_url = profile.image.url
+    else:
+        image_url = static('images/default.jpg')
+
+    return render(request, 'accounts/profile_Bus.html', {'profile': profile, 'image_url': image_url})
+
+
+
 
 
 def signup_pop(request):

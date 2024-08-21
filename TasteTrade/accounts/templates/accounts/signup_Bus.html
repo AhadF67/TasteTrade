@@ -132,7 +132,9 @@
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 
-            
+                <div class="form-field">
+                    <input type="text" name="username" placeholder="username" required>
+                </div>
                 <div class="form-field">
                     <input type="text" name="name" placeholder="Name">
                 </div>
