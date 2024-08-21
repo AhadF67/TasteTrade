@@ -4,33 +4,56 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
 
+from accounts.models import Profile
+
 @login_required
 def order_list(request):
-    if not request.user.is_authenticated:
-        return redirect('login_view')  
     orders = Order.objects.filter(user=request.user)
-    return render(request, 'orders/order_list.html', {'orders': orders})
+    user_profile = Profile.objects.get(user=request.user)
+    user_type = user_profile.user_type  # Assuming 'user_type' is a field in the Profile model
+    return render(request, 'orders/order_list.html', {'orders': orders, 'user_type': user_type})
 
-def delete_order(request, order_id):
+from django.shortcuts import redirect, get_object_or_404
+from .models import Order
+
+@login_required
+def reject_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    order.delete()
+    if order.status == 'in_progress':
+        order.status = 'rejected'
+        order.save()
     return redirect('order_list')
 
+@login_required
+def confirm_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    if order.status == 'in_progress':
+        order.status = 'confirmed'
+        order.save()
+    return redirect('order_list')
+
+@login_required
 def cancel_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    order.status = 'cancelled'  
-    order.save()
+    if order.status == 'in_progress':
+        order.status = 'canceled'
+        order.save()
     return redirect('order_list')
 
+@login_required
 def checkout_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    # Implement checkout logic here
+    if order.status == 'confirmed':
+        # Implement your checkout logic here
+        order.status = 'completed'
+        order.save()
     return redirect('order_list')
 
+@login_required
 def review_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    # Implement review logic here
+    # Implement your review logic here
     return redirect('order_list')
+
 
 from django.shortcuts import render, redirect
 from .forms import ContactUsForm
@@ -96,5 +119,9 @@ def submit_rating(request):
         return redirect('success')  
     
     return HttpResponse("Invalid request method.", status=405)
+
+
+def order_confirmation(request):
+    return render(request, 'orders/order_confirmation.html')
 
 
