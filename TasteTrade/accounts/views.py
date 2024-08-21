@@ -6,10 +6,10 @@ from .forms import LoginForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import UserForm
-from .forms import SupplierSignUpForm
 from .models import Profile
-from .forms import UserForm, SupplierSignUpForm
+from .forms import UserForm
 from django.contrib import messages
+from django.conf import settings
 
 import logging
 
@@ -72,13 +72,17 @@ def login_view(request: HttpRequest):
     return render(request, 'accounts/login.html', {'form': form})
 
 
+
 def profile_view(request, profile_id):
     profile = get_object_or_404(Profile, id=profile_id)
-    profile = Profile.objects.get(user=request.user) 
-    if profile.image and profile.image.url:
+    if profile.image:
         image_url = profile.image.url
     else:
+
         image_url = '\media\images\default.jpg'  # Path to a default image if none exists
+
+    return render(request, 'accounts/profile_Sup.html', {'profile': profile, 'image_url': image_url})
+
 
     return render(request, 'accounts/profile_Sup.html', {'profile': profile, 'images_url': image_url})
 

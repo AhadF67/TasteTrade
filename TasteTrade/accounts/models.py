@@ -10,7 +10,7 @@ class Profile(models.Model):
     name = models.CharField(max_length=255)
     rating = models.FloatField(default=0)
     user_type = models.CharField(max_length=3, choices=USER_TYPE_CHOICES)
-    image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
 
 
     def __str__(self):
