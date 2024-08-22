@@ -25,7 +25,7 @@ def signup_Bus(request):
                 user = form.save(commit=False)
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-                profile = Profile.objects.create(user=user, name=user.username, user_type='bus')
+                profile = Profile.objects.create(user=user, name=user.username, user_type='bus',image=user)
                 logging.info(f"Profile created for user {user.username} with ID {profile.id}")
                 return redirect('success')
             except Exception as e:
