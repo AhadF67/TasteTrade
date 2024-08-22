@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
-{% load static%}
+{% load static %}
+
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +41,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-
         }
         .edit-profile {
             padding: 5px 10px; 
@@ -133,19 +133,13 @@
     <div class="container">
         <div class="profile-section">
             <div class="profile-pic">
-              
-                <!-- {% if profile.image %}
-                    <img src="{{ profile.image.url }}" alt="Profile Image">
-                {% else %}
-                    <img src="{% static 'images/default.png' %}" alt="Default Profile Image">
-
-                {% endif %} -->
-                    <img src="{{ image_url }}" alt="Profile Image">
-              
-                <div class="edit-profile">Edit Profile</div>
+                <img src="{{ image_url }}" alt="Profile Image">
+                <a href="{% url 'edit_profile' %}">
+                    <div class="edit-profile">Edit Profile</div>
+                </a>
             </div>
             <div class="profile-info">
-                <h2>Name: {{ profile.user.username }}</h2>
+                <h2>Name: {{ profile.user.profile.name }}</h2>
                 <p>Number: {{ profile.user.profile.number }}</p>
                 <p>Email: {{ profile.user.email }}</p>
             </div>
@@ -154,7 +148,11 @@
                     <div class="rating-title">Rating</div>
                     <div class="rating-stars">⭐⭐⭐⭐☆</div>
                 </div>
-                
+                {% if show_statistics_button %}
+                <div class="stat-button">
+                    <button class="button">Statistics</button>
+                </div>
+                {% endif %}
             </div>
         </div>
         <div class="buttons">
