@@ -142,14 +142,16 @@
                 </div>
                 <form method="post" action="{% url 'submit_rating' %}">
                     {% csrf_token %}
+                    <input type="hidden" name="order_number" value="{{ order_number }}">
+                    <input type="hidden" name="supplier_name" value="{{ supplier_name }}">
                     <div class="modal-body">
                         <div class="details">
                             <div class="label">Order:</div>
-                            <div class="value">#<span id="orderNumber">1234</span></div>
+                            <div class="value">#<span id="orderNumber">{{ order_number }}</span></div>
                         </div>
                         <div class="details">
                             <div class="label">Supplier:</div>
-                            <div class="value"><span id="supplierName">OSKA</span></div>
+                            <div class="value"><span id="supplierName">{{ supplier_name }}</span></div>
                         </div>
                         <div class="details">
                             <div class="label">Rate:</div>
@@ -168,7 +170,7 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                </form>
+                </form>                
             </div>
         </div>
     </div>
@@ -179,20 +181,21 @@
     <script>
         $(document).ready(function () {
             $('#rateOrderModal').modal('show');
-
+    
             $('.rating .fa-star').click(function () {
                 var rating = $(this).data('value');
                 $('.rating .fa-star').removeClass('filled');
                 for (var i = 1; i <= rating; i++) {
                     $('.rating .fa-star[data-value="' + i + '"]').addClass('filled');
                 }
+                $('input[name="rating"]').val(rating);
             });
-
-            // Example: Setting order number and supplier name dynamically
-            $('#orderNumber').text('12345'); // Replace with dynamic order number
-            $('#supplierName').text('John Doe Supplies'); // Replace with dynamic supplier name
+    
+            $('#orderNumber').text('{{ order_number }}');
+            $('#supplierName').text('{{ supplier_name }}');
         });
     </script>
+    
 </body>
 
 </html>

@@ -1,0 +1,108 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Statics Page{% endblock %}
+
+{% block content %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Statistics</h2>
+
+  <!-- Income Chart -->
+  <div class="card m-5">
+      <div class="card-header">
+          Price Income Based on Order Price and Date
+      </div>
+      <div class="card-body">
+          <canvas id="incomeChart"></canvas>
+      </div>
+  </div>
+
+  <!-- Orders Quantity Chart -->
+  <div class="card m-5">
+      <div class="card-header">
+          Orders Quantity Based on Product
+      </div>
+      <div class="card-body">
+          <canvas id="ordersChart"></canvas>
+      </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script>
+  // Prepare data for the income chart
+  var incomeLabels = [
+      {% for data in price_income_data %}
+          "{{ data.order_date }}",
+      {% endfor %}
+  ];
+  var incomeData = [
+      {% for data in price_income_data %}
+          {{ data.total_income }},
+      {% endfor %}
+  ];
+
+  // Income Chart
+  var incomeCtx = document.getElementById('incomeChart').getContext('2d');
+  var incomeChart = new Chart(incomeCtx, {
+      type: 'line',
+      data: {
+          labels: incomeLabels,
+          datasets: [{
+              label: 'Total Income ($)',
+              data: incomeData,
+              backgroundColor: 'rgba(54, 162, 235, 0.2)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 2,
+              fill: true
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+  // Prepare data for the orders quantity chart
+  var ordersLabels = [
+      {% for data in orders_quantity_data %}
+          "{{ data.product__name }}",
+      {% endfor %}
+  ];
+  var ordersData = [
+      {% for data in orders_quantity_data %}
+          {{ data.total_quantity }},
+      {% endfor %}
+  ];
+
+  // Orders Quantity Chart
+  var ordersCtx = document.getElementById('ordersChart').getContext('2d');
+  var ordersChart = new Chart(ordersCtx, {
+      type: 'bar',
+      data: {
+          labels: ordersLabels,
+          datasets: [{
+              label: 'Quantity Ordered',
+              data: ordersData,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+</script>
+{% endblock %}

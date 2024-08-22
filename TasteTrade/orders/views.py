@@ -134,14 +134,33 @@ def confirm_pop(request):
 def reject_pop(request):
     return render(request, 'orders/reject_POP.html')
 
-def review_sup_pop(request):
-    return render(request, 'orders/review_sup.html')
+from django.shortcuts import render
 
-def review_bus_pop(request):
-    return render(request, 'orders/review_bus.html')
+#def review_sup_pop(request, order_number, supplier_name):
+    #return render(request, 'orders/review_sup.html', {
+        #'order_number': order_number,
+        #'supplier_name': supplier_name
+    #})
+
+
+#def review_bus_pop(request):
+    #return render(request, 'orders/review_bus.html')
 
 from django.shortcuts import redirect
 from django.contrib import messages
+from .models import Review
+
+from django.shortcuts import get_object_or_404
+from django.db.models import Avg
+from .models import Review
+from accounts.models import Profile
+
+from django.core.exceptions import ValidationError
+
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.contrib import messages
+from django.core.exceptions import ValidationError
 from .models import Review
 
 def submit_rating(request):
@@ -151,6 +170,11 @@ def submit_rating(request):
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
 
+        # Validate the required fields
+        if not order_number or not supplier_name:
+            messages.error(request, 'Order number and supplier name are required.')
+            return redirect(reverse('review_view', kwargs={'order_number': order_number, 'name': supplier_name}))
+
         # Ensure rating is not None and convert it to integer safely
         try:
             rating = int(rating) if rating else 0
@@ -158,19 +182,51 @@ def submit_rating(request):
             rating = 0
 
         # Save the review
-        Review.objects.create(
-            order_number=order_number,
-            supplier_name=supplier_name,
-            rating=rating,
-            comment=comment
-        )
+        try:
+            Review.objects.create(
+                order_number=order_number,
+                supplier_name=supplier_name,
+                rating=rating,
+                comment=comment
+            )
+            messages.success(request, 'Your rating has been successfully submitted.')
+        except ValidationError as e:
+            messages.error(request, f'Error saving review: {e}')
 
-        messages.success(request, 'Your rating has been successfully submitted.')
-        return redirect('review_summary')
+        return redirect('success')
 
-    return redirect('home') 
+    return redirect('home')
 
 
-def review_summary(request):
-    reviews = Review.objects.all()
-    return render(request, 'orders/review_summary.html', {'reviews': reviews})
+
+def review_summary(request, supplier_name):
+    reviews = Review.objects.filter(supplier_name=supplier_name)
+    average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+    return render(request, 'orders/review_summary.html', {
+        'reviews': reviews,
+        'average_rating': average_rating,
+        'supplier_name': supplier_name
+    })
+
+
+from django.shortcuts import render
+
+def review_view(request, order_number, name):
+    user_type = request.user.profile.user_type
+    context = {
+        'order_number': order_number,
+        'name': name
+    }
+
+    if user_type == 'sup':
+        template_name = 'orders/review.html'
+        context['label'] = 'Supplier:'
+    elif user_type == 'bus':
+        template_name = 'orders/review.html'
+        context['label'] = 'Business:'
+    else:
+        # Handle the case where user_type is not recognized
+        return render(request, '404.html')
+
+    return render(request, template_name, context)
+
