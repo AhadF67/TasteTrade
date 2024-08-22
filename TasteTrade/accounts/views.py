@@ -80,6 +80,9 @@ from django.shortcuts import render, get_object_or_404
 from .models import Profile
 from django.templatetags.static import static
 
+from django.db.models import Avg
+from orders.models import Review
+
 def profile_view(request, profile_id):
     profile = get_object_or_404(Profile, id=profile_id)
     
@@ -91,12 +94,18 @@ def profile_view(request, profile_id):
 
     # Determine if the "Statistics" button should be shown
     show_statistics_button = profile.user.profile.user_type == 'sup'
+    
+    # Calculate average rating
+    reviews = Review.objects.filter(supplier_name=profile.user.profile.name)
+    avg_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
 
     return render(request, 'accounts/profile.html', {
         'profile': profile,
         'image_url': image_url,
-        'show_statistics_button': show_statistics_button
+        'show_statistics_button': show_statistics_button,
+        'avg_rating': avg_rating
     })
+
 
 
 

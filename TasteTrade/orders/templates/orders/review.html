@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -130,8 +129,7 @@
 </head>
 
 <body>
-    <div class="modal fade" id="rateOrderModal" tabindex="-1" role="dialog" aria-labelledby="rateOrderModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="rateOrderModal" tabindex="-1" role="dialog" aria-labelledby="rateOrderModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -143,15 +141,15 @@
                 <form method="post" action="{% url 'submit_rating' %}">
                     {% csrf_token %}
                     <input type="hidden" name="order_number" value="{{ order_number }}">
-                    <input type="hidden" name="supplier_name" value="{{ supplier_name }}">
+                    <input type="hidden" name="supplier_name" value="{{ name }}">
                     <div class="modal-body">
                         <div class="details">
                             <div class="label">Order:</div>
                             <div class="value">#<span id="orderNumber">{{ order_number }}</span></div>
                         </div>
                         <div class="details">
-                            <div class="label">Supplier:</div>
-                            <div class="value"><span id="supplierName">{{ supplier_name }}</span></div>
+                            <div class="label">{{ label }}</div>
+                            <div class="value"><span id="name">{{ name }}</span></div>
                         </div>
                         <div class="details">
                             <div class="label">Rate:</div>
@@ -170,18 +168,16 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                </form>                
+                </form>
             </div>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         $(document).ready(function () {
             $('#rateOrderModal').modal('show');
-    
+
             $('.rating .fa-star').click(function () {
                 var rating = $(this).data('value');
                 $('.rating .fa-star').removeClass('filled');
@@ -190,12 +186,10 @@
                 }
                 $('input[name="rating"]').val(rating);
             });
-    
+
             $('#orderNumber').text('{{ order_number }}');
-            $('#supplierName').text('{{ supplier_name }}');
+            $('#name').text('{{ name }}');
         });
     </script>
-    
 </body>
-
 </html>
