@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Product</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% extends "main/base.html" %}
+{% load static %}
 
+{% block title %}Delete Products{% endblock %}
 
+{% block content %}
 <style>
      body {
             background-color: #f0f0f0;
@@ -28,8 +27,6 @@
             padding: 20px;
         }
 </style>
-</head>
-<body>
     <div class="form-container">
         <div class="form-header">Delete Product</div>
         <div class="form-body">
@@ -43,5 +40,4 @@
     </div>
    
 </div>
-</body>
-</html>
+{% endblock %}
