@@ -1,257 +1,9 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-      body {
-          font-family: Arial, sans-serif;
-          background-color: #FFFFFF;
-      }
+{% extends "main/base.html" %}
+{% load static %}
 
-      .modal-content {
-          border-radius: 10px;
-          border: 1px solid #67594B;
-          background-color: #FAFAF5;
-          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-      }
+{% block title %}Contact Us{% endblock %}
 
-      .modal-header {
-          border-bottom: none;
-          background-color: #FAFAF5;
-      }
-
-      .modal-header .close {
-          color: #67594B;
-          font-size: 24px;
-      }
-
-      .modal-title {
-          color: #67594B;
-          font-family: Arial, sans-serif;
-      }
-
-      .modal-body {
-          padding: 20px;
-          color: #67594B;
-      }
-
-      .form-field {
-          margin-bottom: 15px;
-          text-align: left; 
-      }
-
-      .form-field label {
-          display: block;
-          margin-bottom: 5px;
-          color: #67594B;
-          font-weight: bold;
-          font-size: 14px; 
-      }
-
-      .modal-body input[type="text"],
-      .modal-body input[type="email"],
-      .modal-body input[type="password"],
-      .modal-body input[type="number"],
-      .modal-body input[type="file"] {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #67594B;
-          border-radius: 5px;
-          background-color: #FAFAF5;
-          box-sizing: border-box;
-          color: #67594B;
-      }
-
-      .modal-body input::placeholder {
-          color: #67594B;
-          text-align: left;
-      }
-
-      .modal-footer {
-          border-top: none;
-          background-color: #FAFAF5;
-      }
-
-      .btn-primary {
-          background-color: #67594B;
-          border: none;
-          border-radius: 5px;
-          color: #fff;
-          padding: 10px 20px;
-          font-size: 16px;
-          cursor: pointer;
-      }
-
-      .btn-primary:hover {
-          background-color: #3e2d28;
-      }
-
-      .btn-secondary {
-          background-color: #fff;
-          color: #67594B;
-          border: 1px solid #67594B;
-      }
-
-      .btn-secondary:hover {
-          background-color: #f0f0f0;
-      }
-  </style>
-</head>
-<body>
-<div class="modal fade" id="contactUsModal" tabindex="-1" role="dialog" aria-labelledby="contactUsModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="contactUsModalLabel">Contact Us</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <form method="post" action="{% url 'contact_us' %}">
-        {% csrf_token %}
-        <div class="modal-body">
-          {{ form.as_p }}
-        </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Submit</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-  $(document).ready(function() {
-    $('#contactUsModal').modal('show');
-  });
-</script>
-</body>
-</html> -->
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
-        }
-        .modal-body textarea#message {
-    width: 100%; 
-    height: 150px; 
-    padding: 10px;
-    border: 1px solid #67594B;
-    border-radius: 5px;
-    background-color: #FAFAF5;
-    box-sizing: border-box;
-    color: #67594B;
-    resize: vertical; 
-}
-
-
-.modal-content {
-            border-radius: 10px;
-            border: 1px solid #67594B;
-            background-color: #FAFAF5;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        .modal-header {
-            border-bottom: none;
-            background-color: #FAFAF5;
-        }
-
-        .modal-header .close {
-            color: #67594B;
-            font-size: 24px;
-        }
-
-        .modal-title {
-            color: #67594B;
-            font-family: Arial, sans-serif;
-        }
-
-        .modal-body {
-            padding: 20px;
-            color: #67594B;
-        }
-
-        .modal-body .form-group {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        .modal-body .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #67594B;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .modal-body input[type="text"],
-        .modal-body input[type="email"],
-        .modal-body input[type="password"],
-        .modal-body input[type="number"],
-        .modal-body input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #67594B;
-            border-radius: 5px;
-            background-color: #FAFAF5;
-            box-sizing: border-box;
-            color: #67594B;
-        }
-
-        .modal-body input::placeholder {
-            color: #67594B;
-            text-align: left;
-        }
-
-        .modal-footer {
-            border-top: none;
-            background-color: #FAFAF5;
-        }
-
-
-        .btn-primary {
-    background-color: #67594B; 
-    border: none;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%; 
-}
-
-.btn-primary:hover {
-    background-color: #3e2d28; 
-}
-
-.btn-primary:active {
-    background-color: #5c4b4b; 
-    box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2); 
-    
-}
-        
-    </style>
-</head>
-<body>
+{% block content %}
 <div class="modal fade" id="contactUsModal" tabindex="-1" role="dialog" aria-labelledby="contactUsModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -296,5 +48,110 @@
     $('#contactUsModal').modal('show');
   });
 </script>
-</body>
-</html>
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #FFFFFF;
+  }
+  .modal-body textarea#message {
+width: 100%; 
+height: 150px; 
+padding: 10px;
+border: 1px solid #67594B;
+border-radius: 5px;
+background-color: #FAFAF5;
+box-sizing: border-box;
+color: #67594B;
+resize: vertical; 
+}
+
+
+.modal-content {
+      border-radius: 10px;
+      border: 1px solid #67594B;
+      background-color: #FAFAF5;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+  }
+
+  .modal-header {
+      border-bottom: none;
+      background-color: #FAFAF5;
+  }
+
+  .modal-header .close {
+      color: #67594B;
+      font-size: 24px;
+  }
+
+  .modal-title {
+      color: #67594B;
+      font-family: Arial, sans-serif;
+  }
+
+  .modal-body {
+      padding: 20px;
+      color: #67594B;
+  }
+
+  .modal-body .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+  }
+
+  .modal-body .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #67594B;
+      font-weight: bold;
+      font-size: 14px;
+  }
+
+  .modal-body input[type="text"],
+  .modal-body input[type="email"],
+  .modal-body input[type="password"],
+  .modal-body input[type="number"],
+  .modal-body input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #67594B;
+      border-radius: 5px;
+      background-color: #FAFAF5;
+      box-sizing: border-box;
+      color: #67594B;
+  }
+
+  .modal-body input::placeholder {
+      color: #67594B;
+      text-align: left;
+  }
+
+  .modal-footer {
+      border-top: none;
+      background-color: #FAFAF5;
+  }
+
+
+  .btn-primary {
+background-color: #67594B; 
+border: none;
+color: #fff;
+padding: 10px 20px;
+font-size: 16px;
+cursor: pointer;
+border-radius: 5px;
+width: 100%; 
+}
+
+.btn-primary:hover {
+background-color: #3e2d28; 
+}
+
+.btn-primary:active {
+background-color: #5c4b4b; 
+box-shadow: inset 0px 0px 5px rgba(0, 0, 0, 0.2); 
+
+}
+  
+</style>
+{% endblock %}
