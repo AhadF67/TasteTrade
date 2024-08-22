@@ -159,4 +159,4 @@ def review_summary(request):
 
 
 def order_confirmation(request):
-    return render(request, 'order_confirmation.html')
+    return render(request, 'orders/order_confirmation.html')
