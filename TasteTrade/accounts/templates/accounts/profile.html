@@ -146,7 +146,11 @@
             <div class="rating-container">
                 <div class="rating">
                     <div class="rating-title">Rating</div>
-                    <div class="rating-stars">⭐⭐⭐⭐☆</div>
+                    <div class="rating-stars">
+                        {% for i in "12345" %}
+                            <span class="{% if i <= avg_rating|floatformat:0 %}filled{% endif %}">⭐</span>
+                        {% endfor %}
+                    </div>                    
                 </div>
                 {% if show_statistics_button %}
                 <div class="stat-button">
@@ -157,7 +161,9 @@
         </div>
         <div class="buttons">
             <button class="button">Orders Summary</button>
-            <button class="button">Reviews Summary</button>
+            <a href="{% url 'review_summary' profile.user.profile.name %}">
+                <button class="button">Reviews Summary</button>
+            </a>            
             <button class="button">PDF Contracts</button>
         </div>
     </div>

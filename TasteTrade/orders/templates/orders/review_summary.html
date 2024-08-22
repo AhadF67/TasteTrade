@@ -1,38 +1,18 @@
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Order Number</th>
-            <th>Supplier Name</th>
-            <th>Rating</th>
-            <th>Comment</th>
-            <th>Created At</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% if reviews %}
-            {% for review in reviews %}
-            <tr>
-                <td>{{ review.order_number }}</td>
-                <td>{{ review.supplier_name }}</td>
-                <td>
-                    <div class="rating">
-                        {% for i in "12345" %}
-                            {% if forloop.counter <= review.rating %}
-                                <i class="fa fa-star filled"></i>
-                            {% else %}
-                                <i class="fa fa-star"></i>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </td>
-                <td>{{ review.comment }}</td>
-                <td>{{ review.created_at }}</td>
-            </tr>
-            {% endfor %}
-        {% else %}
-            <tr>
-                <td colspan="5">No reviews yet.</td>
-            </tr>
-        {% endif %}
-    </tbody>
-</table>
+{% extends "main/base.html" %}
+{% block content %}
+<div class="container">
+    <h1>Reviews for {{ supplier_name }}</h1>
+    <ul>
+        {% for review in reviews %}
+            <li>
+                <p>Order #: {{ review.order_number }}</p>
+                <p>Rating: {{ review.rating }}</p>
+                <p>Comment: {{ review.comment }}</p>
+                <p>Date: {{ review.created_at }}</p>
+            </li>
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
