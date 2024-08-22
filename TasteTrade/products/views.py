@@ -76,7 +76,7 @@ def order_product(request, product_id):
             order.total_price = order.quantity * product.price  # Calculate total price
             order.order_number = get_random_string(length=10)  # Generate unique order number
             order.save()
-            return redirect('order_confirmation')
+            return redirect('confirm_order')
     else:
         form = OrderForm()
     initial_total = product.price

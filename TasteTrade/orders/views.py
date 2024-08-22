@@ -7,10 +7,15 @@ from .forms import ReviewForm
 from accounts.models import Profile
 from products.models import Product
 
+from django.db.models import Q
+
 @login_required
 def order_list(request):
     user_profile = Profile.objects.get(user=request.user)
     user_type = user_profile.user_type
+
+    # Get the selected status from the request
+    selected_status = request.GET.get('status', '')
 
     if user_type == 'sup':
         # Get the products that belong to the supplier
@@ -21,7 +26,15 @@ def order_list(request):
         # If the user is a business owner, show their own orders
         orders = Order.objects.filter(user=request.user)
 
-    return render(request, 'orders/order_list.html', {'orders': orders, 'user_type': user_type})
+    # Apply status filter if one is selected
+    if selected_status:
+        orders = orders.filter(status=selected_status)
+
+    return render(request, 'orders/order_list.html', {
+        'orders': orders,
+        'user_type': user_type,
+        'selected_status': selected_status,
+    })
 
 
 from django.shortcuts import redirect, get_object_or_404
@@ -33,6 +46,7 @@ def reject_order(request, order_id):
     if order.status == 'in_progress':
         order.status = 'rejected'
         order.save()
+        reject_pop(request)
     return redirect('order_list')
 
 @login_required
@@ -41,21 +55,25 @@ def confirm_order(request, order_id):
     if order.status == 'in_progress':
         order.status = 'confirmed'
         order.save()
+        confirm_pop(request)
     return redirect('order_list')
 
 @login_required
 def cancel_order(request, order_id):
+    
     order = get_object_or_404(Order, id=order_id, user=request.user)
     if order.status == 'in_progress':
         order.status = 'canceled'
         order.save()
+        cancel_pop(request)
     return redirect('order_list')
 
 @login_required
 def checkout_order(request, order_id):
+    
     order = get_object_or_404(Order, id=order_id, user=request.user)
     if order.status == 'confirmed':
-        # Implement your checkout logic here
+        shipping_details(request)
         order.status = 'completed'
         order.save()
     return redirect('order_list')
@@ -156,7 +174,3 @@ def submit_rating(request):
 def review_summary(request):
     reviews = Review.objects.all()
     return render(request, 'orders/review_summary.html', {'reviews': reviews})
-
-
-def order_confirmation(request):
-    return render(request, 'order_confirmation.html')

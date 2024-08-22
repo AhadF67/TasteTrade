@@ -23,8 +23,6 @@ urlpatterns = [
 
 
     path('submit_rating/', views.submit_rating, name='submit_rating'),
-    
-    path('order-confirmation/', views.order_confirmation, name='order_confirmation'),
 
     path('review_summary/', views.review_summary, name='review_summary'),
 
