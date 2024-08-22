@@ -33,6 +33,7 @@ def reject_order(request, order_id):
     if order.status == 'in_progress':
         order.status = 'rejected'
         order.save()
+        reject_pop(request)
     return redirect('order_list')
 
 @login_required
@@ -41,21 +42,25 @@ def confirm_order(request, order_id):
     if order.status == 'in_progress':
         order.status = 'confirmed'
         order.save()
+        confirm_pop(request)
     return redirect('order_list')
 
 @login_required
 def cancel_order(request, order_id):
+    
     order = get_object_or_404(Order, id=order_id, user=request.user)
     if order.status == 'in_progress':
         order.status = 'canceled'
         order.save()
+        cancel_pop(request)
     return redirect('order_list')
 
 @login_required
 def checkout_order(request, order_id):
+    
     order = get_object_or_404(Order, id=order_id, user=request.user)
     if order.status == 'confirmed':
-        # Implement your checkout logic here
+        shipping_details(request)
         order.status = 'completed'
         order.save()
     return redirect('order_list')
@@ -156,7 +161,3 @@ def submit_rating(request):
 def review_summary(request):
     reviews = Review.objects.all()
     return render(request, 'orders/review_summary.html', {'reviews': reviews})
-
-
-def order_confirmation(request):
-    return render(request, 'orders/order_confirmation.html')
