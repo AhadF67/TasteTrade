@@ -1,64 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmation</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
-        }
+{% extends "main/base.html" %}
+{% load static %}
 
-        .modal-content {
-            border-radius: 5px;
-            border: 1px solid #67594B;
-            background-color: #FAFAF5;
-        }
+{% block title %}Cancel{% endblock %}
 
-        .modal-header, .modal-footer {
-            border: none;
-            background-color: #FAFAF5;
-        }
-
-        .modal-header .close {
-            color: #67594B;
-            font-size: 24px;
-        }
-
-        .modal-body {
-            padding: 20px;
-            text-align: center;
-            color: #67594B;
-        }
-
-        .modal-footer {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .btn-primary {
-          background-color: #67594B; 
-         border: none;
-         border-radius: 5px;
-         color: #fff;
-         padding: 10px 20px;
-         font-size: 16px;
-         cursor: pointer;
-         }
-
-.btn-primary:hover {
-    background-color: #3e2d28; 
-}
-
-.btn-primary:active {
-    background-color: #f5ece9; 
-}
-    </style>
-</head>
-<body>
+{% block content %}
 <div class="modal fade" id="rejectOrderModal" tabindex="-1" role="dialog" aria-labelledby="rejectOrderModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content text-center">
@@ -92,7 +37,55 @@
     });
   });
 </script>
-</body>
-</html>
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      background-color: #FFFFFF;
+  }
 
+  .modal-content {
+      border-radius: 5px;
+      border: 1px solid #67594B;
+      background-color: #FAFAF5;
+  }
 
+  .modal-header, .modal-footer {
+      border: none;
+      background-color: #FAFAF5;
+  }
+
+  .modal-header .close {
+      color: #67594B;
+      font-size: 24px;
+  }
+
+  .modal-body {
+      padding: 20px;
+      text-align: center;
+      color: #67594B;
+  }
+
+  .modal-footer {
+      padding: 20px;
+      text-align: center;
+  }
+
+  .btn-primary {
+    background-color: #67594B; 
+   border: none;
+   border-radius: 5px;
+   color: #fff;
+   padding: 10px 20px;
+   font-size: 16px;
+   cursor: pointer;
+   }
+
+.btn-primary:hover {
+background-color: #3e2d28; 
+}
+
+.btn-primary:active {
+background-color: #f5ece9; 
+}
+</style>
+{% endblock %}

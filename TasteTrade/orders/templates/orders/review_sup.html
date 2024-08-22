@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "main/base.html" %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rate Order</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% block title %}Review Supplier{% endblock %}
+
+{% block content %}
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -127,9 +124,6 @@
     font-size: 1rem; 
 }
     </style>
-</head>
-
-<body>
     <div class="modal fade" id="rateOrderModal" tabindex="-1" role="dialog" aria-labelledby="rateOrderModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -193,6 +187,4 @@
             $('#supplierName').text('John Doe Supplies'); // Replace with dynamic supplier name
         });
     </script>
-</body>
-
-</html>
+{% endblock %}
