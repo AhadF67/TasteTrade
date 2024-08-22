@@ -63,12 +63,7 @@ def login_view(request: HttpRequest):
                 login(request, user)
                 # Get user profile
                 profile = Profile.objects.get(user=user)
-                if profile.user_type == 'sup':
-                    return redirect('home_sup')  
-                elif profile.user_type == 'bus':
-                    return redirect('home_bus') 
-                else:
-                    return redirect('main_home') 
+                return redirect('home') 
             else:
                 messages.error(request, "Invalid credentials. Please try again.", extra_tags="alert-danger")
     else:
