@@ -16,15 +16,15 @@
   </div>
   <div class="d-flex justify-content-center gap-4 mt-5 mx-4">
     <div class="border border-dark rounded d-flex flex-column justify-content-center align-items-center gap-3 bg-light" style="width: 380px; height: 200px;">
-      <h3 class="fs-5 fw-semibold">Add Products</h3>
+      <a href="{% url 'add_product' %}" class="fs-5 fw-semibold" style="font-size: 1.75rem; font-weight: 600;">Add Products</a>
       <img width="24" height="24" src="https://img.icons8.com/material-outlined/24/plus--v1.png" alt="plus--v1"/>
     </div>
     <div class="border border-dark rounded d-flex flex-column justify-content-center align-items-center gap-3 bg-light" style="width: 380px; height: 200px;">
-      <h3 class="fs-5 fw-semibold">Manage Orders</h3>
+      <a href="{% url 'order_list' %}" class="fs-5 fw-semibold" style="font-size: 1.75rem; font-weight: 600;">Manage Orders</a>
       <img width="30" height="30" src="https://img.icons8.com/material-outlined/24/shopping-cart--v1.png" alt="shopping-cart--v1"/>
     </div>
     <div class="border border-dark rounded d-flex flex-column justify-content-center align-items-center gap-3 bg-light" style="width: 380px; height: 200px;">
-      <h3 class="fs-5 fw-semibold">Contact Us</h3>
+      <a href="{% url 'contact_us' %}" class="fs-5 fw-semibold" style="font-size: 1.75rem; font-weight: 600;">Contact Us</a>
       <img width="32" height="32" src="https://img.icons8.com/windows/32/phone.png" alt="phone"/>
     </div>
   </div>

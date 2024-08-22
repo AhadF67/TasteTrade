@@ -1,12 +1,12 @@
 from django.urls import path
 from . import views
-
 urlpatterns = [
     path('orders/', views.order_list, name='order_list'),
-    path('<int:order_id>/delete/', views.delete_order, name='delete_order'),
-    path('<int:order_id>/cancel/', views.cancel_order, name='cancel_order'),
-    path('<int:order_id>/checkout/', views.checkout_order, name='checkout_order'),
-    path('<int:order_id>/review/', views.review_order, name='review_order'),
+    path('order/<int:order_id>/reject/', views.reject_order, name='reject_order'),
+    path('order/<int:order_id>/confirm/', views.confirm_order, name='confirm_order'),
+    path('order/<int:order_id>/cancel/', views.cancel_order, name='cancel_order'),
+    path('order/<int:order_id>/checkout/', views.checkout_order, name='checkout_order'),
+    path('order/<int:order_id>/review/', views.review_order, name='review_order'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('success/', views.success, name='success'),
     path('shipping-details/', views.shipping_details, name='shipping_details'),
@@ -19,7 +19,12 @@ urlpatterns = [
 
     path('review-sup/', views.review_sup_pop, name='review_sup'),
     path('review-bus/', views.review_bus_pop, name='review_bus'),
-    
+
+
+
     path('submit_rating/', views.submit_rating, name='submit_rating'),
+
+    path('review_summary/', views.review_summary, name='review_summary'),
+
 ]
 

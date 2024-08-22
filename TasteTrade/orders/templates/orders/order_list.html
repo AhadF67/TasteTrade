@@ -7,25 +7,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order List</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Orders</h1>
+    
     {% for order in orders %}
-        <div class="order-card">
-            <h3>Order #{{ order.order_number }}</h3>
-            <p>Total: ${{ order.total }}</p>
-            <p>Status: {{ order.get_status_display }}</p>
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <h3 class="card-title">Order #{{ order.order_number }}</h3>
+                <p class="card-text">Product: {{ order.product.name }}</p>
+                <p class="card-text">Total: ${{ order.total }}</p>
+                <p class="card-text">Status: <span class="badge badge-info">{{ order.get_status_display }}</span></p>
 
-            {% if order.status == 'in_progress' %}
-                <a href="{% url 'delete_order' order.id %}" class="btn btn-danger">Delete</a>
-                <a href="{% url 'cancel_order' order.id %}" class="btn btn-warning">Cancel</a>
-            {% elif order.status == 'confirmed' %}
-                <a href="{% url 'checkout_order' order.id %}" class="btn btn-success">Checkout</a>
-            {% elif order.status == 'completed' %}
-                <a href="{% url 'review_order' order.id %}" class="btn btn-primary">Review</a>
-            {% endif %}
+                <div class="btn-group" role="group">
+                    {% if user_type == 'sup' %}
+                        {% if order.status == 'in_progress' %}
+                            <a href="{% url 'reject_order' order.id %}" class="btn btn-danger">Reject</a>
+                            <a href="{% url 'confirm_order' order.id %}" class="btn btn-success">Confirm</a>
+                        {% elif order.status == 'completed' %}
+                            <a href="{% url 'review_order' order.id %}" class="btn btn-primary">Review</a>
+                        {% endif %}
+                    {% elif user_type == 'bus' %}
+                        {% if order.status == 'completed' %}
+                            <a href="{% url 'review_order' order.id %}" class="btn btn-primary">Review</a>
+                        {% elif order.status == 'in_progress' %}
+                            <a href="{% url 'cancel_order' order.id %}" class="btn btn-warning">Cancel</a>
+                        {% elif order.status == 'confirmed' %}
+                            <a href="{% url 'checkout_order' order.id %}" class="btn btn-success">Checkout</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
+    {% empty %}
+        <p class="text-center">No orders found.</p>
     {% endfor %}
+</div>
 
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

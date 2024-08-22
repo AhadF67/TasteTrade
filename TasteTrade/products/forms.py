@@ -1,5 +1,6 @@
 from django import forms
-from .models import Product, Order
+from .models import Product
+from orders.models import Order
 
 
 class ProductForm(forms.ModelForm):
@@ -13,7 +14,7 @@ class ProductForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control'}),
             'category': forms.Select(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
             'expiry_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
@@ -28,11 +29,3 @@ class OrderForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'expiry_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
-        total = forms.DecimalField(label="Total", disabled=True, required=False)
-
-        def save(self, commit=True):
-            order = super().save(commit=False)
-            order.total_price = order.quantity * order.product.price
-            if commit:
-                order.save()
-            return order

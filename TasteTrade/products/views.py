@@ -17,31 +17,29 @@ def is_supplier(user):
 
 
 @login_required
-@user_passes_test(is_supplier)
+#@user_passes_test(is_supplier)
 def supplier_dashboard(request):
     products = Product.objects.filter(supplier=request.user)
     return render(request, 'supplier_dashboard.html', {'products': products})
 
 @login_required
-@user_passes_test(is_supplier)
-def add_product(request, product_id=None):
-    if product_id:
-        product = get_object_or_404(Product, pk=product_id)
-        form = ProductForm(instance=product)
+#@user_passes_test(is_supplier)
+def add_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.supplier = request.user  # Set the supplier field
+            product.save()
+            return redirect('supplier_dashboard')  # Redirect to dashboard after saving
     else:
         form = ProductForm()
 
-    if request.method == "POST":
-        form = ProductForm(request.POST, request.FILES, instance=product if product_id else None)
-        if form.is_valid():
-            form.save()
-            return redirect('product_list')  # Redirect to product list after saving
-    
-    return render(request, 'add_product.html', {'form': form, 'product': product if product_id else None})
+    return render(request, 'add_product.html', {'form': form})
 
 
 @login_required
-@user_passes_test(is_supplier)
+#@user_passes_test(is_supplier)
 def edit_product(request, product_id):
     product = get_object_or_404(Product, id=product_id, supplier=request.user)
     if request.method == 'POST':
@@ -54,8 +52,9 @@ def edit_product(request, product_id):
     return render(request, 'edit_product.html', {'form': form})
 
 
+
 @login_required
-@user_passes_test(is_supplier)
+#@user_passes_test(is_supplier)
 def delete_product(request, product_id):
     product = get_object_or_404(Product, id=product_id, supplier=request.user)
     if request.method == 'POST':
@@ -63,6 +62,8 @@ def delete_product(request, product_id):
         return redirect('supplier_dashboard')
     return render(request, 'delete_product.html', {'product': product})
 
+
+from django.utils.crypto import get_random_string
 
 def order_product(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -73,10 +74,10 @@ def order_product(request, product_id):
             order.product = product
             order.user = request.user
             order.total_price = order.quantity * product.price  # Calculate total price
+            order.order_number = get_random_string(length=10)  # Generate unique order number
             order.save()
-            return redirect('order_confirmation')
+            return redirect('confirm_order')
     else:
         form = OrderForm()
     initial_total = product.price
     return render(request, 'order_product.html', {'product': product, 'form': form, 'initial_total': initial_total})
-

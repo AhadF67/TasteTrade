@@ -2,35 +2,74 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Order
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
-
+from .models import Review
+from .forms import ReviewForm
+from accounts.models import Profile
+from products.models import Product
 
 @login_required
 def order_list(request):
-    if not request.user.is_authenticated:
-        return redirect('login_view')  
-    orders = Order.objects.filter(user=request.user)
-    return render(request, 'orders/order_list.html', {'orders': orders})
+    user_profile = Profile.objects.get(user=request.user)
+    user_type = user_profile.user_type
 
-def delete_order(request, order_id):
+    if user_type == 'sup':
+        # Get the products that belong to the supplier
+        supplier_products = Product.objects.filter(supplier=request.user)
+        # Filter orders based on these products
+        orders = Order.objects.filter(product__in=supplier_products)
+    else:
+        # If the user is a business owner, show their own orders
+        orders = Order.objects.filter(user=request.user)
+
+    return render(request, 'orders/order_list.html', {'orders': orders, 'user_type': user_type})
+
+
+from django.shortcuts import redirect, get_object_or_404
+from .models import Order
+
+@login_required
+def reject_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    order.delete()
+    if order.status == 'in_progress':
+        order.status = 'rejected'
+        order.save()
+        reject_pop(request)
     return redirect('order_list')
 
+@login_required
+def confirm_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    if order.status == 'in_progress':
+        order.status = 'confirmed'
+        order.save()
+        confirm_pop(request)
+    return redirect('order_list')
+
+@login_required
 def cancel_order(request, order_id):
+    
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    order.status = 'cancelled'  
-    order.save()
+    if order.status == 'in_progress':
+        order.status = 'canceled'
+        order.save()
+        cancel_pop(request)
     return redirect('order_list')
 
+@login_required
 def checkout_order(request, order_id):
+    
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    # Implement checkout logic here
+    if order.status == 'confirmed':
+        shipping_details(request)
+        order.status = 'completed'
+        order.save()
     return redirect('order_list')
 
+@login_required
 def review_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    # Implement review logic here
+    # Implement your review logic here
     return redirect('order_list')
+
 
 from django.shortcuts import render, redirect
 from .forms import ContactUsForm
@@ -88,13 +127,37 @@ def review_sup_pop(request):
 def review_bus_pop(request):
     return render(request, 'orders/review_bus.html')
 
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import Review
+
 def submit_rating(request):
     if request.method == 'POST':
+        order_number = request.POST.get('order_number')
+        supplier_name = request.POST.get('supplier_name')
         rating = request.POST.get('rating')
         comment = request.POST.get('comment')
-        # saving here
-        return redirect('success')  
-    
-    return HttpResponse("Invalid request method.", status=405)
+
+        # Ensure rating is not None and convert it to integer safely
+        try:
+            rating = int(rating) if rating else 0
+        except ValueError:
+            rating = 0
+
+        # Save the review
+        Review.objects.create(
+            order_number=order_number,
+            supplier_name=supplier_name,
+            rating=rating,
+            comment=comment
+        )
+
+        messages.success(request, 'Your rating has been successfully submitted.')
+        return redirect('review_summary')
+
+    return redirect('home') 
 
 
+def review_summary(request):
+    reviews = Review.objects.all()
+    return render(request, 'orders/review_summary.html', {'reviews': reviews})

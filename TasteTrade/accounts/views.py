@@ -6,23 +6,36 @@ from .forms import LoginForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .forms import UserForm
-from .forms import SupplierSignUpForm
 from .models import Profile
-from .forms import UserForm, SupplierSignUpForm
+from .forms import UserForm
 from django.contrib import messages
+from django.conf import settings
+from django.templatetags.static import static
+
+
+
+import logging
 
 def signup_Bus(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            Profile.objects.create(user=user, name=user.username, user_type='bus')
-            return redirect('success')
+            try:
+                user = form.save(commit=False)
+                user.set_password(form.cleaned_data['password'])
+                user.save()
+                profile = Profile.objects.create(user=user, name=user.username, user_type='bus')
+                logging.info(f"Profile created for user {user.username} with ID {profile.id}")
+                return redirect('success')
+            except Exception as e:
+                logging.error(f"Error creating profile for user {user.username}: {str(e)}")
+                messages.error(request, "There was an error creating your profile. Please try again.")
+        else:
+            logging.warning("Form is not valid.")
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Bus.html', {'form': form})
+
 
 def signup_Sup(request):
     if request.method == 'POST':
@@ -38,7 +51,7 @@ def signup_Sup(request):
     return render(request, 'accounts/signup_Sup.html', {'form': form})
 
 
-def login_view(request):
+def login_view(request: HttpRequest):
     if request.method == "POST":
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -50,20 +63,41 @@ def login_view(request):
                 # Get user profile
                 profile = Profile.objects.get(user=user)
                 if profile.user_type == 'sup':
-                    return render(request, 'main/home_sup.html')
+                    return redirect('home_sup')  
                 elif profile.user_type == 'bus':
-                    return render(request, 'main/home_bus.html')
+                    return redirect('home_bus') 
                 else:
-                    return render(request, 'main/main_home.html')
+                    return redirect('main_home') 
             else:
                 messages.error(request, "Invalid credentials. Please try again.", extra_tags="alert-danger")
     else:
         form = LoginForm()
     return render(request, 'accounts/login.html', {'form': form})
 
+
+
 def profile_view(request, profile_id):
     profile = get_object_or_404(Profile, id=profile_id)
-    return render(request, 'accounts/profile_Sup.html', {'profile': profile})
+    if profile.image:
+        image_url = profile.image.url
+    else:
+        image_url = static('images/default.jpg')
+
+    return render(request, 'accounts/profile_Sup.html', {'profile': profile, 'image_url': image_url})
+
+
+def profile(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id)
+    if profile.image:
+        image_url = profile.image.url
+    else:
+        image_url = static('images/default.jpg')
+
+    return render(request, 'accounts/profile_Bus.html', {'profile': profile, 'image_url': image_url})
+
+
+
+
 
 def signup_pop(request):
     return render(request, 'accounts/signup_options.html')
