@@ -7,10 +7,15 @@ from .forms import ReviewForm
 from accounts.models import Profile
 from products.models import Product
 
+from django.db.models import Q
+
 @login_required
 def order_list(request):
     user_profile = Profile.objects.get(user=request.user)
     user_type = user_profile.user_type
+
+    # Get the selected status from the request
+    selected_status = request.GET.get('status', '')
 
     if user_type == 'sup':
         # Get the products that belong to the supplier
@@ -21,7 +26,15 @@ def order_list(request):
         # If the user is a business owner, show their own orders
         orders = Order.objects.filter(user=request.user)
 
-    return render(request, 'orders/order_list.html', {'orders': orders, 'user_type': user_type})
+    # Apply status filter if one is selected
+    if selected_status:
+        orders = orders.filter(status=selected_status)
+
+    return render(request, 'orders/order_list.html', {
+        'orders': orders,
+        'user_type': user_type,
+        'selected_status': selected_status,
+    })
 
 
 from django.shortcuts import redirect, get_object_or_404
