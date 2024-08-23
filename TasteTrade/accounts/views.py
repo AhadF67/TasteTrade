@@ -12,6 +12,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.templatetags.static import static
 from django.contrib.auth.decorators import login_required, user_passes_test
+from products.models import Product
 
 
 
