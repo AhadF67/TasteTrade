@@ -6,6 +6,7 @@ STATUS_CHOICES = [
     ('in_progress', 'In Progress'),
     ('confirmed', 'Confirmed'),
     ('completed', 'Completed'),
+    ('canceled', 'Canceled'),
 ]
 
 class Order(models.Model):

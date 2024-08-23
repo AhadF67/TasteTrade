@@ -14,6 +14,10 @@ from django.templatetags.static import static
 from django.contrib.auth.decorators import login_required, user_passes_test
 from products.models import Product
 
+from orders.models import Order
+from django.db.models import Sum, Count
+from django.db.models.functions import TruncDate
+
 
 
 import logging
@@ -77,6 +81,9 @@ from django.shortcuts import render, get_object_or_404
 from .models import Profile
 from django.templatetags.static import static
 
+from django.db.models import Avg
+from orders.models import Review
+
 def profile_view(request, profile_id):
     profile = get_object_or_404(Profile, id=profile_id)
     
@@ -88,12 +95,18 @@ def profile_view(request, profile_id):
 
     # Determine if the "Statistics" button should be shown
     show_statistics_button = profile.user.profile.user_type == 'sup'
+    
+    # Calculate average rating
+    reviews = Review.objects.filter(supplier_name=profile.user.profile.name)
+    avg_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
 
     return render(request, 'accounts/profile.html', {
         'profile': profile,
         'image_url': image_url,
-        'show_statistics_button': show_statistics_button
+        'show_statistics_button': show_statistics_button,
+        'avg_rating': avg_rating
     })
+
 
 
 
@@ -142,3 +155,18 @@ def update_profile(request):
         'profile_form': profile_form
     }
     return render(request, 'accounts/edit_profile.html', context)
+
+
+def supplier_statistics(request):
+    # Group by date to get price income per date
+    price_income_data = Order.objects.annotate(order_date=TruncDate('created_at')).values('order_date').annotate(total_income=Sum('total_price')).order_by('order_date')
+
+    # Group by product to get quantity per order
+    orders_quantity_data = Order.objects.values('product__name').annotate(total_quantity=Sum('quantity')).order_by('product__name')
+
+    context = {
+        'price_income_data': price_income_data,
+        'orders_quantity_data': orders_quantity_data,
+    }
+
+    return render(request, 'accounts/statics.html', context)
