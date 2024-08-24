@@ -1,10 +1,10 @@
-{% load static %}
+{% extends "main/base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% load static %}
+{% block title %}Supplier Dashboard{% endblock %}
+{% block content %}
+
+
     <title>Explore Products</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -97,45 +97,6 @@
             padding: 10px 0;
         }
 
-        .footer {
-            background-color: #f5f5f5;
-            padding: 20px;
-            margin-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .footer-columns {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .footer-column {
-            width: 30%;
-        }
-
-        .footer-column h5 {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .footer-column ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 5px;
-        }
-
-        .footer-column ul li a {
-            color: #6d4c41;
-            text-decoration: none;
-        }
-
-        .footer-column ul li a:hover {
-            text-decoration: underline;
-        }
-
         .action-icons {
             display: flex;
             justify-content: space-between;
@@ -143,16 +104,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Header -->
-    <div class="header">
-        <img src="{% static 'logo_nobg.png' %}" alt="Logo">
-        <div class="header-right">
-            <a href="{% url 'product_list' %}">Products</a>
-            <a href="{% url 'signup_pop' %}">Sign Up</a>
-            <a href="{% url 'login_view' %}">Login</a>
-        </div>
-    </div>
 
     <!-- Main content -->
     <div class="container-fluid">
@@ -163,6 +114,8 @@
                 <a href="{% url 'add_product' %}" class="btn btn-light">Add new product</a>
             </div>
             <div class="row">
+                {% if products %}
+
                 {% for product in products %}
                 <div class="col-md-4 mb-4">
                     <div class="product-container">
@@ -183,44 +136,17 @@
                         </div>
                     </div>
                 </div>
+            
                 {% endfor %}
+                {% else %}
+                    <p>No products found. Please add a product.</p>
+                {% endif %}
+
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <div class="footer-columns">
-            <div class="footer-column">
-                <h5>Product Categories</h5>
-                <ul>
-                    <li><a href="#">Coffee</a></li>
-                    <li><a href="#">Baked Goods</a></li>
-                    <li><a href="#">Desserts</a></li>
-                    <li><a href="#">Specialty Items</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h5>About TasteTrade</h5>
-                <ul>
-                    <li><a href="#">Our Story</a></li>
-                    <li><a href="#">Meet the Team</a></li>
-                    <li><a href="#">Sustainability</a></li>
-                    <li><a href="#">Careers</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h5>Support</h5>
-                <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Shipping & Returns</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    
 
     <script>
         const rangeInput = document.getElementById('priceRange');
@@ -232,3 +158,4 @@
     </script>
 </body>
 </html>
+{% endblock %}

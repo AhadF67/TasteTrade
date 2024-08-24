@@ -148,7 +148,7 @@
         </div>
         <div class="form-content">
             <h2>Add Product</h2>
-            <form id="product-form" method="POST" enctype="multipart/form-data">
+            <form id="product-form" method="POST" enctype="multipart/form-data" action="{% url 'add_product' %}">
                 {% csrf_token %}
                 <div class="form-field">
                     <label for="name"></label>
@@ -168,10 +168,10 @@
                     <label for="category"></label>
                     <select id="category" name="category" required>
                         <option value="">Select category</option>
-                        <option value="Baked Goods">Baked Goods</option>
-                        <option value="Desserts">Desserts</option>
-                        <option value="Coffee">Coffee</option>
-                        <!-- Add category options here -->
+
+                        {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}  
                     </select>
                 </div>
                 <div class="form-field">
@@ -180,9 +180,9 @@
                 </div>
                 <div class="form-field">
                     <label for="expiry-date"></label>
-                    <input type="date" id="expiry-date" name="expiry_date" required>
+                    <input type="date" id="expiry-date" name="expiry_date" placeholder="Enter expiry date" required>
                 </div>
-                <button type="button" id="add-product-btn">Add Product</button>
+                <button type="submit" id="add-product-btn">Add Product</button>
             </form>
             <a href="{% url 'supplier_dashboard' %}" class="back-link">Back to Dashboard</a>
         </div>

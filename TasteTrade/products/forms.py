@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Category
 from orders.models import Order
 
 
@@ -28,4 +28,12 @@ class OrderForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'expiry_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Category Name'})
         }
