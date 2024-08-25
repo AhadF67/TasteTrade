@@ -45,8 +45,7 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = ['quantity', 'expiry_date', 'duration_first', 'duration_second']
+        fields = ['quantity', 'duration_first', 'duration_second']
         widgets = {
             'quantity': forms.NumberInput(attrs={'min': 1, 'max': 100, 'class': 'form-control'}),
-            'expiry_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
