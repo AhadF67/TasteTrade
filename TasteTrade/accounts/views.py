@@ -25,14 +25,24 @@ def signup_Bus(request):
                 user = form.save(commit=False)
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-                profile = Profile.objects.create(user=user, name=user.username, user_type='bus',image=user)
+
+                # Handle image upload
+                image = request.FILES.get('image', None)
+
+                profile = Profile.objects.create(
+                    user=user, 
+                    name=user.username, 
+                    user_type='bus',
+                    image=image  # Assign the image if available, otherwise None
+                )
                 logging.info(f"Profile created for user {user.username} with ID {profile.id}")
                 return redirect('success')
             except Exception as e:
                 logging.error(f"Error creating profile for user {user.username}: {str(e)}")
                 messages.error(request, "There was an error creating your profile. Please try again.")
         else:
-            logging.warning("Form is not valid.")
+            logging.warning(f"Form is not valid. Errors: {form.errors}")
+            messages.error(request, "Please correct the errors below.")
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Bus.html', {'form': form})
@@ -42,14 +52,23 @@ def signup_Sup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            Profile.objects.create(user=user, name=user.username, user_type='sup')
-            return redirect('success')
+            try:
+                user = form.save(commit=False)
+                user.set_password(form.cleaned_data['password'])
+                user.save()
+                Profile.objects.create(user=user, name=user.username, user_type='sup')
+                logging.info(f"Profile created for user {user.username}")
+                return redirect('success')
+            except Exception as e:
+                logging.error(f"Error creating profile for user {user.username}: {str(e)}")
+                messages.error(request, "There was an error creating your profile. Please try again.")
+        else:
+            logging.warning(f"Form is not valid. Errors: {form.errors}")
+            messages.error(request, "Please correct the errors below.")
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Sup.html', {'form': form})
+
 
 
 def login_view(request: HttpRequest):
