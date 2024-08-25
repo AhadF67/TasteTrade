@@ -2,11 +2,11 @@ from django.urls import path
 from . import views
 urlpatterns = [
     path('orders/', views.order_list, name='order_list'),
-    path('order/<int:order_id>/reject/', views.reject_order, name='reject_order'),
-    path('order/<int:order_id>/confirm/', views.confirm_order, name='confirm_order'),
-    path('order/<int:order_id>/cancel/', views.cancel_order, name='cancel_order'),
-    path('order/<int:order_id>/checkout/', views.checkout_order, name='checkout_order'),
-    path('order/<int:order_id>/review/', views.review_order, name='review_order'),
+    path('order/<str:order_number>/confirm/', views.confirm_order, name='confirm_order'),
+    path('order/<str:order_number>/reject/', views.reject_order, name='reject_order'),
+    path('order/<str:order_number>/cancel/', views.cancel_order, name='cancel_order'),
+    path('order/<str:order_number>/checkout/', views.checkout_order, name='checkout_order'),
+    #path('order/<int:order_id>/review/', views.review_order, name='review_order'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('success/', views.success, name='success'),
     path('shipping-details/', views.shipping_details, name='shipping_details'),
@@ -17,7 +17,7 @@ urlpatterns = [
     path('cancel-pop/', views.cancel_pop, name='cancel_pop'),
     path('confirm-pop/', views.confirm_pop, name='confirm_pop'),
     
-    path('review/<int:order_number>/<str:name>/', views.review_view, name='review_view'),
+    path('review/<str:order_number>/<str:name>/', views.review_view, name='review_view'),
 
     path('review-summary/<str:supplier_name>/', views.review_summary, name='review_summary'),
 

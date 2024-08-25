@@ -40,28 +40,43 @@ def order_list(request):
 from django.shortcuts import redirect, get_object_or_404
 from .models import Order
 
+
+
+from django.shortcuts import redirect, get_object_or_404
+from .models import Order
+from django.contrib.auth.decorators import login_required
+
 @login_required
-def reject_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+def confirm_order(request, order_number):
+    print("Order number:", order_number)
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    print("Order found:", order)
+    if order.status == 'in_progress':
+        order.status = 'confirmed'
+        order.save()
+        print("Order status updated to confirmed")
+        confirm_pop(request)
+    else:
+        print("Order status is not 'in_progress'")
+    return redirect('order_list')
+
+
+@login_required
+def reject_order(request, order_number):
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
     if order.status == 'in_progress':
         order.status = 'rejected'
         order.save()
         reject_pop(request)
     return redirect('order_list')
 
-@login_required
-def confirm_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
-    if order.status == 'in_progress':
-        order.status = 'confirmed'
-        order.save()
-        confirm_pop(request)
-    return redirect('order_list')
+
+
 
 @login_required
-def cancel_order(request, order_id):
+def cancel_order(request, order_number):
     
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
     if order.status == 'in_progress':
         order.status = 'canceled'
         order.save()
@@ -69,19 +84,16 @@ def cancel_order(request, order_id):
     return redirect('order_list')
 
 @login_required
-def checkout_order(request, order_id):
+def checkout_order(request, order_number):
     
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order = get_object_or_404(Order, order_number=order_number, user=request.user)
     if order.status == 'confirmed':
         shipping_details(request)
         order.status = 'completed'
         order.save()
     return redirect('order_list')
 
-@login_required
-def review_order(request, order_id):
-    # Implement your review logic here
-    return redirect('order_list')
+
 
 
 from django.shortcuts import render, redirect
@@ -165,47 +177,29 @@ from .models import Review
 
 def submit_rating(request):
     if request.method == 'POST':
-        order_number = request.POST.get('order_number')
-        supplier_name = request.POST.get('supplier_name')
-        rating = request.POST.get('rating')
-        comment = request.POST.get('comment')
-
-        # Validate the required fields
-        if not order_number or not supplier_name:
-            messages.error(request, 'Order number and supplier name are required.')
-            return redirect(reverse('review_view', kwargs={'order_number': order_number, 'name': supplier_name}))
-
-        # Ensure rating is not None and convert it to integer safely
-        try:
-            rating = int(rating) if rating else 0
-        except ValueError:
-            rating = 0
-
-        # Save the review
-        try:
-            Review.objects.create(
-                order_number=order_number,
-                supplier_name=supplier_name,
-                rating=rating,
-                comment=comment
-            )
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
             messages.success(request, 'Your rating has been successfully submitted.')
-        except ValidationError as e:
-            messages.error(request, f'Error saving review: {e}')
-
-        return redirect('success')
-
+            return redirect('success')
+        else:
+            messages.error(request, 'There was an error with your submission.')
+            return redirect('review_view', order_number=request.POST.get('order_number'), name=request.POST.get('supplier_name'))
     return redirect('home')
 
+@login_required
+def review_order(request, order_id):
+    # Implement your review logic here
+    return redirect('order_list')
 
 
-def review_summary(request, supplier_name):
-    reviews = Review.objects.filter(supplier_name=supplier_name)
+def review_summary(request, name):
+    reviews = Review.objects.filter(name=name)
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
     return render(request, 'orders/review_summary.html', {
         'reviews': reviews,
         'average_rating': average_rating,
-        'supplier_name': supplier_name
+        'name': name
     })
 
 

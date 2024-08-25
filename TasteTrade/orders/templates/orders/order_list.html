@@ -39,18 +39,18 @@
                         <div class="btn-group" role="group">
                             {% if user_type == 'sup' %}
                                 {% if order.status == 'in_progress' %}
-                                    <a href="{% url 'reject_order' order.id %}" class="btn btn-danger">Reject</a>
-                                    <a href="{% url 'confirm_order' order.id %}" class="btn btn-success">Confirm</a>
+                                    <a href="{% url 'reject_order' order.order_number %}" class="btn btn-danger">Reject</a>
+                                    <a href="{% url 'confirm_order' order.order_number %}" class="btn btn-success">Confirm</a>
                                 {% elif order.status == 'completed' %}
-                                    <a href="{% url 'review_order' order.id %}" class="btn btn-primary">Review</a>
+                                    <a href="{% url 'review_order' order.order_number %}" class="btn btn-primary">Review</a>
                                 {% endif %}
                             {% elif user_type == 'bus' %}
                                 {% if order.status == 'completed' %}
-                                    <a href="{% url 'review_order' order.id %}" class="btn btn-primary">Review</a>
+                                    <a href="{% url 'review_order' order.order_number %}" class="btn btn-primary">Review</a>
                                 {% elif order.status == 'in_progress' %}
-                                    <a href="{% url 'cancel_order' order.id %}" class="btn btn-warning">Cancel</a>
+                                    <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-warning">Cancel</a>
                                 {% elif order.status == 'confirmed' %}
-                                    <a href="{% url 'checkout_order' order.id %}" class="btn btn-success">Checkout</a>
+                                    <a href="{% url 'checkout_order' order.order_number %}" class="btn btn-success">Checkout</a>
                                 {% endif %}
                             {% endif %}
                         </div>
