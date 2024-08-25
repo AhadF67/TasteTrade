@@ -163,7 +163,7 @@ from django.contrib import messages
 from .models import Review
 
 from django.shortcuts import get_object_or_404
-from django.db.models import Avg
+from django.db.models import Avg,Min
 from .models import Review
 from accounts.models import Profile
 
@@ -193,13 +193,17 @@ def review_order(request, order_id):
     return redirect('order_list')
 
 
-def review_summary(request, name):
-    reviews = Review.objects.filter(name=name)
+def review_summary(request, supplier_name):
+    reviews = Review.objects.filter(supplier_name=supplier_name)
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
+   
+    min_rating = reviews.aggregate(Min('rating'))['rating__min']
+    
+ 
     return render(request, 'orders/review_summary.html', {
         'reviews': reviews,
         'average_rating': average_rating,
-        'name': name
+        'name': supplier_name
     })
 
 
