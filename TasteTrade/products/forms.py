@@ -19,13 +19,34 @@ class ProductForm(forms.ModelForm):
             'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
         }
 
+
 class OrderForm(forms.ModelForm):
+    DURATION_CHOICES_FIRST = [
+        ('once_a_week', 'Once a Week'),
+        ('twice_a_week', 'Twice a Week'),
+    ]
+
+    DURATION_CHOICES_SECOND = [
+        ('one_month', 'One Month'),
+        ('two_months', 'Two Months'),
+        ('three_months', 'Three Months'),
+    ]
+
+    duration_first = forms.ChoiceField(
+        choices=DURATION_CHOICES_FIRST,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label="Select Frequency"
+    )
+    duration_second = forms.ChoiceField(
+        choices=DURATION_CHOICES_SECOND,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+        label="Select Duration"
+    )
+
     class Meta:
         model = Order
-        fields = ['quantity', 'category', 'description', 'expiry_date']
+        fields = ['quantity', 'expiry_date', 'duration_first', 'duration_second']
         widgets = {
             'quantity': forms.NumberInput(attrs={'min': 1, 'max': 100, 'class': 'form-control'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}),
             'expiry_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
