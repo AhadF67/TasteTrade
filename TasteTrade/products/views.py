@@ -2,6 +2,8 @@ from django.shortcuts import render,  get_object_or_404, redirect
 from .models import Product
 from .forms import ProductForm, OrderForm
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.crypto import get_random_string
+from django.http import HttpRequest
 
 
 # Create your views here.
@@ -63,9 +65,8 @@ def delete_product(request, product_id):
     return render(request, 'delete_product.html', {'product': product})
 
 
-from django.utils.crypto import get_random_string
 
-def order_product(request, product_id):
+def order_product(request: HttpRequest, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -73,10 +74,10 @@ def order_product(request, product_id):
             order = form.save(commit=False)
             order.product = product
             order.user = request.user
-            order.total_price = order.quantity * product.price  # Calculate total price
-            order.order_number = get_random_string(length=10)  # Generate unique order number
+            order.total_price = order.quantity * product.price  
+            order.order_number = get_random_string(length=10)  
             order.save()
-            return redirect('confirm_order')
+            return redirect('order_list')
     else:
         form = OrderForm()
     initial_total = product.price
