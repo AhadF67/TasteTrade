@@ -1,3 +1,6 @@
+{% extends "main/base.html" %}
+{% block content %}
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -10,7 +13,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+            background-color: #FFFFFF;
             margin: 0;
             padding: 0;
         }
@@ -145,14 +148,14 @@
 <body>
 
     <!-- Header -->
-    <div class="header">
+    <!-- <div class="header">
         <img src="{% static 'logo_nobg.png' %}" alt="Logo">
         <div class="header-right">
             <a href="{% url 'product_list' %}">Products</a>
             <a href="{% url 'signup_pop' %}">Sign Up</a>
             <a href="{% url 'login_view' %}">Login</a>
         </div>
-    </div>
+    </div> -->
 
     <!-- Main content -->
     <div class="container-fluid">
@@ -189,7 +192,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="footer">
+    <!-- <div class="footer">
         <div class="footer-columns">
             <div class="footer-column">
                 <h5>Product Categories</h5>
@@ -220,7 +223,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script>
         const rangeInput = document.getElementById('priceRange');
@@ -232,3 +235,4 @@
     </script>
 </body>
 </html>
+{% endblock %}
