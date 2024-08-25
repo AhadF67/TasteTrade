@@ -31,10 +31,20 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
+      phone_number = forms.CharField(
+        validators=[
+            RegexValidator(
+                regex=r'^0\d{7,14}$',
+            )
+        ],
+        max_length=15,
+        required=False,
+        help_text='Enter a phone number starting with 0 (between 8 to 15 digits).'
+    )
+      class Meta:
 
-     model = Profile
-     fields = ['name', 'image', 'phone_number']  
+       model = Profile
+       fields = ['name', 'image', 'phone_number']  
 
 
 
