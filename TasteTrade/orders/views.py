@@ -49,7 +49,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def confirm_order(request, order_number):
     print("Order number:", order_number)
-    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    order = get_object_or_404(Order, order_number=order_number)
     print("Order found:", order)
     if order.status == 'in_progress':
         order.status = 'confirmed'
@@ -63,7 +63,7 @@ def confirm_order(request, order_number):
 
 @login_required
 def reject_order(request, order_number):
-    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    order = get_object_or_404(Order, order_number=order_number)
     if order.status == 'in_progress':
         order.status = 'rejected'
         order.save()
@@ -76,22 +76,69 @@ def reject_order(request, order_number):
 @login_required
 def cancel_order(request, order_number):
     
-    order = get_object_or_404(Order, order_number=order_number, user=request.user)
+    order = get_object_or_404(Order, order_number=order_number)
     if order.status == 'in_progress':
         order.status = 'canceled'
         order.save()
         cancel_pop(request)
     return redirect('order_list')
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .forms import ShippingForm, PaymentForm
+from .models import Order
 @login_required
 def checkout_order(request, order_number):
+    order = get_object_or_404(Order, order_number=order_number)
     
-    order = get_object_or_404(Order, order_number=order_number, user=request.user)
-    if order.status == 'confirmed':
-        shipping_details(request)
-        order.status = 'completed'
-        order.save()
-    return redirect('order_list')
+    if request.method == 'POST':
+        shipping_form = ShippingForm(request.POST, prefix='shipping')
+        payment_form = PaymentForm(request.POST, prefix='payment')
+        
+        if shipping_form.is_valid() and payment_form.is_valid():
+            # Debug: Check if forms are valid and data is being processed
+            print("Forms are valid. Processing the data...")
+
+            # Process shipping form data
+            shipping_data = shipping_form.cleaned_data
+            order.shipping_address = shipping_data.get('address')
+            order.first_name = shipping_data.get('first_name')
+            order.last_name = shipping_data.get('last_name')
+            order.email = shipping_data.get('email')
+            order.phone_number = shipping_data.get('phone_number')
+            
+            # Process payment form data
+            payment_data = payment_form.cleaned_data
+            order.name_on_card = payment_data.get('name_on_card')
+            order.card_number = payment_data.get('card_number')
+            order.expiry_date = payment_data.get('expiry_date')
+            order.cvv = payment_data.get('cvv')
+            
+            # Update the order status
+            order.status = 'completed'
+            order.save()
+
+            # Debug: Check if order status is being updated
+            print(f"Order status updated to: {order.status}")
+
+            # Redirect to the order list page
+            return redirect('order_list')
+        else:
+            # Debug: Check which form is invalid
+            print("Invalid form data")
+            print(shipping_form.errors)
+            print(payment_form.errors)
+    else:
+        shipping_form = ShippingForm(prefix='shipping')
+        payment_form = PaymentForm(prefix='payment')
+    
+    return render(request, 'orders/checkout.html', {
+        'shipping_form': shipping_form,
+        'payment_form': payment_form,
+        'order_number': order_number, 
+        'order': order
+    })
+
 
 
 
@@ -193,19 +240,23 @@ def review_order(request, order_id):
     return redirect('order_list')
 
 
-def review_summary(request, name):
-    reviews = Review.objects.filter(name=name)
+def review_summary(request, supplier_name):
+    reviews = Review.objects.filter(supplier_name=supplier_name)
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg']
     return render(request, 'orders/review_summary.html', {
         'reviews': reviews,
         'average_rating': average_rating,
-        'name': name
+        'name': supplier_name
     })
 
 
 from django.shortcuts import render
 
+from django.shortcuts import render, get_object_or_404
+from django.http import Http404
 def review_view(request, order_number, name):
+    if not name:
+        raise Http404("Order name is missing.")
     user_type = request.user.profile.user_type
     context = {
         'order_number': order_number,
@@ -219,8 +270,6 @@ def review_view(request, order_number, name):
         template_name = 'orders/review.html'
         context['label'] = 'Business:'
     else:
-        # Handle the case where user_type is not recognized
-        return render(request, '404.html')
+        raise Http404("User type not recognized.")
 
     return render(request, template_name, context)
-

@@ -22,6 +22,8 @@ def is_supplier(user):
 #@user_passes_test(is_supplier)
 def supplier_dashboard(request):
     products = Product.objects.filter(supplier=request.user)
+    # Debugging: print the number of products
+    print(f"Number of products: {products.count()}")  
     return render(request, 'supplier_dashboard.html', {'products': products})
 
 @login_required
@@ -31,11 +33,15 @@ def add_product(request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             product = form.save(commit=False)
-            product.supplier = request.user  # Set the supplier field
+            product.supplier = request.user
             product.save()
-            return redirect('supplier_dashboard')  # Redirect to dashboard after saving
+            return redirect('supplier_dashboard')
+        else:
+            print(form.errors)  # Debug form errors
     else:
         form = ProductForm()
+
+
 
     return render(request, 'add_product.html', {'form': form})
 
