@@ -147,6 +147,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserUpdateForm, ProfileUpdateForm
+from django.contrib.auth import logout
+
 
 @login_required
 def update_profile(request):
@@ -160,11 +162,18 @@ def update_profile(request):
 
             if password:
                 user.set_password(password)
-            user.save()
-            profile_form.save()
+                user.save()  # Save user first to ensure password change
+                # Log the user out to force re-authentication after password change
+                logout(request)
+                messages.success(request, 'Your password has been changed. Please log in again.')
+                return redirect('login')
+            else:
+                user.save()  # Save user if no password change
 
+            profile_form.save()
             messages.success(request, 'Your profile has been updated successfully!')
-            return redirect('profile_view', profile_id=request.user.profile.id) 
+            return redirect('profile_view', profile_id=request.user.profile.id)  # Ensure 'profile_view' and 'profile_id' are correctly configured
+
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
