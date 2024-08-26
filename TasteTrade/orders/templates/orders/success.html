@@ -4,57 +4,57 @@
 {% block title %}Success{% endblock %}
 
 {% block content %}
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #FFFFFF;
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #FFFFFF;
+    }
 
-        .modal-content {
-            border-radius: 5px;
-            border: 1px solid #67594B;
-            background-color: #FAFAF5;
-        }
+    .modal-content {
+        border-radius: 5px;
+        border: 1px solid #67594B;
+        background-color: #FAFAF5;
+    }
 
-        .modal-header, .modal-footer {
-            border: none;
-            background-color: #FAFAF5;
-        }
+    .modal-header, .modal-footer {
+        border: none;
+        background-color: #FAFAF5;
+    }
 
-        .modal-header .close {
-            color: #67594B;
-            font-size: 24px;
-        }
+    .modal-header .close {
+        color: #67594B;
+        font-size: 24px;
+    }
 
-        .modal-body {
-            padding: 20px;
-            text-align: center;
-            color: #67594B;
-        }
+    .modal-body {
+        padding: 20px;
+        text-align: center;
+        color: #67594B;
+    }
 
-        .modal-footer {
-            padding: 20px;
-            text-align: center;
-        }
+    .modal-footer {
+        padding: 20px;
+        text-align: center;
+    }
 
-        .btn-primary {
-            background-color: #67594B; 
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
+    .btn-primary {
+        background-color: #67594B; 
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
 
-        .btn-primary:hover {
-            background-color: #3e2d28; 
-        }
+    .btn-primary:hover {
+        background-color: #3e2d28; 
+    }
 
-        .btn-primary:active {
-            background-color: #f5ece9; 
-        }
-    </style>
+    .btn-primary:active {
+        background-color: #f5ece9; 
+    }
+</style>
 <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content text-center">
@@ -76,17 +76,9 @@
   $(document).ready(function() {
     $('#successModal').modal('show');
 
-    // Capture the previous page URL
-    var previousPageUrl = document.referrer;
-
-    // Redirect to the previous page when the close button is clicked
     $('#closeButton').click(function() {
-      if (previousPageUrl) {
-        window.location.href = previousPageUrl;
-      } else {
-        // If no referrer is found, close the modal
-        $('#successModal').modal('hide');
-      }
+        // Redirect to the home page
+        window.location.href = '/home/';
     });
   });
 </script>
