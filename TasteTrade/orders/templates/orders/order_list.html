@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<div class="container mt-5">
+<!-- <div class="container mt-5">
     <h1 class="text-center mb-4">Your Orders</h1>
 
     <form method="GET" class="mb-4">
@@ -73,6 +73,129 @@
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
 
+
+<style>
+    /* Ensure all cards have the same height */
+    .card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Set the card-body to take up all available space, evenly distributing content */
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Customize the button appearance */
+    .btn-action,
+    .btn-filter {
+        background-color: #67594B;
+        border-color: #67594B;
+        color: white;
+    }
+
+    .btn-action:hover,
+    .btn-filter:hover {
+        background-color: #534b3d;
+        border-color: #534b3d;
+    }
+
+    /* Display buttons side by side */
+    .btn-group-vertical {
+        display: flex;
+        flex-direction: row; /* Display buttons side by side */
+        gap: 10px; /* Space between buttons */
+    }
+
+    /* Ensure each button takes up equal space */
+    .btn-group-vertical .btn {
+        flex: 1;
+        margin-right: 10px;
+    }
+
+    /* Remove margin from the last button */
+    .btn-group-vertical .btn:last-child {
+        margin-right: 0;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Orders</h1>
+
+    <form method="GET" class="mb-4">
+        <div class="form-row">
+            <div class="col-md-4">
+                <select name="status" class="form-control">
+                    <option value="">All Statuses</option>
+                    <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                    <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
+                    <option value="canceled" {% if request.GET.status == 'canceled' %}selected{% endif %}>Canceled</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-filter btn-primary">Filter</button>
+            </div>
+        </div>
+    </form>
+    
+    <div class="row">
+        {% for order in orders %}
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">Order #{{ order.order_number }}</h3>
+                        <p class="card-text">Product: {{ order.product.name }}</p>
+                        <p class="card-text">Total: ${{ order.total_price }}</p>
+                        <p class="card-text">
+                            Status: 
+                            <span class="badge 
+                                {% if order.status == 'in_progress' %}
+                                    badge-warning
+                                {% elif order.status == 'confirmed' %}
+                                    badge-info
+                                {% elif order.status == 'completed' %}
+                                    badge-success
+                                {% elif order.status == 'canceled' %}
+                                    badge-secondary
+                                {% else %}
+                                    badge-danger
+                                {% endif %}
+                            ">
+                                {{ order.get_status_display }}
+                            </span>
+                        </p>
+
+                        <div class="btn-group-vertical" role="group">
+                            {% if user_type == 'sup' %}
+                                {% if order.status == 'in_progress' %}
+                                    <a href="{% url 'reject_order' order.order_number %}" class="btn btn-action btn-danger mb-2">Reject</a>
+                                    <a href="{% url 'confirm_order' order.order_number %}" class="btn btn-action btn-success mb-3">Confirm</a>
+                                {% elif order.status == 'completed' %}
+                                    <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-action btn-primary">Review</a>
+                                {% endif %}
+                            {% elif user_type == 'bus' %}
+                                {% if order.status == 'completed' %}
+                                    <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-action btn-primary">Review</a>
+                                {% elif order.status == 'in_progress' %}
+                                    <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-action btn-warning mb-2">Cancel</a>
+                                {% elif order.status == 'confirmed' %}
+                                    <a href="{% url 'checkout_order' order.order_number %}" class="btn btn-action btn-success">Checkout</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No orders found.</p>
+        {% endfor %}
+    </div>  
+</div>
 {% endblock %}
