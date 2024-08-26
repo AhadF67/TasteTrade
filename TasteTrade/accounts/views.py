@@ -185,16 +185,54 @@ def update_profile(request):
     return render(request, 'accounts/edit_profile.html', context)
 
 @login_required
-def supplier_statistics(request):
-    # Group by date to get price income per date
-    price_income_data = Order.objects.annotate(order_date=TruncDate('created_at')).values('order_date').annotate(total_income=Sum('total_price')).order_by('order_date')
+def supplier_statistics(request: HttpRequest):
+    supplier = request.user
 
-    # Group by product to get quantity per order
-    orders_quantity_data = Order.objects.values('product__name').annotate(total_quantity=Sum('quantity')).order_by('product__name')
+    # Filter orders to include only those for the supplier
+    price_income_data = (
+        Order.objects.filter(product__supplier=supplier)
+        .annotate(order_date=TruncDate('created_at'))
+        .values('order_date')
+        .annotate(total_income=Sum('total_price'))
+        .order_by('order_date')
+    )
+
+    # Group by product to get quantity per product for the current supplier
+    orders_quantity_data = (
+        Order.objects.filter(product__supplier=supplier)
+        .values('product__name')
+        .annotate(total_quantity=Sum('quantity'))
+        .order_by('product__name')
+    )
+
+    # Calculate total sales for the current supplier
+    total_sales = (
+        Order.objects.filter(product__supplier=supplier)
+        .aggregate(total_sales=Sum('total_price'))['total_sales']
+    )
+
+    # Get top products by sales quantity
+    top_products = (
+        Order.objects.filter(product__supplier=supplier)
+        .values('product__name')
+        .annotate(total_quantity=Sum('quantity'))
+        .order_by('-total_quantity')[:5]  
+    )
+
+    # Get top customers 
+    top_customers = (
+        Order.objects.filter(product__supplier=supplier)
+        .values('user__profile__name')
+        .annotate(total_spending=Sum('total_price'))
+        .order_by('-total_spending')[:5] 
+    )
 
     context = {
         'price_income_data': price_income_data,
         'orders_quantity_data': orders_quantity_data,
+        'total_sales': total_sales,
+        'top_products': top_products,
+        'top_customers': top_customers,
     }
 
     return render(request, 'accounts/statics.html', context)
