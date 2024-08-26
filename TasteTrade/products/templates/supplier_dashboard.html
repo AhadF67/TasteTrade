@@ -145,11 +145,20 @@
         <div class="col-md-9">
             <div class="search-container">
                 <form method="GET" action="">
-                    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q|default:'' }}">
-                    <button type="submit" class="btn btn-light">Search</button>
+                    <div class="input-group">
+                        <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q|default:'' }}" class="form-control">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-light">
+                                <i class="fas fa-search"></i> <!-- Font Awesome search icon -->
+                            </button>
+                        </div>
+                    </div>
                 </form>
-                <a href="{% url 'add_product' %}" class="btn btn-light">Add new product</a>
-            </div>            
+                <a href="{% url 'add_product' %}" class="btn btn-light">
+                    <i class="fas fa-plus"></i> <!-- Font Awesome plus icon -->
+                </a>
+            </div>
+                    
             <div class="row">
                 {% for product in products %}
                 <div class="col-md-4 mb-4">
