@@ -40,7 +40,8 @@
 
   <hr>
   <footer class="footer bg-light py-5">
-    <div class="container d-flex flex-row" style="gap: 100px;">
+    <div class="footer-columns">
+    <div class="container d-flex flex-row" style="gap: 90px;">
       <div class="d-flex flex-column align-items-start">
         <div class="mb-4">
           <img src="{% static 'main/images/logo1.png' %}" alt="logo" width="60" height="40">
@@ -53,15 +54,35 @@
         </div>
       </div>
       
-      <div>
-        <h3>Links</h3>
-        <ul class="list-unstyled d-flex flex-column gap-3">
-          <li><a class="text-dark text-decoration-none" href="#">Shop</a></li>
-          <li><a class="text-dark text-decoration-none" href="#">Who We Are</a></li>
-          <li><a class="text-dark text-decoration-none" href="#">Contact Us</a></li>
+      <div class="footer-column" >
+        <h5>Links</h5>
+        <ul>
+          <li><a href="#">Shop</a></li>
+          <li><a href="#">Who We Are</a></li>
+          <li><a href="#">Contact Us</a></li>
         </ul>
       </div>
+      
+      <div class="footer-column">
+        <h5>About TasteTrade</h5>
+        <ul>
+            <li><a href="#">Our Story</a></li>
+            <li><a href="#">Meet the Team</a></li>
+            <li><a href="#">Sustainability</a></li>
+            <li><a href="#">Careers</a></li>
+        </ul>
     </div>
+    <div class="footer-column">
+        <h5>Support</h5>
+        <ul>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Shipping & Returns</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+        </ul>
+    </div>
+    </div>
+
   </footer>
   <style>
     html, body {
@@ -106,6 +127,48 @@ main {
   font-size: 30px;
   background: image()
 }
+.footer {
+  background-color: #f5f5f5;
+  padding: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  width: 100%;
+  }
+
+  .footer-columns {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .footer-column {
+    flex: 1;
+    min-width: 80px;
+  }
+
+  .footer-column h5 {
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .footer-column ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-column ul li {
+    margin-bottom: 5px;
+  }
+
+  .footer-column ul li a {
+    color: #6d4c41;
+    text-decoration: none;
+  }
+
+  .footer-column ul li a:hover {
+    text-decoration: underline;
+  }
   </style>
 </body>
 </html>
