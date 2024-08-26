@@ -8,6 +8,8 @@ class ContactUsForm(forms.Form):
     phone_number = forms.CharField(label='Phone Number', max_length=15, widget=forms.TextInput(attrs={'class': 'form-control'}))
     message = forms.CharField(label='Message...', widget=forms.Textarea(attrs={'class': 'form-control'}))
     
+from django import forms
+
 class ShippingForm(forms.Form):
     first_name = forms.CharField(label='First Name', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(label='Last Name', max_length=100, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -20,6 +22,7 @@ class PaymentForm(forms.Form):
     card_number = forms.CharField(label='Card Number', max_length=16, widget=forms.TextInput(attrs={'class': 'form-control'}))
     expiry_date = forms.CharField(label='Expiry Date (MM/YY)', max_length=5, widget=forms.TextInput(attrs={'class': 'form-control'}))
     cvv = forms.CharField(label='CVV', max_length=3, widget=forms.TextInput(attrs={'class': 'form-control'}))
+
 
 
 class ReviewForm(forms.ModelForm):

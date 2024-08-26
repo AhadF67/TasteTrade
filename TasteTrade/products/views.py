@@ -39,12 +39,16 @@ def is_supplier(user):
 
 
 @login_required
-#@user_passes_test(is_supplier)
 def supplier_dashboard(request):
+    query = request.GET.get('q')  # Get the search query from the request
     products = Product.objects.filter(supplier=request.user)
-    # Debugging: print the number of products
-    print(f"Number of products: {products.count()}")  
-    return render(request, 'supplier_dashboard.html', {'products': products})
+    
+    # Apply the search filter if there is a query
+    if query:
+        products = products.filter(name__icontains=query)
+    
+    return render(request, 'supplier_dashboard.html', {'products': products, 'query': query})
+
 
 @login_required
 #@user_passes_test(is_supplier)
@@ -102,6 +106,17 @@ def delete_product(request, product_id):
         return redirect('supplier_dashboard')
     return render(request, 'delete_products.html', {'product': product})
 
+DURATION_MULTIPLIERS_FIRST = {
+    'once_a_week': 1,
+    'twice_a_week': 2,
+}
+
+DURATION_MULTIPLIERS_SECOND = {
+    'one_month': 4,   # Assuming 4 weeks in a month
+    'two_months': 8,
+    'three_months': 12,
+}
+
 def order_product(request: HttpRequest, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
@@ -110,8 +125,18 @@ def order_product(request: HttpRequest, product_id):
             order = form.save(commit=False)
             order.product = product
             order.user = request.user
-            order.total_price = order.quantity * product.price  
-            order.order_number = get_random_string(length=10)  
+            
+            # Retrieve duration multipliers
+            duration_first = form.cleaned_data['duration_first']
+            duration_second = form.cleaned_data['duration_second']
+            multiplier_first = DURATION_MULTIPLIERS_FIRST[duration_first]
+            multiplier_second = DURATION_MULTIPLIERS_SECOND[duration_second]
+            
+            # Calculate total price
+            total = order.quantity * product.price * multiplier_first * multiplier_second
+            
+            order.total_price = total 
+            order.order_number = get_random_string(length=5)  
             order.save()
             return redirect('success')
 
