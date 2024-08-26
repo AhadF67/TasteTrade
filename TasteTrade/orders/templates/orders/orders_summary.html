@@ -1,0 +1,42 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block title %}Orders Summary{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Your Orders Summary</h1>
+
+    <div class="mb-4">
+        <h4>Total Paid: ${{ total_paid }}</h4>
+        <h4>Total Orders: {{ total_orders }}</h4>
+        <h4>Completed Orders: {{ completed_orders }}</h4>
+        <h4>Canceled Orders: {{ canceled_orders }}</h4>
+        <h4>In Progress Orders: {{ in_progress_orders }}</h4>
+        <h4>Confirmed Orders: {{ confirmed_orders }}</h4>
+    </div>
+
+    <div class="row">
+      {% for order in orders %}
+          <div class="col-md-3 mb-4">
+              <div class="card shadow-sm">
+                  <div class="card-body">
+                      <h3 class="card-title">Order #{{ order.order_number }}</h3>
+                      <p class="card-text">Product: {{ order.product.name }}</p>
+                      <p class="card-text">Total: ${{ order.total_price }}</p>
+                      <p class="card-text">Status: <span class="badge badge-info">{{ order.get_status_display }}</span></p>
+                  </div>
+              </div>
+          </div>
+      {% empty %}
+          <p class="text-center">No orders found.</p>
+      {% endfor %}
+  </div>  
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

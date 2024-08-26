@@ -184,7 +184,7 @@ def update_profile(request):
     }
     return render(request, 'accounts/edit_profile.html', context)
 
-
+@login_required
 def supplier_statistics(request):
     # Group by date to get price income per date
     price_income_data = Order.objects.annotate(order_date=TruncDate('created_at')).values('order_date').annotate(total_income=Sum('total_price')).order_by('order_date')
@@ -198,3 +198,11 @@ def supplier_statistics(request):
     }
 
     return render(request, 'accounts/statics.html', context)
+
+@login_required
+def order_list_for_pdf(request: HttpRequest):
+    orders = Order.objects.filter(user=request.user)
+    context = {
+        'orders': orders
+    }
+    return render(request, 'accounts/pdf_contract.html', context)

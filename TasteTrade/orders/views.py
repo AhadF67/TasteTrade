@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Order
+from .models import Order, Review
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from .models import Review
+from django.http import HttpResponse, HttpRequest
 from .forms import ReviewForm
 from accounts.models import Profile
 from products.models import Product
-
 from django.db.models import Q
+from fpdf import FPDF
+from PyPDF2 import PdfWriter, PdfReader
+import os
 
 @login_required
 def order_list(request):
@@ -145,16 +146,39 @@ def checkout_order(request, order_number):
 
 from django.shortcuts import render, redirect
 from .forms import ContactUsForm
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from .forms import ContactUsForm
 
 def contact_us(request):
     if request.method == 'POST':
         form = ContactUsForm(request.POST)
         if form.is_valid():
-            # Process the form data (e.g., send an email)
-            return redirect('success')  # Redirect to a success page or any other page
+            # Get the cleaned data from the form
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            phone_number = form.cleaned_data['phone_number']
+            message = form.cleaned_data['message']
+
+            # Construct the email subject and message
+            subject = f"New Contact Us Message from {name}"
+            message_body = f"Name: {name}\nEmail: {email}\nPhone Number: {phone_number}\nMessage: {message}"
+
+            # Send the email
+            send_mail(
+                subject,
+                message_body,
+                'BlueHuawei67_@outlook.com',  # From email (use your own email here)
+                ['TasteTrade0@gmail.com'],  # To email
+                fail_silently=False,
+            )
+
+            # Redirect to a success page
+            return redirect('send_success')  # Make sure you have a 'success' URL or page defined
     else:
         form = ContactUsForm()
     return render(request, 'orders/contact_us.html', {'form': form})
+
 
 def success(request):
     return render(request, 'orders/success.html')
@@ -277,3 +301,72 @@ def review_view(request, order_number, name):
         raise Http404("User type not recognized.")
 
     return render(request, template_name, context)
+
+
+def generate_contract_pdf(request: HttpRequest, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    supplier_profile = Profile.objects.get(user=order.product.supplier)
+    business_profile = Profile.objects.get(user=order.user)
+
+    pdf = FPDF()
+    pdf.add_page()
+    
+    
+    logo_path = os.path.join('orders/static/images/logo1.png')
+    pdf.image(logo_path, x=10, y=8, w=30) 
+
+    pdf.ln(30)
+
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(200, 10, f"Contract for Order #{order.order_number}", ln=True, align='C')
+    pdf.ln(10)
+
+    # Supplier Information
+    pdf.set_font('Arial', 'B', 12)
+    pdf.cell(200, 10, "Supplier Information:", ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.cell(200, 10, f"Name: {supplier_profile.name}", ln=True)
+    pdf.cell(200, 10, f"Phone Number: {supplier_profile.phone_number}", ln=True)
+    pdf.cell(200, 10, f"Rating: {supplier_profile.rating}", ln=True)
+    pdf.ln(10)
+
+    # Business Information
+    pdf.set_font('Arial', 'B', 12)
+    pdf.cell(200, 10, "Business Information:", ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.cell(200, 10, f"Name: {business_profile.name}", ln=True)
+    pdf.cell(200, 10, f"Phone Number: {business_profile.phone_number}", ln=True)
+    pdf.ln(10)
+
+    # Order Information
+    pdf.set_font('Arial', 'B', 12)
+    pdf.cell(200, 10, "Order Information:", ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.cell(200, 10, f"Product: {order.product.name}", ln=True)
+    pdf.cell(200, 10, f"Quantity: {order.quantity}", ln=True)
+    pdf.cell(200, 10, f"Total Price: {order.total_price} SR", ln=True)
+    pdf.cell(200, 10, f"Frequency: {order.get_duration_first_display()}", ln=True)
+    pdf.cell(200, 10, f"Duration: {order.get_duration_second_display()}", ln=True)
+    pdf.ln(10)
+
+    # Terms and Conditions
+    pdf.set_font('Arial', 'B', 12)
+    pdf.cell(200, 10, "Terms and Conditions:", ln=True)
+    pdf.set_font('Arial', '', 12)
+    pdf.multi_cell(0, 10, "1. The product will be delivered according to the selected frequency and duration.\n"
+                          "2. The business owner agrees to pay the total amount upon delivery.\n"
+                          "3. Any cancellations must be communicated 24 hours before the scheduled delivery.\n")
+
+    pdf_file_path = "/tmp/contract.pdf"
+    pdf.output(pdf_file_path)
+
+    reader = PdfReader(pdf_file_path)
+    writer = PdfWriter()
+    for page in reader.pages:
+        writer.add_page(page)
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="contract_{order.order_number}.pdf"'
+    writer.write(response)
+
+    return response
