@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Category
 from orders.models import Order
 
 
@@ -58,4 +58,12 @@ class OrderForm(forms.ModelForm):
         fields = ['quantity', 'duration_first', 'duration_second']
         widgets = {
             'quantity': forms.NumberInput(attrs={'min': 1, 'max': 100, 'class': 'form-control'}),
+        }
+        
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Category Name'})
         }
