@@ -322,9 +322,13 @@ def review_view(request, order_number, name):
 
     return render(request, template_name, context)
 
+import tempfile
 
-def generate_contract_pdf(request: HttpRequest, order_id):
+
+@login_required
+def generate_contract_pdf(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    
     try:
         supplier_profile = Profile.objects.get(user=order.product.supplier)
     except Profile.DoesNotExist:
@@ -334,14 +338,11 @@ def generate_contract_pdf(request: HttpRequest, order_id):
         business_profile = Profile.objects.get(user=order.user)
     except Profile.DoesNotExist:
         raise Http404("Business profile not found.")
-    order = get_object_or_404(Order, id=order_id)
-    supplier_profile = Profile.objects.get(user=order.product.supplier)
-    business_profile = Profile.objects.get(user=order.user)
 
     pdf = FPDF()
     pdf.add_page()
     
-    
+    # Add logo
     logo_path = os.path.join('orders/static/images/logo1.png')
     pdf.image(logo_path, x=10, y=8, w=30) 
 
@@ -387,9 +388,12 @@ def generate_contract_pdf(request: HttpRequest, order_id):
                           "2. The business owner agrees to pay the total amount upon delivery.\n"
                           "3. Any cancellations must be communicated 24 hours before the scheduled delivery.\n")
 
-    pdf_file_path = "/tmp/contract.pdf"
-    pdf.output(pdf_file_path)
-
+    # Use tempfile to create a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as temp_file:
+        pdf_file_path = temp_file.name
+        pdf.output(pdf_file_path)
+    
+    # Read and serve the PDF file
     reader = PdfReader(pdf_file_path)
     writer = PdfWriter()
     for page in reader.pages:
@@ -398,5 +402,8 @@ def generate_contract_pdf(request: HttpRequest, order_id):
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="contract_{order.order_number}.pdf"'
     writer.write(response)
-
+    
+    # Clean up the temporary file
+    os.remove(pdf_file_path)
+    
     return response
