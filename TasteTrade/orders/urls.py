@@ -23,9 +23,6 @@ urlpatterns = [
 
     path('review-summary/<str:supplier_name>/', views.review_summary, name='review_summary'),
 
-    #path('review-sup/<int:order_number>/<str:supplier_name>/', views.review_sup_pop, name='review_sup'),
-    
-    #path('review-bus/', views.review_bus_pop, name='review_bus'),
 
     path('orders_summary/', views.orders_summary, name='orders_summary'),
 

@@ -15,27 +15,37 @@ def order_list(request):
     user_profile = Profile.objects.get(user=request.user)
     user_type = user_profile.user_type
 
-    # Get the selected status from the request
+    # Get the selected status and sort order from the request
     selected_status = request.GET.get('status', '')
+    sort_order = request.GET.get('sort', 'desc')  # Default to descending (newest first)
 
     if user_type == 'sup':
-        # Get the products that belong to the supplier
         supplier_products = Product.objects.filter(supplier=request.user)
-        # Filter orders based on these products
         orders = Order.objects.filter(product__in=supplier_products)
     else:
-        # If the user is a business owner, show their own orders
         orders = Order.objects.filter(user=request.user)
+
+    # Exclude canceled orders by default
+    if not selected_status:
+        orders = orders.exclude(status='canceled')
 
     # Apply status filter if one is selected
     if selected_status:
         orders = orders.filter(status=selected_status)
 
+    # Apply sorting based on the selected sort order
+    if sort_order == 'asc':
+        orders = orders.order_by('created_at')
+    else:
+        orders = orders.order_by('-created_at')
+
     return render(request, 'orders/order_list.html', {
         'orders': orders,
         'user_type': user_type,
         'selected_status': selected_status,
+        'sort_order': sort_order,
     })
+
 
 def orders_summary(request):
     user = request.user
@@ -110,6 +120,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import ShippingForm, PaymentForm
 from .models import Order
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .forms import ShippingForm, PaymentForm
+from .models import Order
+
 @login_required
 def checkout_order(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
@@ -119,9 +134,6 @@ def checkout_order(request, order_number):
         payment_form = PaymentForm(request.POST, prefix='payment')
         
         if shipping_form.is_valid() and payment_form.is_valid():
-            # Debug: Check if forms are valid and data is being processed
-            print("Forms are valid. Processing the data...")
-
             # Process shipping form data
             shipping_data = shipping_form.cleaned_data
             order.shipping_address = shipping_data.get('address')
@@ -141,13 +153,9 @@ def checkout_order(request, order_number):
             order.status = 'completed'
             order.save()
 
-            # Debug: Check if order status is being updated
-            print(f"Order status updated to: {order.status}")
-
-            # Redirect to the order list page
             return redirect('order_list')
         else:
-            # Debug: Check which form is invalid
+            # Print errors if forms are invalid
             print("Invalid form data")
             print(shipping_form.errors)
             print(payment_form.errors)
@@ -159,8 +167,11 @@ def checkout_order(request, order_number):
         'shipping_form': shipping_form,
         'payment_form': payment_form,
         'order_number': order_number, 
-        'order': order
+        'order': order,
+        'shipping_errors': shipping_form.errors,
+        'payment_errors': payment_form.errors,
     })
+
 
 
 
