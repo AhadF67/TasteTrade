@@ -65,7 +65,7 @@ def delete_product(request, product_id):
     if request.method == 'POST':
         product.delete()
         return redirect('supplier_dashboard')
-    return render(request, 'delete_product.html', {'product': product})
+    return render(request, 'delete_products.html', {'product': product})
 
 
 
