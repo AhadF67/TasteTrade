@@ -27,7 +27,6 @@ def supplier_dashboard(request):
     return render(request, 'supplier_dashboard.html', {'products': products})
 
 @login_required
-#@user_passes_test(is_supplier)
 def add_product(request):
     if request.method == "POST":
         form = ProductForm(request.POST, request.FILES)
@@ -40,8 +39,6 @@ def add_product(request):
             print(form.errors)  # Debug form errors
     else:
         form = ProductForm()
-
-
 
     return render(request, 'add_product.html', {'form': form})
 
