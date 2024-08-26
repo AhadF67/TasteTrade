@@ -146,16 +146,39 @@ def checkout_order(request, order_number):
 
 from django.shortcuts import render, redirect
 from .forms import ContactUsForm
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from .forms import ContactUsForm
 
 def contact_us(request):
     if request.method == 'POST':
         form = ContactUsForm(request.POST)
         if form.is_valid():
-            # Process the form data (e.g., send an email)
-            return redirect('success')  # Redirect to a success page or any other page
+            # Get the cleaned data from the form
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            phone_number = form.cleaned_data['phone_number']
+            message = form.cleaned_data['message']
+
+            # Construct the email subject and message
+            subject = f"New Contact Us Message from {name}"
+            message_body = f"Name: {name}\nEmail: {email}\nPhone Number: {phone_number}\nMessage: {message}"
+
+            # Send the email
+            send_mail(
+                subject,
+                message_body,
+                'BlueHuawei67_@outlook.com',  # From email (use your own email here)
+                ['TasteTrade0@gmail.com'],  # To email
+                fail_silently=False,
+            )
+
+            # Redirect to a success page
+            return redirect('send_success')  # Make sure you have a 'success' URL or page defined
     else:
         form = ContactUsForm()
     return render(request, 'orders/contact_us.html', {'form': form})
+
 
 def success(request):
     return render(request, 'orders/success.html')
