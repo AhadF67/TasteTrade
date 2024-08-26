@@ -169,12 +169,16 @@
         </div>
         <div class="buttons">
             <button class="button">Orders Summary</button>
+
             <a href="{% url 'review_summary' profile.user.profile.name %}">
                 <button class="button">Reviews Summary</button>
             </a> 
             <a href="{% url 'order_list_for_pdf' %}">
               <button class="button">PDF Contracts</button>
-            </a>           
+            </a>  
+            <a href="{% url 'orders_summary' %}">
+              <button class="button">Orders Summary</button>
+            </a>          
         </div>
     </div>
  

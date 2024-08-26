@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpRequest
 from .forms import ReviewForm
 from accounts.models import Profile
 from products.models import Product
-from django.db.models import Q
+from django.db.models import Q, Sum
 from fpdf import FPDF
 from PyPDF2 import PdfWriter, PdfReader
 import os
@@ -37,6 +37,28 @@ def order_list(request):
         'selected_status': selected_status,
     })
 
+def orders_summary(request):
+    user = request.user
+    orders = Order.objects.filter(user=user)
+    
+    total_paid = orders.aggregate(Sum('total_price'))['total_price__sum'] or 0
+    total_orders = orders.count()
+    completed_orders = orders.filter(status='completed').count()
+    canceled_orders = orders.filter(status='canceled').count()
+    in_progress_orders = orders.filter(status='in_progress').count()
+    confirmed_orders = orders.filter(status='confirmed').count()
+    
+    context = {
+        'orders': orders,
+        'total_paid': total_paid,
+        'total_orders': total_orders,
+        'completed_orders': completed_orders,
+        'canceled_orders': canceled_orders,
+        'in_progress_orders': in_progress_orders,
+        'confirmed_orders': confirmed_orders,
+    }
+    
+    return render(request, 'orders/orders_summary.html', context)
 
 from django.shortcuts import redirect, get_object_or_404
 from .models import Order
@@ -219,15 +241,6 @@ def reject_pop(request):
 
 from django.shortcuts import render
 
-#def review_sup_pop(request, order_number, supplier_name):
-    #return render(request, 'orders/review_sup.html', {
-        #'order_number': order_number,
-        #'supplier_name': supplier_name
-    #})
-
-
-#def review_bus_pop(request):
-    #return render(request, 'orders/review_bus.html')
 
 from django.shortcuts import redirect
 from django.contrib import messages

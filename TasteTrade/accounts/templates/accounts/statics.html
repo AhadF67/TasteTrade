@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 {% load static %}
 
-{% block title %}Statics Page{% endblock %}
+{% block title %}Statistics Page{% endblock %}
 
 {% block content %}
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -9,24 +9,77 @@
 <div class="container mt-5">
   <h2 class="mb-4 text-center">Statistics</h2>
 
+  <!-- Total Sales -->
+  <div class="d-flex justify-content-center">
+    <div class="card m-5" style="width: 700px;">
+        <div class="card-header text-center">
+            Total Sales
+        </div>
+        <div class="card-body text-center">
+            <h3>${{ total_sales|floatformat:2 }}</h3>
+        </div>
+    </div>
+  </div>
+
+  <!-- Top Products and Customers -->
+  <div class="d-flex justify-content-center">
+    <!-- Top Products -->
+    <div class="card m-5" style="width: 700px;">
+        <div class="card-header">
+            Top Products by Quantity Sold
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for product in top_products %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ product.product__name }}
+                        <span class="badge badge-primary badge-pill">{{ product.total_quantity }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Top Customers -->
+    <div class="card m-5" style="width: 700px;">
+        <div class="card-header">
+            Top Customers by Total Spending
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for customer in top_customers %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ customer.user__profile__name }}
+                        <span class="badge badge-primary badge-pill">${{ customer.total_spending|floatformat:2 }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+  </div>
+
   <!-- Income Chart -->
-  <div class="card m-5">
-      <div class="card-header">
-          Price Income Based on Order Price and Date
-      </div>
-      <div class="card-body">
-          <canvas id="incomeChart"></canvas>
-      </div>
+  <div class="d-flex justify-content-center">
+    <div class="card m-5" style="width: 700px; height: 450px;">
+        <div class="card-header text-center">
+            Price Income Based on Order Price and Date
+        </div>
+        <div class="card-body">
+            <canvas id="incomeChart"></canvas>
+        </div>
+    </div>
   </div>
 
   <!-- Orders Quantity Chart -->
-  <div class="card m-5">
-      <div class="card-header">
-          Orders Quantity Based on Product
-      </div>
-      <div class="card-body">
-          <canvas id="ordersChart"></canvas>
-      </div>
+  <div class="d-flex justify-content-center">
+    <div class="card m-5" style="width: 700px; height: 450px;">
+        <div class="card-header text-center">
+            Orders Quantity Based on Product
+        </div>
+        <div class="card-body">
+            <canvas id="ordersChart"></canvas>
+        </div>
+    </div>
   </div>
 </div>
 
@@ -70,7 +123,7 @@
       }
   });
 
-  // Prepare data for the orders quantity chart
+  // Prepare data for the orders quantity chart (pie chart)
   var ordersLabels = [
       {% for data in orders_quantity_data %}
           "{{ data.product__name }}",
@@ -82,24 +135,39 @@
       {% endfor %}
   ];
 
-  // Orders Quantity Chart
+  // Orders Quantity Chart (Pie)
   var ordersCtx = document.getElementById('ordersChart').getContext('2d');
   var ordersChart = new Chart(ordersCtx, {
-      type: 'bar',
+      type: 'pie',
       data: {
           labels: ordersLabels,
           datasets: [{
               label: 'Quantity Ordered',
               data: ordersData,
-              backgroundColor: 'rgba(255, 99, 132, 0.2)',
-              borderColor: 'rgba(255, 99, 132, 1)',
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
               borderWidth: 1
           }]
       },
       options: {
-          scales: {
-              y: {
-                  beginAtZero: true
+          responsive: true,
+          plugins: {
+              legend: {
+                  position: 'top',
               }
           }
       }
