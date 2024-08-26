@@ -1,16 +1,13 @@
 {% extends "main/base.html" %}
-
 {% load static %}
-{% block title %}Supplier Dashboard{% endblock %}
+
+{% block title %}Dashboard{% endblock %}
+
 {% block content %}
-
-
-    <title>Explore Products</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+            background-color: #FFFFFF;
             margin: 0;
             padding: 0;
         }
@@ -97,13 +94,50 @@
             padding: 10px 0;
         }
 
+        .footer {
+            background-color: #f5f5f5;
+            padding: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer-columns {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer-column {
+            width: 30%;
+        }
+
+        .footer-column h5 {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 5px;
+        }
+
+        .footer-column ul li a {
+            color: #6d4c41;
+            text-decoration: none;
+        }
+
+        .footer-column ul li a:hover {
+            text-decoration: underline;
+        }
+
         .action-icons {
             display: flex;
             justify-content: space-between;
         }
     </style>
-</head>
-<body>
 
     <!-- Main content -->
     <div class="container-fluid">
@@ -114,8 +148,6 @@
                 <a href="{% url 'add_product' %}" class="btn btn-light">Add new product</a>
             </div>
             <div class="row">
-                {% if products %}
-
                 {% for product in products %}
                 <div class="col-md-4 mb-4">
                     <div class="product-container">
@@ -136,17 +168,10 @@
                         </div>
                     </div>
                 </div>
-            
                 {% endfor %}
-                {% else %}
-                    <p>No products found. Please add a product.</p>
-                {% endif %}
-
             </div>
         </div>
     </div>
-
-    
 
     <script>
         const rangeInput = document.getElementById('priceRange');
@@ -156,6 +181,4 @@
             priceValue.textContent = rangeInput.value;
         });
     </script>
-</body>
-</html>
 {% endblock %}

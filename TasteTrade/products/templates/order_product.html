@@ -4,135 +4,136 @@
 {% block title %}Order Product{% endblock %}
 
 {% block content %}
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+    }
 
-        .header {
-            background-color: #f5f5f5;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #e0e0e0;
-        }
+    .header {
+        background-color: #f5f5f5;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 1px solid #e0e0e0;
+    }
 
-        .header img {
-            height: 80px;
-        }
+    .header img {
+        height: 80px;
+    }
 
-        .product-container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-            margin-top: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-        }
+    .product-container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+    }
 
-        .product-image {
-            width: 40%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid #ddd;
-            background-color: #f0f0f0;
-        }
+    .product-image {
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #ddd;
+        background-color: #f0f0f0;
+    }
 
-        .product-image img {
-            max-width: 100%;
-            max-height: 100%;
-        }
+    .product-image img {
+        max-width: 100%;
+        max-height: 100%;
+    }
 
-        .product-info {
-            width: 55%;
-        }
+    .product-info {
+        width: 55%;
+    }
 
-        .product-info h3 {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+    .product-info h3 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
 
-        .product-info p {
-            margin-bottom: 10px;
-        }
+    .product-info p {
+        margin-bottom: 10px;
+    }
 
-        .form-group {
-            margin-bottom: 15px;
-        }
+    .form-group {
+        margin-bottom: 15px;
+    }
 
-        .btn-place-order {
-            background-color: #6d4c41;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .dropdowns-container {
+        display: flex;
+        gap: 20px;
+    }
 
-        .btn-place-order:hover {
-            background-color: #5a3a32;
-        }
-    </style>
-    <!-- Header -->
-    <div class="header">
-        <img src="{% static 'logo.png' %}" alt="Logo">
-    </div>
+    .btn-place-order {
+        background-color: #6d4c41;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-    <!-- Product Container -->
-    <div class="container">
-        <div class="product-container">
-            <!-- Image Section -->
-            <div class="product-image">
-                {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                {% else %}
-                <img src="{% static 'images/default-product.png' %}" alt="Product Image">
-                {% endif %}
-            </div>
+    .btn-place-order:hover {
+        background-color: #5a3a32;
+    }
+</style>
 
-            <!-- Product Info Section -->
-            <div class="product-info">
-                <h3>{{ product.name }}</h3>
-                <p>{{ product.price }} SR</p>
+<!-- Product Container -->
+<div class="container">
+    <div class="product-container">
+        <!-- Image Section -->
+        <div class="product-image">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+            <img src="{% static 'images/default-product.png' %}" alt="Product Image">
+            {% endif %}
+        </div>
 
-                <form method="POST" novalidate>
-                    {% csrf_token %}
-                    <div class="form-group">
-                        {{ form.quantity.label_tag }} {{ form.quantity }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.category.label_tag }} {{ form.category }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.expiry_date.label_tag }} {{ form.expiry_date }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.description.label_tag }} {{ form.description }}
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="total">Total</label>
-                        <input type="text" id="total" value="{{ initial_total }}" class="form-control" disabled>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-place-order">Place Order</button>
-                </form>
+        <!-- Product Info Section -->
+        <div class="product-info">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }} SR</p>
+
+            <form method="POST" novalidate>
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.quantity.label_tag }} {{ form.quantity }}
+                </div>
                 
-            </div>
+                <div class="dropdowns-container">
+                    <div class="form-group">
+                        {{ form.duration_first.label_tag }} {{ form.duration_first }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.duration_second.label_tag }} {{ form.duration_second }}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="total">Total</label>
+                    <input type="text" id="total" value="{{ initial_total }}" class="form-control" disabled>
+                </div>
+                
+                <button type="submit" class="btn btn-place-order">Place Order</button>
+            </form>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const quantityInput = document.querySelector('#id_quantity');
-            const totalInput = document.querySelector('#total');
-            const pricePerItem = parseFloat('{{ product.price }}') || 0;
-        
-            quantityInput.addEventListener('input', function() {
-                const quantity = parseInt(quantityInput.value) || 1;
-                totalInput.value = (quantity * pricePerItem).toFixed(2);
-            });
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const quantityInput = document.querySelector('#id_quantity');
+        const totalInput = document.querySelector('#total');
+        const pricePerItem = parseFloat('{{ product.price }}') || 0;
+    
+        quantityInput.addEventListener('input', function() {
+            const quantity = parseInt(quantityInput.value) || 1;
+            totalInput.value = (quantity * pricePerItem).toFixed(2);
         });
-    </script>
+    });
+</script>
 {% endblock %}

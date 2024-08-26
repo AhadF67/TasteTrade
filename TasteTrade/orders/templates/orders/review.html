@@ -1,3 +1,4 @@
+<!-- review.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,6 +143,10 @@
                     {% csrf_token %}
                     <input type="hidden" name="order_number" value="{{ order_number }}">
                     <input type="hidden" name="supplier_name" value="{{ name }}">
+                    
+                    <!-- Add the hidden rating input here -->
+                    <input type="hidden" name="rating" value="">
+                
                     <div class="modal-body">
                         <div class="details">
                             <div class="label">Order:</div>
@@ -168,7 +173,7 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
-                </form>
+                </form>                
             </div>
         </div>
     </div>
@@ -184,8 +189,9 @@
                 for (var i = 1; i <= rating; i++) {
                     $('.rating .fa-star[data-value="' + i + '"]').addClass('filled');
                 }
-                $('input[name="rating"]').val(rating);
+                $('input[name="rating"]').val(rating);  // Update hidden input value
             });
+            
 
             $('#orderNumber').text('{{ order_number }}');
             $('#name').text('{{ name }}');

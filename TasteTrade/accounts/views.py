@@ -13,6 +13,7 @@ from django.conf import settings
 from django.templatetags.static import static
 from django.contrib.auth.decorators import login_required, user_passes_test
 from products.models import Product
+
 from orders.models import Order
 from django.db.models import Sum, Count
 from django.db.models.functions import TruncDate
@@ -29,14 +30,24 @@ def signup_Bus(request):
                 user = form.save(commit=False)
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-                profile = Profile.objects.create(user=user, name=user.username, user_type='bus',image=user)
+
+                # Handle image upload
+                image = request.FILES.get('image', None)
+
+                profile = Profile.objects.create(
+                    user=user, 
+                    name=user.username, 
+                    user_type='bus',
+                    image=image  # Assign the image if available, otherwise None
+                )
                 logging.info(f"Profile created for user {user.username} with ID {profile.id}")
                 return redirect('success')
             except Exception as e:
                 logging.error(f"Error creating profile for user {user.username}: {str(e)}")
                 messages.error(request, "There was an error creating your profile. Please try again.")
         else:
-            logging.warning("Form is not valid.")
+            logging.warning(f"Form is not valid. Errors: {form.errors}")
+            messages.error(request, "Please correct the errors below.")
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Bus.html', {'form': form})
@@ -46,14 +57,23 @@ def signup_Sup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            Profile.objects.create(user=user, name=user.username, user_type='sup')
-            return redirect('success')
+            try:
+                user = form.save(commit=False)
+                user.set_password(form.cleaned_data['password'])
+                user.save()
+                Profile.objects.create(user=user, name=user.username, user_type='sup')
+                logging.info(f"Profile created for user {user.username}")
+                return redirect('success')
+            except Exception as e:
+                logging.error(f"Error creating profile for user {user.username}: {str(e)}")
+                messages.error(request, "There was an error creating your profile. Please try again.")
+        else:
+            logging.warning(f"Form is not valid. Errors: {form.errors}")
+            messages.error(request, "Please correct the errors below.")
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Sup.html', {'form': form})
+
 
 
 def login_view(request: HttpRequest):
@@ -127,6 +147,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserUpdateForm, ProfileUpdateForm
+from django.contrib.auth import logout
+
 
 @login_required
 def update_profile(request):
@@ -140,11 +162,18 @@ def update_profile(request):
 
             if password:
                 user.set_password(password)
-            user.save()
-            profile_form.save()
+                user.save()  # Save user first to ensure password change
+                # Log the user out to force re-authentication after password change
+                logout(request)
+                messages.success(request, 'Your password has been changed. Please log in again.')
+                return redirect('login')
+            else:
+                user.save()  # Save user if no password change
 
+            profile_form.save()
             messages.success(request, 'Your profile has been updated successfully!')
-            return redirect('profile_view', profile_id=request.user.profile.id) 
+            return redirect('profile_view', profile_id=request.user.profile.id)  # Ensure 'profile_view' and 'profile_id' are correctly configured
+
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
@@ -155,7 +184,7 @@ def update_profile(request):
     }
     return render(request, 'accounts/edit_profile.html', context)
 
-
+@login_required
 def supplier_statistics(request):
     # Group by date to get price income per date
     price_income_data = Order.objects.annotate(order_date=TruncDate('created_at')).values('order_date').annotate(total_income=Sum('total_price')).order_by('order_date')
@@ -169,3 +198,11 @@ def supplier_statistics(request):
     }
 
     return render(request, 'accounts/statics.html', context)
+
+@login_required
+def order_list_for_pdf(request: HttpRequest):
+    orders = Order.objects.filter(user=request.user)
+    context = {
+        'orders': orders
+    }
+    return render(request, 'accounts/pdf_contract.html', context)

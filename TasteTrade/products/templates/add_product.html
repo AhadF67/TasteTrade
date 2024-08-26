@@ -1,5 +1,10 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,14 +18,32 @@
 
         .form-container {
             max-width: 800px;
-            margin: 50px auto;
+            margin: 20px auto;
             padding: 20px;
             background-color: #FFFFFF;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+        }
+
+        .form-content {
+            width: 70%;
+            padding-right: 30px;
+        }
+
+        .image-upload-container {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            padding-top: 30px;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            height: 100%;
+            margin-top: 170px;
+            order: 2; 
         }
 
         .form-field {
@@ -78,17 +101,6 @@
             font-size: 24px;
         }
 
-        .image-upload-container {
-            width: 30%;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .form-content {
-            width: 70%;
-            padding-left: 30px;
-        }
-
         .upload-button {
             margin-top: 10px;
             padding: 6px 12px;
@@ -132,60 +144,66 @@
             color: #67594B;
             text-decoration: none;
             font-size: 14px;
+
         }
 
         .back-link:hover {
             text-decoration: underline;
         }
+
+        .form-container {
+            display: flex;
+            flex-wrap: nowrap;
+        }
     </style>
 </head>
+
 <body>
     <div class="form-container">
-        <div class="image-upload-container">
-            <img id="image-preview" class="image-preview" src="#" alt="Image Preview">
-            <input type="file" id="image-upload" accept="image/*">
-            <button type="button" class="upload-button" onclick="document.getElementById('image-upload').click();">Upload Image</button>
-        </div>
-        <div class="form-content">
-            <h2>Add Product</h2>
-            <form id="product-form" method="POST" enctype="multipart/form-data" action="{% url 'add_product' %}">
-                {% csrf_token %}
+        <form id="product-form" method="POST" enctype="multipart/form-data" style="display: flex; flex: 1;">
+            {% csrf_token %}
+            <div class="form-content">
+                <h2>Add Product</h2>
                 <div class="form-field">
-                    <label for="name"></label>
+                    <label for="name">Product Name</label>
                     <input type="text" id="name" name="name" placeholder="Enter product name" required>
                 </div>
                 <div class="form-field-inline">
                     <div class="form-field">
-                        <label for="price"></label>
+                        <label for="price">Price</label>
                         <input type="number" id="price" name="price" placeholder="Enter price" required>
                     </div>
                     <div class="form-field">
-                        <label for="quantity"></label>
+                        <label for="quantity">Quantity</label>
                         <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" required>
                     </div>
                 </div>
                 <div class="form-field">
-                    <label for="category"></label>
+                    <label for="category">Category</label>
                     <select id="category" name="category" required>
                         <option value="">Select category</option>
-
-                        {% for category in categories %}
-                        <option value="{{ category.id }}">{{ category.name }}</option>
-                    {% endfor %}  
+                        <option value="Baked Goods">Baked Goods</option>
+                        <option value="Desserts">Desserts</option>
+                        <option value="Coffee">Coffee</option>
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="description"></label>
+                    <label for="description">Description</label>
                     <textarea id="description" name="description" placeholder="Enter product description" required></textarea>
                 </div>
                 <div class="form-field">
-                    <label for="expiry-date"></label>
-                    <input type="date" id="expiry-date" name="expiry_date" placeholder="Enter expiry date" required>
+                    <label for="expiry-date">Expiry Date</label>
+                    <input type="date" id="expiry-date" name="expiry_date" required>
                 </div>
-                <button type="submit" id="add-product-btn">Add Product</button>
-            </form>
-            <a href="{% url 'supplier_dashboard' %}" class="back-link">Back to Dashboard</a>
-        </div>
+                <button type="submit">Add Product</button>
+                <a href="{% url 'supplier_dashboard' %}" class="back-link">Back to Dashboard</a>
+            </div>
+            <div class="image-upload-container">
+                <img id="image-preview" class="image-preview" src="{{ image_url }}" alt="Image Preview">
+                <input type="file" id="image-upload" accept="image/*" name="image">
+                <button type="button" class="upload-button" onclick="document.getElementById('image-upload').click();">Upload Image</button>
+            </div>
+        </form>
     </div>
 
     <script>
@@ -201,11 +219,9 @@
                 document.getElementById('image-preview').src = '';
             }
         });
-
-        document.getElementById('add-product-btn').addEventListener('click', function() {
-            // Replace the URL with the actual dashboard URL if needed
-            window.location.href = "{% url 'supplier_dashboard' %}";
-        });
     </script>
 </body>
+
 </html>
+
+{% endblock %}

@@ -2,10 +2,14 @@
 from django import forms
 from django.contrib.auth.models import User
 from django import forms
+from .models import Profile
+from django.core.validators import RegexValidator
+
 
 class UserForm(forms.ModelForm):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput())
+
 
     class Meta:
         model = User
@@ -26,22 +30,28 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput())
 
-
-from django import forms
-from .models import Profile
-
 class ProfileUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['name', 'image']  
+      phone_number = forms.CharField(
+        validators=[
+            RegexValidator(
+                regex=r'^0\d{7,14}$',
+            )
+        ],
+        max_length=15,
+        required=False,
+        help_text='Enter a phone number starting with 0 (between 8 to 15 digits).'
+    )
+      class Meta:
+
+       model = Profile
+       fields = ['name', 'image', 'phone_number']  
 
 
-from django.contrib.auth.models import User
-from django import forms
 
 class UserUpdateForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(), required=False, label="New Password")
     password_confirm = forms.CharField(widget=forms.PasswordInput(), required=False, label="Confirm New Password")
+
 
     class Meta:
         model = User

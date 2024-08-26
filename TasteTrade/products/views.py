@@ -4,6 +4,9 @@ from .forms import ProductForm, OrderForm, CategoryForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.crypto import get_random_string
 
+from django.http import HttpRequest
+
+
 # Create your views here.
 
 def product_list(request):
@@ -39,6 +42,8 @@ def is_supplier(user):
 #@user_passes_test(is_supplier)
 def supplier_dashboard(request):
     products = Product.objects.filter(supplier=request.user)
+    # Debugging: print the number of products
+    print(f"Number of products: {products.count()}")  
     return render(request, 'supplier_dashboard.html', {'products': products})
 
 @login_required
@@ -66,7 +71,9 @@ def add_product(request):
             product = form.save(commit=False)
             product.supplier = request.user
             product.save()
-            return redirect('supplier_dashboard') 
+            return redirect('supplier_dashboard')
+        else:
+            print(form.errors)  # Debug form errors
     else:
         form = ProductForm()
 
@@ -93,10 +100,9 @@ def delete_product(request, product_id):
     if request.method == 'POST':
         product.delete()
         return redirect('supplier_dashboard')
-    return render(request, 'delete_product.html', {'product': product})
+    return render(request, 'delete_products.html', {'product': product})
 
-
-def order_product(request, product_id):
+def order_product(request: HttpRequest, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -104,10 +110,11 @@ def order_product(request, product_id):
             order = form.save(commit=False)
             order.product = product
             order.user = request.user
-            order.total_price = order.quantity * product.price  # Calculate total price
-            order.order_number = get_random_string(length=10)  # Generate unique order number
+            order.total_price = order.quantity * product.price  
+            order.order_number = get_random_string(length=10)  
             order.save()
-            return redirect('confirm_order')
+            return redirect('success')
+
     else:
         form = OrderForm()
     initial_total = product.price

@@ -1,5 +1,8 @@
+<!-- review_summary.html -->
 {% extends "main/base.html" %}
 {% block content %}
+
+<!-- 
 <div class="container">
     <h1>Reviews for {{ supplier_name }}</h1>
     <ul>
@@ -14,5 +17,68 @@
             <p>No reviews yet.</p>
         {% endfor %}
     </ul>
+</div> -->
+
+<div class="container">
+    <h1>Reviews for {{ supplier_name }}</h1>
+    <div class="reviews-grid">
+        {% for review in reviews %}
+            <div class="review-box">
+                <p>Order #: {{ review.order_number }}</p>
+                <p>Rating: {{ review.rating }}</p>
+                <p>Comment: {{ review.comment }}</p>
+                <p>Date: {{ review.created_at }}</p>
+            </div>
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </div>
 </div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #FFFFFF;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #67594B;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .reviews-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: center; 
+    }
+
+    .review-box {
+        border: 1px solid #67594B;
+        background-color: #FAFAF5;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        width: 230px; 
+        height: 200px; 
+        box-sizing: border-box;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .review-box p {
+        margin: 5px 0;
+        color: #67594B;
+        font-size: 14px;
+    }
+</style>
 {% endblock %}

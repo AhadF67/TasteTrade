@@ -6,8 +6,8 @@
 {% block content %}
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+          font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
             margin: 0;
             padding: 0;
         }
@@ -150,6 +150,7 @@
                     </div>
                 </a>
             </div>
+
             {% empty %}
             <p>No products found.</p>
             {% endfor %}
@@ -158,6 +159,9 @@
 </div>
 
 <!-- JavaScript to automatically submit the form when filters change -->
+        </div>
+    </div>
+
 <script>
     const rangeInput = document.getElementById('priceRange');
     const priceValue = document.getElementById('priceValue');
