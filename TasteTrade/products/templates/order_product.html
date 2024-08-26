@@ -127,13 +127,38 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const quantityInput = document.querySelector('#id_quantity');
+        const durationFirstInput = document.querySelector('#id_duration_first');
+        const durationSecondInput = document.querySelector('#id_duration_second');
         const totalInput = document.querySelector('#total');
         const pricePerItem = parseFloat('{{ product.price }}') || 0;
-    
-        quantityInput.addEventListener('input', function() {
+
+        // Define multipliers (should match the ones in your view)
+        const DURATION_MULTIPLIERS_FIRST = {
+            'once_a_week': 1,
+            'twice_a_week': 2,
+        };
+
+        const DURATION_MULTIPLIERS_SECOND = {
+            'one_month': 4,
+            'two_months': 8,
+            'three_months': 12,
+        };
+
+        function calculateTotal() {
             const quantity = parseInt(quantityInput.value) || 1;
-            totalInput.value = (quantity * pricePerItem).toFixed(2);
-        });
+            const durationFirst = durationFirstInput.value;
+            const durationSecond = durationSecondInput.value;
+            const multiplierFirst = DURATION_MULTIPLIERS_FIRST[durationFirst] || 1;
+            const multiplierSecond = DURATION_MULTIPLIERS_SECOND[durationSecond] || 1;
+
+            const total = (quantity * pricePerItem * multiplierFirst * multiplierSecond).toFixed(2);
+            totalInput.value = total;
+        }
+
+        quantityInput.addEventListener('input', calculateTotal);
+        durationFirstInput.addEventListener('change', calculateTotal);
+        durationSecondInput.addEventListener('change', calculateTotal);
     });
 </script>
+
 {% endblock %}

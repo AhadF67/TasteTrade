@@ -1,4 +1,3 @@
-<!-- order_list.html-->
 {% extends "main/base.html" %}
 {% load static %}
 
@@ -15,53 +14,62 @@
             <div class="col-md-4">
                 <select name="status" class="form-control">
                     <option value="">All Statuses</option>
-                    <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>In Progress</option>
-                    <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
-                    <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
-                    <option value="completed" {% if request.GET.status == 'canceled' %}selected{% endif %}>Canceled</option>
+                    <option value="in_progress" {% if selected_status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="confirmed" {% if selected_status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                    <option value="completed" {% if selected_status == 'completed' %}selected{% endif %}>Completed</option>
+                    <option value="canceled" {% if selected_status == 'canceled' %}selected{% endif %}>Canceled</option>
                 </select>
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary">Filter</button>
             </div>
+            <div class="col-md-2">
+                <a href="?{% if selected_status %}status={{ selected_status }}&{% endif %}sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}" class="btn btn-secondary">
+                    {% if sort_order == 'asc' %}
+                        Sort Newest to Oldest
+                    {% else %}
+                        Sort Oldest to Newest
+                    {% endif %}
+                </a>
+            </div>     
         </div>
     </form>
-    
+
     <div class="row">
-      {% for order in orders %}
-          <div class="col-md-3 mb-4">
-              <div class="card shadow-sm">
-                  <div class="card-body">
-                      <h3 class="card-title">Order #{{ order.order_number }}</h3>
-                      <p class="card-text">Product: {{ order.product.name }}</p>
-                      <p class="card-text">Total: ${{ order.total_price }}</p>
-                      <p class="card-text">Status: <span class="badge badge-info">{{ order.get_status_display }}</span></p>
-  
-                      <div class="btn-group" role="group">
-                          {% if user_type == 'sup' %}
-                              {% if order.status == 'in_progress' %}
-                                  <a href="{% url 'reject_order' order.order_number %}" class="btn btn-danger">Reject</a>
-                                  <a href="{% url 'confirm_order' order.order_number %}" class="btn btn-success">Confirm</a>
-                              {% elif order.status == 'completed' %}
-                                  <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-primary">Review</a>
-                              {% endif %}
-                          {% elif user_type == 'bus' %}
-                              {% if order.status == 'completed' %}
-                                  <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-primary">Review</a>
-                              {% elif order.status == 'in_progress' %}
-                                  <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-warning">Cancel</a>
-                              {% elif order.status == 'confirmed' %}
-                                  <a href="{% url 'checkout_order' order.order_number %}" class="btn btn-success">Checkout</a>
-                              {% endif %}
-                          {% endif %}
-                      </div>
-                  </div>
-              </div>
-          </div>
-      {% empty %}
-          <p class="text-center">No orders found.</p>
-      {% endfor %}
-  </div>  
+        {% for order in orders %}
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">Order #{{ order.order_number }}</h3>
+                        <p class="card-text">Product: {{ order.product.name }}</p>
+                        <p class="card-text">Total: ${{ order.total_price }}</p>
+                        <p class="card-text">Status: <span class="badge badge-info">{{ order.get_status_display }}</span></p>
+
+                        <div class="btn-group" role="group">
+                            {% if user_type == 'sup' %}
+                                {% if order.status == 'in_progress' %}
+                                    <a href="{% url 'reject_order' order.order_number %}" class="btn btn-danger">Reject</a>
+                                    <a href="{% url 'confirm_order' order.order_number %}" class="btn btn-success">Confirm</a>
+                                {% elif order.status == 'completed' %}
+                                    <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-primary">Review</a>
+                                {% endif %}
+                            {% elif user_type == 'bus' %}
+                                {% if order.status == 'completed' %}
+                                    <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-primary">Review</a>
+                                {% elif order.status == 'in_progress' %}
+                                    <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-warning">Cancel</a>
+                                {% elif order.status == 'confirmed' %}
+                                    <a href="{% url 'checkout_order' order.order_number %}" class="btn btn-success">Checkout</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No orders found.</p>
+        {% endfor %}
+    </div>  
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -15,27 +15,37 @@ def order_list(request):
     user_profile = Profile.objects.get(user=request.user)
     user_type = user_profile.user_type
 
-    # Get the selected status from the request
+    # Get the selected status and sort order from the request
     selected_status = request.GET.get('status', '')
+    sort_order = request.GET.get('sort', 'desc')  # Default to descending (newest first)
 
     if user_type == 'sup':
-        # Get the products that belong to the supplier
         supplier_products = Product.objects.filter(supplier=request.user)
-        # Filter orders based on these products
         orders = Order.objects.filter(product__in=supplier_products)
     else:
-        # If the user is a business owner, show their own orders
         orders = Order.objects.filter(user=request.user)
+
+    # Exclude canceled orders by default
+    if not selected_status:
+        orders = orders.exclude(status='canceled')
 
     # Apply status filter if one is selected
     if selected_status:
         orders = orders.filter(status=selected_status)
 
+    # Apply sorting based on the selected sort order
+    if sort_order == 'asc':
+        orders = orders.order_by('created_at')
+    else:
+        orders = orders.order_by('-created_at')
+
     return render(request, 'orders/order_list.html', {
         'orders': orders,
         'user_type': user_type,
         'selected_status': selected_status,
+        'sort_order': sort_order,
     })
+
 
 def orders_summary(request):
     user = request.user
