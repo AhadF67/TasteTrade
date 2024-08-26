@@ -19,8 +19,9 @@
       <div class="d-flex h-100 align-items-center justify-content-end">
         <div class="col-md-4 text-end pe-md-5">
           <h1 class="mb-4 fs-2 fw-light">Empowering small and family-owned businesses with reliable, tailored supply solutions that fuel your success and growth.</h1>
+          {% if user.profile.user_type == 'sup' %}
           <a class="btn btn-outline-dark" href="{% url 'supplier_dashboard' %}">All Products</a>
-          
+          {% endif %}
 
         </div>
       </div>

@@ -25,9 +25,9 @@
             <div class="col-md-2">
                 <a href="?{% if selected_status %}status={{ selected_status }}&{% endif %}sort={% if sort_order == 'asc' %}desc{% else %}asc{% endif %}" class="btn btn-secondary">
                     {% if sort_order == 'asc' %}
-                        Sort Newest to Oldest
+                        <i class="fas fa-sort-amount-down-alt"></i> <!-- Sort Newest to Oldest -->
                     {% else %}
-                        Sort Oldest to Newest
+                        <i class="fas fa-sort-amount-up-alt"></i> <!-- Sort Oldest to Newest -->
                     {% endif %}
                 </a>
             </div>     
