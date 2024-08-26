@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpRequest
 from .forms import ReviewForm
 from accounts.models import Profile
 from products.models import Product
-from django.db.models import Q
+from django.db.models import Q, Sum
 from fpdf import FPDF
 from PyPDF2 import PdfWriter, PdfReader
 import os
@@ -59,6 +59,7 @@ def orders_summary(request):
     }
     
     return render(request, 'orders/orders_summary.html', context)
+
 from django.shortcuts import redirect, get_object_or_404
 from .models import Order
 

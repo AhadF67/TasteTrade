@@ -27,7 +27,7 @@ urlpatterns = [
     
     #path('review-bus/', views.review_bus_pop, name='review_bus'),
 
-    #path('orders_summary/', views.orders_summary, name='orders_summary'),
+    path('orders_summary/', views.orders_summary, name='orders_summary'),
 
     path('submit_rating/', views.submit_rating, name='submit_rating'),
     
