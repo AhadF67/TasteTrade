@@ -94,104 +94,89 @@
             padding: 10px 0;
         }
 
-        .footer {
-            background-color: #f5f5f5;
-            padding: 20px;
-            margin-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .footer-columns {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .footer-column {
-            width: 30%;
-        }
-
-        .footer-column h5 {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .footer-column ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .footer-column ul li {
-            margin-bottom: 5px;
-        }
-
-        .footer-column ul li a {
-            color: #6d4c41;
-            text-decoration: none;
-        }
-
-        .footer-column ul li a:hover {
-            text-decoration: underline;
-        }
     </style>
-   
 
-    <!-- Main content -->
-    <div class="container-fluid">
-        <!-- Sidebar -->
-        <div class="col-md-3 sidebar">
+<div class="container-fluid">
+    <!-- Sidebar -->
+    <div class="col-md-3 sidebar">
+        <form id="filterForm" method="GET" action="">
+            <!-- Keywords -->
             <h4>Keywords</h4>
-            <input type="text" class="form-control mb-3" placeholder="Search">
-
+            <input type="text" class="form-control mb-3" name="keywords" placeholder="Search" value="{{ keywords }}">
+        
+            <!-- Categories -->
             <h5>Categories</h5>
             <ul>
-                <li><input type="checkbox"> Coffee</li>
-                <li><input type="checkbox"> Baked Goods</li>
-                <li><input type="checkbox"> Desserts</li>
-            </ul>
-
-            <h5>Price</h5>
-            <label for="priceRange">Price: <span id="priceValue">50</span> SR</label>
-            <input type="range" class="form-range" id="priceRange" min="0" max="100" value="50">        </div>
-
-        <!-- Products -->
-        <div class="col-md-9">
-            <div class="search-container">
-                <input type="text" placeholder="Search...">
-                <button class="btn btn-light">New</button>
-            </div>
-            <div class="row">
-                {% for product in products %}
-                <div class="col-md-4 mb-4">
-                    <a href="{% url 'order_product' product.id %}">
-                        <div class="product-container">
-                            <div class="product-image">
-                                {% if product.image %}
-                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                {% else %}
-                                <img src="{% static 'images/default-product.png' %}" alt="Default">
-                                {% endif %}
-                            </div>
-                            <div class="product-info">
-                                <h5>{{ product.name }}</h5>
-                                <p>{{ product.price }} SR</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                
+                {% for category in categories %}
+                <li>
+                    <input type="checkbox" name="category" value="{{ category.id }}"
+                    {% if category.id|stringformat:"s" in selected_categories %} checked {% endif %}> {{ category.name }}
+                </li>
                 {% endfor %}
-            </div>
-        </div>
+            </ul>
+        
+            <!-- Price -->
+            <h5>Price</h5>
+            <label for="priceRange">Price: <span id="priceValue">{{ max_price }}</span> SR</label>
+            <input type="range" class="form-range" id="priceRange" name="price" min="0" max="100" value="{{ max_price }}">
+        </form>
+        
     </div>
 
-   
+    <!-- Products -->
+    <div class="col-md-9">
+        <div class="search-container">
+            <input type="text" placeholder="Search..." name="keywords">
+            <a href="{% url 'add_product' %}">
+                <button class="btn btn-light">New</button>
+            </a>
+        </div>
+        <div class="row">
+            {% for product in products %}
+            <div class="col-md-4 mb-4">
+                <a href="{% url 'order_product' product.id %}">
+                    <div class="product-container">
+                        <div class="product-image">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                            <img src="{% static 'images/default-product.png' %}" alt="Default">
+                            {% endif %}
+                        </div>
+                        <div class="product-info">
+                            <h5>{{ product.name }}</h5>
+                            <p>{{ product.price }} SR</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            {% empty %}
+            <p>No products found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to automatically submit the form when filters change -->
+        </div>
+    </div>
 
 <script>
     const rangeInput = document.getElementById('priceRange');
     const priceValue = document.getElementById('priceValue');
+    const filterForm = document.getElementById('filterForm');
 
     rangeInput.addEventListener('input', function() {
         priceValue.textContent = rangeInput.value;
     });
+
+    // Automatically submit form on filter changes
+    document.querySelectorAll('#filterForm input').forEach(input => {
+        input.addEventListener('change', function() {
+            filterForm.submit();
+        });
+    });
 </script>
+
 {% endblock %}
