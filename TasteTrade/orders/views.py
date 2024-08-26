@@ -318,6 +318,16 @@ def review_view(request, order_number, name):
 
 def generate_contract_pdf(request: HttpRequest, order_id):
     order = get_object_or_404(Order, id=order_id)
+    try:
+        supplier_profile = Profile.objects.get(user=order.product.supplier)
+    except Profile.DoesNotExist:
+        raise Http404("Supplier profile not found for this product.")
+
+    try:
+        business_profile = Profile.objects.get(user=order.user)
+    except Profile.DoesNotExist:
+        raise Http404("Business profile not found.")
+    order = get_object_or_404(Order, id=order_id)
     supplier_profile = Profile.objects.get(user=order.product.supplier)
     business_profile = Profile.objects.get(user=order.user)
 

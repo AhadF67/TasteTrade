@@ -6,26 +6,27 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Generate Contract PDF</h1>
+  <h2>Order List</h2>
 
-    <div class="row">
-        {% for order in orders %}
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">Order #{{ order.order_number }}</h5>
-                        <p class="card-text">Product: {{ order.product.name }}</p>
-                        <p class="card-text">Quantity: {{ order.quantity }}</p>
-                        <p class="card-text">Total Price: ${{ order.total_price }}</p>
-                        <p class="card-text">Duration: {{ order.get_duration_first_display }} / {{ order.get_duration_second_display }}</p>
-                        <p class="card-text">Status: {{ order.get_status_display }}</p>
-                        <a href="{% url 'generate_contract' order.id %}" class="btn btn-primary">Generate PDF</a>
-                    </div>
-                </div>
-            </div>
-        {% empty %}
-            <p class="text-center">No orders available for PDF generation.</p>
-        {% endfor %}
-    </div>
+  <div class="row">
+      {% if orders %}
+          {% for order in orders %}
+          <div class="col-md-4 mb-4">
+              <div class="card shadow-sm">
+                  <div class="card-body">
+                      <h5 class="card-title">Order ID: {{ order.id }}</h5>
+                      <p class="card-text"><strong>Product:</strong> {{ order.product.name }}</p>
+                      <p class="card-text"><strong>Status:</strong> {{ order.status }}</p>
+                      <p class="card-text"><strong>Date:</strong> {{ order.created_at }}</p>
+                      <p class="card-text"><strong>Total Price:</strong> {{ order.total_price }}</p>
+                      <a href="{% url 'generate_contract' order.id %}" style="background-color: #67594B;" class="btn btn-primary">Generate Contract</a>
+                  </div>
+              </div>
+          </div>
+          {% endfor %}
+      {% else %}
+          <p>No orders found.</p>
+      {% endif %}
+  </div>
 </div>
 {% endblock %}

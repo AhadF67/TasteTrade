@@ -241,8 +241,28 @@ def supplier_statistics(request: HttpRequest):
 
 @login_required
 def order_list_for_pdf(request: HttpRequest):
-    orders = Order.objects.filter(user=request.user)
+    user_profile = Profile.objects.get(user=request.user)
+    user_type = user_profile.user_type
+
+    # Get the selected status from the request
+    selected_status = request.GET.get('status', '')
+
+    if user_type == 'sup':
+        # Get the products that belong to the supplier
+        supplier_products = Product.objects.filter(supplier=request.user)
+        # Filter orders based on these products
+        orders = Order.objects.filter(product__in=supplier_products)
+    else:
+        # If the user is a business owner, show their own orders
+        orders = Order.objects.filter(user=request.user)
+
+    # Apply status filter if one is selected
+    if selected_status:
+        orders = orders.filter(status=selected_status)
+
     context = {
-        'orders': orders
+        'orders': orders,
+        'user_type': user_type,
+        'selected_status': selected_status,
     }
     return render(request, 'accounts/pdf_contract.html', context)
