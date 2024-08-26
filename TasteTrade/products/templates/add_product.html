@@ -1,7 +1,6 @@
 {% extends "main/base.html" %}
 {% block content %}
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -155,21 +154,21 @@
             <form id="product-form" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="form-field">
-                    <label for="name"></label>
+                    <label for="name">Product Name</label>
                     <input type="text" id="name" name="name" placeholder="Enter product name" required>
                 </div>
                 <div class="form-field-inline">
                     <div class="form-field">
-                        <label for="price"></label>
+                        <label for="price">Price</label>
                         <input type="number" id="price" name="price" placeholder="Enter price" required>
                     </div>
                     <div class="form-field">
-                        <label for="quantity"></label>
+                        <label for="quantity">Quantity</label>
                         <input type="number" id="quantity" name="quantity" placeholder="Enter quantity" required>
                     </div>
                 </div>
                 <div class="form-field">
-                    <label for="category"></label>
+                    <label for="category">Category</label>
                     <select id="category" name="category" required>
                         <option value="">Select category</option>
                         <option value="Baked Goods">Baked Goods</option>
@@ -179,14 +178,14 @@
                     </select>
                 </div>
                 <div class="form-field">
-                    <label for="description"></label>
+                    <label for="description">Description</label>
                     <textarea id="description" name="description" placeholder="Enter product description" required></textarea>
                 </div>
                 <div class="form-field">
-                    <label for="expiry-date"></label>
+                    <label for="expiry-date">Expiry Date</label>
                     <input type="date" id="expiry-date" name="expiry_date" required>
                 </div>
-                <button type="button" id="add-product-btn">Add Product</button>
+                <button type="submit">Add Product</button>
             </form>
             <a href="{% url 'supplier_dashboard' %}" class="back-link">Back to Dashboard</a>
         </div>
@@ -205,13 +204,9 @@
                 document.getElementById('image-preview').src = '';
             }
         });
-
-        document.getElementById('add-product-btn').addEventListener('click', function() {
-            // Replace the URL with the actual dashboard URL if needed
-            window.location.href = "{% url 'supplier_dashboard' %}";
-        });
     </script>
 </body>
 </html>
 
 {% endblock %}
+

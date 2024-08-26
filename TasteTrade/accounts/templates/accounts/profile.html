@@ -158,10 +158,13 @@
                     </div>                    
                 </div>
                 {% if show_statistics_button %}
-                <div class="stat-button">
-                    <button class="button">Statistics</button>
-                </div>
-                {% endif %}
+    <a href="{% url 'supplier_statistics' %}">
+        <div class="stat-button">
+            <button class="button">Statistics</button>
+        </div>
+    </a>
+{% endif %}
+
             </div>
         </div>
         <div class="buttons">
