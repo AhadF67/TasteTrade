@@ -39,12 +39,16 @@ def is_supplier(user):
 
 
 @login_required
-#@user_passes_test(is_supplier)
 def supplier_dashboard(request):
+    query = request.GET.get('q')  # Get the search query from the request
     products = Product.objects.filter(supplier=request.user)
-    # Debugging: print the number of products
-    print(f"Number of products: {products.count()}")  
-    return render(request, 'supplier_dashboard.html', {'products': products})
+    
+    # Apply the search filter if there is a query
+    if query:
+        products = products.filter(name__icontains=query)
+    
+    return render(request, 'supplier_dashboard.html', {'products': products, 'query': query})
+
 
 @login_required
 #@user_passes_test(is_supplier)
