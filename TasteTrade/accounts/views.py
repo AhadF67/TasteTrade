@@ -237,6 +237,8 @@ def supplier_statistics(request: HttpRequest):
 
     return render(request, 'accounts/statics.html', context)
 
+
+
 @login_required
 def order_list_for_pdf(request: HttpRequest):
     orders = Order.objects.filter(user=request.user)

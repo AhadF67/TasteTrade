@@ -241,15 +241,6 @@ def reject_pop(request):
 
 from django.shortcuts import render
 
-#def review_sup_pop(request, order_number, supplier_name):
-    #return render(request, 'orders/review_sup.html', {
-        #'order_number': order_number,
-        #'supplier_name': supplier_name
-    #})
-
-
-#def review_bus_pop(request):
-    #return render(request, 'orders/review_bus.html')
 
 from django.shortcuts import redirect
 from django.contrib import messages
