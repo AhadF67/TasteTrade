@@ -24,7 +24,6 @@ class Order(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
-    expiry_date = models.DateField(blank=True, null=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     duration_first = models.CharField(max_length=20, choices=DURATION_CHOICES_FIRST, blank=True, null=True)
     duration_second = models.CharField(max_length=20, choices=DURATION_CHOICES_SECOND, blank=True, null=True)
