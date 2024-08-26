@@ -25,10 +25,6 @@ def order_list(request):
     else:
         orders = Order.objects.filter(user=request.user)
 
-    # Exclude canceled orders by default
-    if not selected_status:
-        orders = orders.exclude(status='canceled')
-
     # Apply status filter if one is selected
     if selected_status:
         orders = orders.filter(status=selected_status)
