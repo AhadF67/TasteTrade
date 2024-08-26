@@ -30,6 +30,7 @@ urlpatterns = [
     #path('orders_summary/', views.orders_summary, name='orders_summary'),
 
     path('submit_rating/', views.submit_rating, name='submit_rating'),
+    
     path('generate_contract/<int:order_id>/', views.generate_contract_pdf, name='generate_contract'),
 
 ]
