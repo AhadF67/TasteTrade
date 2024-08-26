@@ -120,6 +120,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import ShippingForm, PaymentForm
 from .models import Order
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .forms import ShippingForm, PaymentForm
+from .models import Order
+
 @login_required
 def checkout_order(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
@@ -129,9 +134,6 @@ def checkout_order(request, order_number):
         payment_form = PaymentForm(request.POST, prefix='payment')
         
         if shipping_form.is_valid() and payment_form.is_valid():
-            # Debug: Check if forms are valid and data is being processed
-            print("Forms are valid. Processing the data...")
-
             # Process shipping form data
             shipping_data = shipping_form.cleaned_data
             order.shipping_address = shipping_data.get('address')
@@ -151,13 +153,9 @@ def checkout_order(request, order_number):
             order.status = 'completed'
             order.save()
 
-            # Debug: Check if order status is being updated
-            print(f"Order status updated to: {order.status}")
-
-            # Redirect to the order list page
             return redirect('order_list')
         else:
-            # Debug: Check which form is invalid
+            # Print errors if forms are invalid
             print("Invalid form data")
             print(shipping_form.errors)
             print(payment_form.errors)
@@ -169,8 +167,11 @@ def checkout_order(request, order_number):
         'shipping_form': shipping_form,
         'payment_form': payment_form,
         'order_number': order_number, 
-        'order': order
+        'order': order,
+        'shipping_errors': shipping_form.errors,
+        'payment_errors': payment_form.errors,
     })
+
 
 
 

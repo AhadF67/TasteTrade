@@ -98,7 +98,6 @@
         flex-direction: column;
     }
 </style>
-
 <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -115,40 +114,40 @@
                     <h4>Shipping Details</h4>
                     <div class="form-row">
                         <div class="form-group">
-                            <input type="text" name="first_name" placeholder="First Name" required>
+                            <input type="text" name="shipping-first_name" placeholder="First Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="last_name" placeholder="Last Name" required>
+                            <input type="text" name="shipping-last_name" placeholder="Last Name" required>
                         </div>
                     </div>
                     <div class="form-group address-group">
-                        <input type="text" name="address" placeholder="Start typing address" required>
+                        <input type="text" name="shipping-address" placeholder="Start typing address" required>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <input type="email" name="email" placeholder="Email" required>
+                            <input type="email" name="shipping-email" placeholder="Email" required>
                         </div>
                         <div class="form-group">
-                            <input type="tel" name="phone_number" placeholder="Phone Number" required>
+                            <input type="tel" name="shipping-phone_number" placeholder="Phone Number" required>
                         </div>
                     </div>
 
                     <!-- Payment Details -->
                     <h4>Payment Details</h4>
                     <div class="form-group">
-                        <input type="text" name="name_on_card" placeholder="Name on Card" required>
+                        <input type="text" name="payment-name_on_card" placeholder="Name on Card" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="card_number" placeholder="Card Number" required>
+                        <input type="text" name="payment-card_number" placeholder="Card Number" required>
                     </div>
                     <div class="expiry-cvv-container">
                         <div class="expiry-container">
-                            <label for="expiry_date">Expiry Date</label>
-                            <input type="text" name="expiry_date" id="expiry_date" placeholder="MM/YY" required>
+                            <label for="payment-expiry_date">Expiry Date</label>
+                            <input type="text" name="payment-expiry_date" id="payment-expiry_date" placeholder="MM/YY" required>
                         </div>
                         <div class="cvv-container">
-                            <label for="cvv">CVV</label>
-                            <input type="text" name="cvv" id="cvv" placeholder="CVV" required>
+                            <label for="payment-cvv">CVV</label>
+                            <input type="text" name="payment-cvv" id="payment-cvv" placeholder="CVV" required>
                         </div>
                     </div>
                 </div>
@@ -169,4 +168,34 @@
         $('#checkoutModal').modal('show');
     });
 </script>
+
+<!-- Display form errors if any -->
+{% if shipping_errors %}
+    <ul class="errorlist">
+        {% for field, errors in shipping_errors.items %}
+            <li>{{ field }}: 
+                <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if payment_errors %}
+    <ul class="errorlist">
+        {% for field, errors in payment_errors.items %}
+            <li>{{ field }}: 
+                <ul>
+                    {% for error in errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
 {% endblock %}
