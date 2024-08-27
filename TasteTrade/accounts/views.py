@@ -41,7 +41,7 @@ def signup_Bus(request):
                     image=image  # Assign the image if available, otherwise None
                 )
                 logging.info(f"Profile created for user {user.username} with ID {profile.id}")
-                return redirect('success')
+                return redirect('login_view')
             except Exception as e:
                 logging.error(f"Error creating profile for user {user.username}: {str(e)}")
                 messages.error(request, "There was an error creating your profile. Please try again.")
@@ -63,7 +63,7 @@ def signup_Sup(request):
                 user.save()
                 Profile.objects.create(user=user, name=user.username, user_type='sup')
                 logging.info(f"Profile created for user {user.username}")
-                return redirect('success')
+                return redirect('login_view')
             except Exception as e:
                 logging.error(f"Error creating profile for user {user.username}: {str(e)}")
                 messages.error(request, "There was an error creating your profile. Please try again.")
