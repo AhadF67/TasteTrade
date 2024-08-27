@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h2>Order List</h2>
+  <h2 class="text-center custom-heading">Order List</h2>
 
   <div class="row">
       {% if orders %}
@@ -19,8 +19,8 @@
                       <p class="card-text"><strong>Status:</strong> {{ order.status }}</p>
                       <p class="card-text"><strong>Date:</strong> {{ order.created_at }}</p>
                       <p class="card-text"><strong>Total Price:</strong> {{ order.total_price }}</p>
-                      <a href="{% url 'generate_contract' order.id %}" style="background-color: #67594B;" class="btn btn-primary">Generate Contract</a>
-                  </div>
+                      <a href="{% url 'generate_contract' order.id %}" class="btn btn-primary">Generate Contract</a>
+                    </div>
               </div>
           </div>
           {% endfor %}
@@ -29,4 +29,16 @@
       {% endif %}
   </div>
 </div>
+<style>
+.btn-primary {
+    border: none; 
+    outline: none; 
+    background-color: #816e5d; 
+}
+
+.btn-primary:hover {
+    background-color: #67594B; 
+}
+
+</style>
 {% endblock %}
