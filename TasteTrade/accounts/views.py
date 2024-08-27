@@ -38,7 +38,9 @@ def signup_Bus(request):
                     user=user, 
                     name=user.username, 
                     user_type='bus',
-                    image=image  # Assign the image if available, otherwise None
+                    image=image ,
+                    phone_number=request.POST['phone_number']
+                      # Assign the image if available, otherwise None
                 )
                 logging.info(f"Profile created for user {user.username} with ID {profile.id}")
                 return redirect('success')
