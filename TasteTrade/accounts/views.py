@@ -251,12 +251,12 @@ def order_list_for_pdf(request: HttpRequest):
         # Get the products that belong to the supplier
         supplier_products = Product.objects.filter(supplier=request.user)
         # Filter orders based on these products
-        orders = Order.objects.filter(product__in=supplier_products)
+        orders = Order.objects.filter(product__in=supplier_products, status='completed')
     else:
-        # If the user is a business owner, show their own orders
-        orders = Order.objects.filter(user=request.user)
+        # If the user is a business owner, show their own completed orders
+        orders = Order.objects.filter(user=request.user, status='completed')
 
-    # Apply status filter if one is selected
+    # Apply additional status filter if one is selected
     if selected_status:
         orders = orders.filter(status=selected_status)
 
