@@ -7,14 +7,22 @@
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Your Orders Summary</h1>
-
-    <div class="mb-4">
-        <h4>Total Paid: ${{ total_paid }}</h4>
-        <h4>Total Orders: {{ total_orders }}</h4>
-        <h4>Completed Orders: {{ completed_orders }}</h4>
-        <h4>Canceled Orders: {{ canceled_orders }}</h4>
-        <h4>In Progress Orders: {{ in_progress_orders }}</h4>
-        <h4>Confirmed Orders: {{ confirmed_orders }}</h4>
+    <div class="card p-3 shadow-sm my-4" style="border-radius: 10px; border: 1px solid #a0927d; background-color: #ffffff; max-width: 500px; margin: auto;">
+      <div class="text-center mb-2" style="background-color: #F9F8F3; color: #67594B; padding: 1px; border-radius: 5px; border: 1px solid #67594B;">
+        <h5>Total paid: {{ total_paid }} SR</h5>
+      </div>
+      <div class="text-center mb-2">
+        <h5>Total orders: {{ total_orders }}</h5>
+      </div>
+      <div class="d-flex justify-content-between px-1" style="font-size: 0.9rem; margin-bottom: 0.2rem;">
+        <div class="d-flex flex-wrap justify-content-between" style="width: 100%;">
+          <p style="margin-right: 10px;">Completed: {{ completed_orders }}</p>
+          <p style="margin-right: 10px;">In Progress: {{ in_progress_orders }}</p>
+          <p style="margin-right: 10px;">Rejected: {{ rejected_orders }}</p>
+          <p style="margin-right: 10px;">Confirmed: {{ confirmed_orders }}</p>
+          <p>Canceled: {{ canceled_orders }}</p>
+        </div>
+      </div>
     </div>
     
 
