@@ -53,6 +53,7 @@ def orders_summary(request):
     canceled_orders = orders.filter(status='canceled').count()
     in_progress_orders = orders.filter(status='in_progress').count()
     confirmed_orders = orders.filter(status='confirmed').count()
+    rejected_orders= orders.filter(status='reject').count()
     
     context = {
         'orders': orders,
@@ -62,6 +63,7 @@ def orders_summary(request):
         'canceled_orders': canceled_orders,
         'in_progress_orders': in_progress_orders,
         'confirmed_orders': confirmed_orders,
+        'rejected_orders': rejected_orders,
     }
     
     return render(request, 'orders/orders_summary.html', context)
@@ -302,25 +304,41 @@ from django.shortcuts import render
 
 from django.shortcuts import render, get_object_or_404
 from django.http import Http404
+
 def review_view(request, order_number, name):
-    if not name:
-        raise Http404("Order name is missing.")
+    # Fetch the order based on order_number
+    order = get_object_or_404(Order, order_number=order_number)
+    
+    # Fetch profiles based on user_type
     user_type = request.user.profile.user_type
     context = {
         'order_number': order_number,
-        'name': name
     }
 
-    if user_type == 'sup':
+    if user_type == 'bus':
+        try:
+            supplier_profile = Profile.objects.get(user=order.product.supplier)
+            context['label'] = 'Supplier'
+            context['name'] = supplier_profile.name  # Set supplier name as 'name'
+        except Profile.DoesNotExist:
+            raise Http404("Supplier profile not found.")
         template_name = 'orders/review.html'
-        context['label'] = 'Supplier:'
-    elif user_type == 'bus':
+        
+    elif user_type == 'sup':
+        try:
+            business_profile = Profile.objects.get(user=order.user)
+            context['label'] = 'Business'
+            context['name'] = business_profile.name  # Set business name as 'name'
+        except Profile.DoesNotExist:
+            raise Http404("Business profile not found.")
         template_name = 'orders/review.html'
-        context['label'] = 'Business:'
+    
     else:
         raise Http404("User type not recognized.")
 
     return render(request, template_name, context)
+
+
 
 import tempfile
 
