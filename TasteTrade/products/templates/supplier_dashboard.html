@@ -137,6 +137,8 @@
             display: flex;
             justify-content: space-between;
         }
+
+
     </style>
 
     <!-- Main content -->
@@ -175,7 +177,7 @@
                             <p>{{ product.price }} SR</p>
                         </div>
                         <div class="action-icons">
-                            <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                            <a href="{% url 'edit_product' product.id %}" class="btn btn-sm btn-secondary ">Edit</a>
                             <a href="{% url 'delete_product' product.id %}" class="btn btn-sm btn-danger">Delete</a>
                         </div>
                     </div>

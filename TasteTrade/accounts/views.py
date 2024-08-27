@@ -13,13 +13,9 @@ from django.conf import settings
 from django.templatetags.static import static
 from django.contrib.auth.decorators import login_required, user_passes_test
 from products.models import Product
-
 from orders.models import Order
 from django.db.models import Sum, Count
 from django.db.models.functions import TruncDate
-
-
-
 import logging
 
 def signup_Bus(request):
