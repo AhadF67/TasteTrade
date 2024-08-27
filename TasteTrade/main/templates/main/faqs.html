@@ -1,0 +1,79 @@
+{% extends 'main/base.html' %}
+
+{% block title %}FAQs{% endblock %}
+
+{% block content %}
+  <style>
+    .faqs {
+      background-color: #F5F5F5;
+      padding: 60px 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .faqs h1 {
+      font-size: 36px;
+      color: #2C3E50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .faqs h2 {
+      font-size: 24px;
+      color: #2C3E50;
+      margin-bottom: 10px;
+    }
+
+    .faqs p {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .faqs a {
+      color: #2C3E50;
+      text-decoration: underline;
+    }
+
+    .faqs a:hover {
+      color: #333;
+    }
+  </style>
+
+  <section class="faqs">
+    <div class="container">
+      <h1>Frequently Asked Questions</h1>
+      
+      <h2>What is TasteTrade?</h2>
+      <p>TasteTrade is a leading platform for food trade, offering a range of services from sourcing to logistics.</p>
+
+      <h2>How can I contact support?</h2>
+      <p>You can contact our support team via email at <a href="mailto:support@tastetrade.com">support@tastetrade.com</a> or by calling +966 505123667.</p>
+
+      <h2>How do I become a supplier on your platform?</h2>
+      <p>To become a supplier, you can <a href="{% url 'signup_Sup' %}">Sign Up as a Supplier</a> on our platform. After signing up, you'll receive instructions to set up your store.</p>
+
+      <h2>Are there any fees for suppliers?</h2>
+      <p> Yes, there may be fees associated with listing products on our platform. These fees vary based on the type of products and services you offer. Detailed information on pricing can be found on our <a href="{% url 'pricing_page' %}">Pricing Page</a>.</p>
+
+      <h2>How do I find specific products on your website?</h2>
+      <p>You can use our search bar at the top of the page to find specific products. You can also browse through categories or use our filters to narrow down your search.</p>
+
+      <h2>What payment methods do you accept?</h2>
+      <p>We accept various payment methods including credit/debit cards and other secure online payment options.</p>
+
+      <h2>How can I track my order?</h2>
+      <p>Once your order has shipped, you can check the status of your order on the <a href="{% url 'orders_summary' %}">Order Summary Page</a>.</p>
+
+      <h2>How do you ensure product quality?</h2>
+      <p>We carefully vet all suppliers to ensure they meet our quality standards. Additionally, we encourage customer reviews and feedback to maintain high standards and address any concerns promptly.</p>
+
+      <h2>Can I contact customer support?</h2>
+      <p>Yes, our customer support team is available to assist you. You can reach us via <a href="mailto:support@tastetrade.com">Email</a>, <a href="tel:+966505123667">Phone</a>, or by filling out the <a href="{% url 'contact_us' %}">Contact Us Page</a> on our website.</p>
+
+    </div>
+  </section>
+{% endblock %}

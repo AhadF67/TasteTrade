@@ -1,0 +1,140 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Sustainability{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F9F9F9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .sustainability {
+            background-color: #FFFFFF;
+            padding: 50px 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .sustainability h1, .sustainability h2 {
+            color: #2C3E50;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .sustainability h1 {
+            font-size: 42px;
+        }
+        .sustainability h2 {
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+        .sustainability .section {
+            margin-bottom: 50px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+        }
+        .sustainability img {
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            margin-bottom: 20px;
+            border: 5px solid #BDC3C7;
+            transition: border-color 0.3s ease;
+        }
+        .sustainability .values-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .sustainability .values-list li {
+            background-color: #ECF0F1;
+            border: 1px solid #BDC3C7;
+            border-radius: 8px;
+            padding: 20px 30px;
+            margin: 10px;
+            color: #333;
+            text-align: center;
+            flex: 1 1 200px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .sustainability .btn-primary {
+            background-color: #333;
+            border: none;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        
+    </style>
+
+    <section class="sustainability">
+        <div class="section" id="sustainabilityIntro">
+            <img src="{% static 'main/images/sustainable.jpg' %}" alt="Sustainability">
+            <h1>Sustainability</h1>
+            <p>At TasteTrade, sustainability is at the heart of our operations. We are committed to reducing our environmental footprint and promoting sustainable practices across all our business activities. Our goal is to create a positive impact on the planet while delivering exceptional value to our customers.</p>
+        </div>
+        
+        <div class="section" id="sustainabilityMission">
+            <h2>Our Commitment</h2>
+            <p>We are dedicated to implementing sustainable solutions that help preserve resources and protect the environment. Our initiatives include reducing waste, optimizing energy use, and supporting eco-friendly projects. Together, we aim to make a meaningful difference.</p>
+        </div>
+
+        <div class="section" id="sustainabilityValues">
+            <h2>Key Initiatives</h2>
+            <ul class="values-list">
+                <li>Supplier Outreach</li>
+                <li>Community Engagement</li>
+                <li>Local Impact</li>
+                <li>Support</li>
+            </ul>
+        </div>
+
+    </section>
+
+    <script>
+        // Function to check if an element is in the viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        // Function to add animations to sections in view
+        function handleScroll() {
+            const sections = document.querySelectorAll('.sustainability .section');
+            sections.forEach(section => {
+                if (isInViewport(section)) {
+                    section.style.opacity = 1;
+                    section.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Run on page load and scroll
+        document.addEventListener('DOMContentLoaded', handleScroll);
+        window.addEventListener('scroll', handleScroll);
+    </script>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Pricing{% endblock %}
+
+{% block content %}
+  <style>
+    .pricing {
+      background-color: #F5F5F5;
+      padding: 60px 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .pricing h1 {
+      font-size: 36px;
+      color: #2C3E50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .pricing h2 {
+      font-size: 24px;
+      color: #2C3E50;
+      margin-bottom: 10px;
+    }
+
+    .pricing p {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .pricing .price-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .pricing .price-table th, .pricing .price-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .pricing .price-table th {
+      background-color: #2C3E50;
+      color: white;
+    }
+
+    .pricing .price-table td {
+      background-color: #F9F9F9;
+    }
+  </style>
+
+  <section class="pricing">
+    <div class="container">
+      <h1>Our Pricing Plans</h1>
+      
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th>Plan</th>
+            <th>Features</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Basic Plan</td>
+            <td>Listing 10 products, Basic support</td>
+            <td>79 SAR/month</td>
+          </tr>
+          <tr>
+            <td>Pro Plan</td>
+            <td>Unlimited products, Priority support</td>
+            <td>119 SAR/month</td>
+          </tr>
+          <tr>
+            <td>Enterprise Plan</td>
+            <td>Custom solutions, Dedicated support</td>
+            <td>Contact us for pricing</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>For more information about pricing, feel free to <a href="{% url 'contact_us' %}">Contact Us</a>.</p>
+    </div>
+  </section>
+{% endblock %}

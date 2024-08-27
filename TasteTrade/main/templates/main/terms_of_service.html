@@ -1,0 +1,91 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Terms of Service{% endblock %}
+
+{% block content %}
+  <style>
+    .terms-of-service {
+      background-color: #FAFAFA;
+      padding: 60px 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      max-width: 900px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .terms-of-service h1 {
+      font-size: 38px;
+      color: #2A3D45;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .terms-of-service p {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 25px;
+      line-height: 1.8;
+      text-align: justify;
+      transition: all 0.3s ease;
+    }
+
+    .terms-of-service ul {
+      font-size: 18px;
+      color: #555;
+      margin-bottom: 30px;
+      padding-left: 30px;
+      line-height: 1.8;
+    }
+
+    .terms-of-service li {
+      margin-bottom: 15px;
+      list-style-type: disc;
+      transition: all 0.3s ease;
+    }
+
+    .terms-of-service h2 {
+      font-size: 28px;
+      color: #333637;
+      margin-bottom: 15px;
+      font-weight: 600;
+      transition: all 0.3s ease-in-out;
+    }
+
+    /* Scrolling animations */
+    .hidden {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+  <section class="terms-of-service">
+    <div class="container">
+      <h1>Terms of Service</h1>
+
+      <p>Welcome to our website! By accessing or using our services, you agree to the following terms and conditions. Please read them carefully.</p>
+
+      <h2>Service Usage</h2>
+      <p>By using our platform, you agree to comply with all applicable laws and regulations. You are responsible for ensuring that your use of the site does not violate any legal guidelines.</p>
+
+      <h2>Content Ownership</h2>
+      <p>All content on this site, including but not limited to text, graphics, and images, is the property of the company. Unauthorized use or distribution of any content is prohibited without explicit permission.</p>
+
+      <h2>Privacy and Security</h2>
+      <p>We are committed to protecting your privacy. Please review our <a href="/privacy-policy">Privacy Policy</a> for more details on how we collect, use, and protect your information.</p>
+
+      <h2>Changes to the Terms</h2>
+      <p>We reserve the right to modify these terms at any time. Any changes will be posted on this page, and your continued use of the service constitutes your acceptance of the updated terms.</p>
+
+      <p>If you have any questions about these terms, please <a href="/contact">contact us</a>.</p>
+    </div>
+  </section>
+
+{% endblock %}
