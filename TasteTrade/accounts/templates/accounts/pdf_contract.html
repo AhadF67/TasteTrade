@@ -19,8 +19,11 @@
                       <p class="card-text"><strong>Status:</strong> {{ order.status }}</p>
                       <p class="card-text"><strong>Date:</strong> {{ order.created_at }}</p>
                       <p class="card-text"><strong>Total Price:</strong> {{ order.total_price }}</p>
-                      <a href="{% url 'generate_contract' order.id %}" class="btn btn-primary">Generate Contract</a>
-                    </div>
+                      {% if order.status == "completed" %}
+                      <a href="{% url 'generate_contract' order.order_number %}" style="background-color: #67594B;" class="btn btn-primary">Generate Contract</a>
+                      {% endif %}
+                  </div>
+
               </div>
           </div>
           {% endfor %}
