@@ -63,7 +63,9 @@ def signup_Sup(request):
                 user = form.save(commit=False)
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-                Profile.objects.create(user=user, name=user.username, user_type='sup')
+                image = request.FILES.get('image', None)
+                Profile.objects.create(user=user, name=user.username, user_type='sup', image=image ,
+                    phone_number=request.POST['phone_number'])
                 logging.info(f"Profile created for user {user.username}")
                 return redirect('login_view')
             except Exception as e:
