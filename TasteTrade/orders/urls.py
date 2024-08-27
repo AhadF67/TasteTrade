@@ -11,8 +11,6 @@ urlpatterns = [
     #path('order/<int:order_id>/review/', views.review_order, name='review_order'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('success/', views.success, name='success'),
-    path('shipping-details/', views.shipping_details, name='shipping_details'),
-    path('payment-details/', views.payment_details, name='payment_details'),
 
     path('delete-pop/', views.delete_pop, name='delete_pop'),
     path('reject-pop/', views.reject_pop, name='reject_pop'),

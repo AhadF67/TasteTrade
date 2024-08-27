@@ -34,7 +34,7 @@
                   <div class="card-body">
                       <h3 class="card-title">Order #{{ order.order_number }}</h3>
                       <p class="card-text">Product: {{ order.product.name }}</p>
-                      <p class="card-text">Total: ${{ order.total_price }}</p>
+                      <p class="card-text">Total: {{ order.total_price }} SR</p>
                       Status: 
                       <span class="badge 
                           {% if order.status == 'in_progress' %}
