@@ -23,12 +23,12 @@
     <h1>Reviews for {{ supplier_name }}</h1>
     <div class="reviews-grid">
         {% for review in reviews %}
-            <div class="review-box">
-                <p>Order #: {{ review.order_number }}</p>
-                <p>Rating: {{ review.rating }}</p>
-                <p>Comment: {{ review.comment }}</p>
-                <p>Date: {{ review.created_at }}</p>
-            </div>
+        <div class="review-box">
+            <p><strong>Order #:</strong> {{ review.order_number }}</p>
+            <p><strong>Rating:</strong> {{ review.rating }} out of 5</p>
+            <p><strong>Comment:</strong> {{ review.comment }}</p>
+            <p><strong>Date:</strong> {{ review.created_at }}</p>
+        </div>
         {% empty %}
             <p>No reviews yet.</p>
         {% endfor %}
@@ -61,24 +61,29 @@
     }
 
     .review-box {
-        border: 1px solid #67594B;
-        background-color: #FAFAF5;
-        border-radius: 10px;
-        padding: 15px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        width: 230px; 
-        height: 200px; 
-        box-sizing: border-box;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+    border: 1px solid #67594B;
+    background-color: #FAFAF5;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 230px; 
+    height: 200px; 
+    box-sizing: border-box;
+    text-align: left; /* تغيير المحاذاة إلى اليسار */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* تغيير المحاذاة العمودية إلى أعلى */
+}
 
-    .review-box p {
-        margin: 5px 0;
-        color: #67594B;
-        font-size: 14px;
-    }
+.review-box p {
+    margin: 5px 0;
+    color: #67594B;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.review-box strong {
+    font-weight: bold;
+}
 </style>
 {% endblock %}

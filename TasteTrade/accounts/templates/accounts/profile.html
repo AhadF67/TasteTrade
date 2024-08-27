@@ -14,7 +14,7 @@
       
     }
     .f-container {
-        max-width: 800px;
+        max-width:700px;
         padding: 15px;
         background-color: #fff;
         border-radius: 10px;
@@ -43,27 +43,33 @@
         height: 100%;
         object-fit: cover;
     }
-    .edit-profile {
-        padding: 5px 10px; 
-        background-color: #f9f8f4; 
-        border: 1px solid #67594B; 
-        border-radius: 10px; 
-        color: #67594B;
-        cursor: pointer;
-        text-align: center;
-        font-size: 14px;
-        position: absolute;
-        top: 110%;
-        left: 55%;
-        transform: translateX(-50%);
-        display: flex;
-        align-items: center; 
-        justify-content: center; 
-        width: 120px; 
-        height: auto; 
-        margin-top: 10px;
+    .edit-profile, .statistics-button {
+    padding: 5px 10px; 
+    background-color: #f9f8f4; 
+    border: 1px solid #67594B; 
+    border-radius: 10px; 
+    color: #67594B;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    width: 120px; 
+    height: auto; 
+    margin: 10px auto; /* يضبط المسافة بين الأزرار */
+}
 
-    }
+.edit-profile {
+    position: absolute;
+    top: 110%;
+    left:60%;
+    transform: translateX(-50%);
+}
+
+.statistics-button {
+    margin-top: 60px; /* المسافة البسيطة تحت زر "Edit Profile" */
+}
     .edit-profile:hover {
         background-color: #f0eae2;
     }
@@ -127,11 +133,12 @@
     .buttons {
         display: flex;
         justify-content: space-between;
-        margin-top: 70px;
+        margin-top: 88px;
     }
     .buttons .button {
         flex: 1;
         margin: 0 10px;
+        width: 200px;
     }
 </style>
 
@@ -141,6 +148,15 @@
                 <img src="{{ image_url }}" alt="Profile Image">
                 <a href="{% url 'edit_profile' %}">
                     <div class="edit-profile">Edit Profile</div>
+                </a>
+                {% if show_statistics_button %}
+                    <a href="{% url 'supplier_statistics' %}">
+                        <div class="stat-button">
+                            <div class="statistics-button">Statistics</div>
+                        </div>
+                    </a>
+                {% endif %}
+                    
                 </a>
             </div>
             <div class="profile-info">
@@ -157,13 +173,13 @@
                         {% endfor %}
                     </div>                    
                 </div>
-                {% if show_statistics_button %}
+                <!-- {% if show_statistics_button %}
     <a href="{% url 'supplier_statistics' %}">
         <div class="stat-button">
             <button class="button">Statistics</button>
         </div>
     </a>
-{% endif %}
+{% endif %} -->
 
             </div>
         </div>
