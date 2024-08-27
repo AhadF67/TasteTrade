@@ -89,6 +89,7 @@
                     <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
                     <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
                     <option value="canceled" {% if request.GET.status == 'canceled' %}selected{% endif %}>Canceled</option>
+                    <option value="rejected" {% if request.GET.status == 'rejected' %}selected{% endif %}>Rejected</option>
                 </select>
             </div>
             <div class="col-md-2">
