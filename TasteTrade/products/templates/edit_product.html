@@ -6,58 +6,179 @@
 {% block content %}
     <style>
         body {
-            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            background-color: #FFFFFF;
         }
+
         .form-container {
-            background-color: #fff;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #FFFFFF;
             border-radius: 10px;
-            padding: 30px;
-            max-width: 600px;
-            margin: 50px auto;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
         }
-        .form-header {
-            background-color: #f8f4ea;
-            padding: 15px;
-            border-radius: 10px 10px 0 0;
+
+        .form-content {
+            width: 70%;
+            padding-right: 30px;
+        }
+
+        .image-upload-container {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 20px;
+            height: 100%;
+            margin-top: 170px;
+            order: 2; 
+        }
+
+        .form-field {
+            margin-bottom: 15px;
+            width: 100%;
+            color: #67594B;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 5px;
+            color: #67594B;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-container input[type="text"],
+        .form-container input[type="number"],
+        .form-container input[type="file"],
+        .form-container textarea,
+        .form-container select,
+        .form-container input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #67594B;
+            border-radius: 5px;
+            background-color: #FAFAF5;
+            box-sizing: border-box;
+            color: #67594B;
+        }
+
+        .form-container input::placeholder {
+            color: #67594B;
+        }
+
+        .form-container button {
+            background-color: #67594B;
+            color: #fff;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .form-container button:hover {
+            background-color: #3e2d28;
+        }
+
+        h2 {
+            color: #67594B;
+            text-align: center;
+            font-family: "Arial", sans-serif;
             font-size: 24px;
         }
-        .form-body {
-            padding: 20px;
-        }
-        .form-body img {
-            max-width: 150px;
-            height: auto;
-            margin-bottom: 10px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .upload-btn {
-            background-color: #8b6e4e;
+
+        .upload-button {
+            margin-top: 10px;
+            padding: 6px 12px;
+            background-color: #67594B;
             color: white;
             border: none;
-            padding: 10px 20px;
-            display: block;
-            margin: 0 auto;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
         }
-        .btn-primary {
-            background-color: #8b6e4e;
-            border: none;
+
+        .upload-button:hover {
+            background-color: #3e2d28;
+        }
+
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            background-color: #F0F0F0;
+        }
+
+        .form-field-inline {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-field-inline .form-field {
+            width: 48%;
+        }
+
+        #image-upload {
+            display: none;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            color: #67594B;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .form-container {
+            display: flex;
+            flex-wrap: nowrap;
         }
     </style>
+
     <div class="form-container">
-        <div class="form-header">Edit Product</div>
-        <div class="form-body">
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
+        <form id="product-form" method="POST" enctype="multipart/form-data" style="display: flex; flex: 1;">
+            {% csrf_token %}
+            <div class="form-content">
+                <h2>Edit Product</h2>
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
-            <a href="{% url 'product_list' %}">Back to Products</a>
-
-
-        </div>
+                <button type="submit">Save Changes</button>
+                <a href="{% url 'supplier_dashboard' %}" class="back-link">Back to Products</a>
+            </div>
+            <div class="image-upload-container">
+                <img id="image-preview" class="image-preview" src="{{ form.image.value.url }}" alt="Image Preview">
+                <input type="file" id="image-upload" accept="image/*" name="image">
+                <button type="button" class="upload-button" onclick="document.getElementById('image-upload').click();">Upload Image</button>
+            </div>
+        </form>
     </div>
+
+    <script>
+        document.getElementById('image-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('image-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('image-preview').src = '';
+            }
+        });
+    </script>
 {% endblock %}
