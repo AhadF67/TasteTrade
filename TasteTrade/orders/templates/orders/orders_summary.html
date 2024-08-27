@@ -16,6 +16,7 @@
         <h4>In Progress Orders: {{ in_progress_orders }}</h4>
         <h4>Confirmed Orders: {{ confirmed_orders }}</h4>
     </div>
+    
 
     <div class="row">
       {% for order in orders %}
@@ -25,7 +26,23 @@
                       <h3 class="card-title">Order #{{ order.order_number }}</h3>
                       <p class="card-text">Product: {{ order.product.name }}</p>
                       <p class="card-text">Total: ${{ order.total_price }}</p>
-                      <p class="card-text">Status: <span class="badge badge-info">{{ order.get_status_display }}</span></p>
+                      Status: 
+                      <span class="badge 
+                          {% if order.status == 'in_progress' %}
+                              badge-warning
+                          {% elif order.status == 'confirmed' %}
+                              badge-info
+                          {% elif order.status == 'completed' %}
+                              badge-success
+                          {% elif order.status == 'canceled' %}
+                             badge-secondary
+                          {% else %}
+                          badge-danger
+                          {% endif %}
+                      ">
+                          {{ order.get_status_display }}
+                      </span>
+                      <!-- <p class="card-text">Status: <span class="badge badge-info">{{ order.get_status_display }}</span></p> -->
                   </div>
               </div>
           </div>
@@ -39,4 +56,39 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+<style>
+    
+    .badge {
+      padding: 0.2em 0.5em; 
+      font-size: 0.8em; 
+      font-weight: bold;
+      border-radius: 0.25rem; 
+      text-transform: capitalize; 
+    }
+  
+    .badge-success {
+      background-color: #28a745;
+      color: white;
+    }
+  
+    .badge-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+  
+    .badge-info {
+      background-color: #17a2b8;
+      color: white;
+    }
+  
+    .badge-warning {
+      background-color: #ffc107;
+      color: black;
+    }
+  
+    .badge-secondary {
+      background-color: #6c757d;
+      color: white;
+    }
+  </style>
 {% endblock %}
