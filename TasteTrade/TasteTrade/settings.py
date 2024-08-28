@@ -152,8 +152,6 @@ EMAIL_HOST = 'smtp.office365.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
 #EMAIL_HOST_USER = 'TasteTrade@outlook.com'
 #EMAIL_HOST_PASSWORD = 'T123123t'
 # EMAIL_HOST_USER = 'BlueHuawei67_@outlook.com'
