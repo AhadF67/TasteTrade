@@ -95,20 +95,20 @@ def confirm_order(request, order_number):
     print("Order number:", order_number)
     order = get_object_or_404(Order, order_number=order_number)
     print("Order found:", order)
-    if order.status == 'in_progress':
-        order.status = 'confirmed'
+    if order.status == 'pending':
+        order.status = 'approved'
         order.save()
-        print("Order status updated to confirmed")
+        print("Order status updated to Approved")
         confirm_pop(request)
     else:
-        print("Order status is not 'in_progress'")
+        print("Order status is not 'pending'")
     return redirect('order_list')
 
 
 @login_required
 def reject_order(request, order_number):
     order = get_object_or_404(Order, order_number=order_number)
-    if order.status == 'in_progress':
+    if order.status == 'pending':
         order.status = 'rejected'
         order.save()
         reject_pop(request)
@@ -121,7 +121,7 @@ def reject_order(request, order_number):
 def cancel_order(request, order_number):
     
     order = get_object_or_404(Order, order_number=order_number)
-    if order.status == 'in_progress':
+    if order.status == 'pending':
         order.status = 'canceled'
         order.save()
         cancel_pop(request)

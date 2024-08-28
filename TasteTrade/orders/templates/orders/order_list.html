@@ -85,8 +85,8 @@
             <div class="col-md-4">
                 <select name="status" class="form-control">
                     <option value="">All Statuses</option>
-                    <option value="in_progress" {% if request.GET.status == 'in_progress' %}selected{% endif %}>In Progress</option>
-                    <option value="confirmed" {% if request.GET.status == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                    <option value="pending" {% if request.GET.status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="approved" {% if request.GET.status == 'approved' %}selected{% endif %}>Approved</option>
                     <option value="completed" {% if request.GET.status == 'completed' %}selected{% endif %}>Completed</option>
                     <option value="canceled" {% if request.GET.status == 'canceled' %}selected{% endif %}>Canceled</option>
                     <option value="rejected" {% if request.GET.status == 'rejected' %}selected{% endif %}>Rejected</option>
