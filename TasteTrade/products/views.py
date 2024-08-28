@@ -64,9 +64,17 @@ def add_category(request):
     categories = Category.objects.all()
     return render(request, 'add_category.html', {'form': form})
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from .models import Category, Product
+from .forms import ProductForm
+
 @login_required
-#@user_passes_test(is_supplier)
 def add_product(request):
+    # Check if the user is an activated supplier
+    if not request.user.profile.is_activated or request.user.profile.user_type != 'sup':
+        return redirect('unauthorized')  # Redirect to an error page or message if not authorized
+    
     categories = Category.objects.all()
     
     if request.method == "POST":
@@ -82,6 +90,7 @@ def add_product(request):
         form = ProductForm()
 
     return render(request, 'add_product.html', {'form': form, 'categories': categories})
+
 
 
 @login_required
@@ -118,7 +127,7 @@ DURATION_MULTIPLIERS_SECOND = {
 }
 
 from datetime import date
-
+@login_required
 def order_product(request: HttpRequest, product_id):
     product = get_object_or_404(Product, id=product_id)
     is_expired = product.expiry_date < date.today()
@@ -128,6 +137,10 @@ def order_product(request: HttpRequest, product_id):
     else:
         message = None
     
+    # Check if the user is an activated business
+    if not request.user.profile.is_activated or request.user.profile.user_type != 'bus':
+        return redirect('unauthorized')  # Redirect to an error page or message if not authorized
+
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid() and not is_expired:
@@ -163,3 +176,8 @@ def order_product(request: HttpRequest, product_id):
         'message': message,
     })
 
+
+from django.shortcuts import render
+
+def unauthorized(request):
+    return render(request, 'main/unauthorized.html')  # Create a template to inform the user
