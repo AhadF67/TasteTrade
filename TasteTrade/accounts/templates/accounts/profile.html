@@ -160,7 +160,8 @@
                 </a>
             </div>
             <div class="profile-info">
-                <h2>Name: {{ profile.user.profile.name }}</h2>
+                <h2>Name: {{ profile.name }}</h2>
+                <p>Username: {{ profile.username }}</p>
                 <p>Number: {{ profile.user.profile.phone_number }}</p>
                 <p>Email: {{ profile.user.email }}</p>
                 <p>Status: {{ profile.is_activated|yesno:"Activated,Not Activated" }}</p> <!-- Display account status -->

@@ -13,7 +13,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'first_name', 'email', 'password']
         widgets = {
             'password': forms.PasswordInput(),
         }
@@ -44,7 +44,7 @@ class ProfileUpdateForm(forms.ModelForm):
         ],
         max_length=15,
         required=False,
-        help_text='Enter a phone number starting with 0 (between 8 to 15 digits).'
+        help_text='Enter a phone number starting with 0 (between 8 to 12 digits).'
     )
     cr_file = forms.FileField(required=True, help_text='Upload your CR file.')
     bank_account_file = forms.FileField(required=True, help_text='Upload your bank account details.')
@@ -62,7 +62,7 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['name', 'image', 'phone_number', 'cr_file', 'bank_account_file', 'iban']
+        fields = ['name', 'username','image', 'phone_number', 'cr_file', 'bank_account_file', 'iban']
 
 
 
