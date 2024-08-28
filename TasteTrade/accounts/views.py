@@ -51,6 +51,7 @@ def signup_Bus(request):
     return render(request, 'accounts/signup_Bus.html', {'form': form})
 
 
+# views.py
 def signup_Sup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -59,9 +60,17 @@ def signup_Sup(request):
                 user = form.save(commit=False)
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-                image = request.FILES.get('image', None)
-                Profile.objects.create(user=user, name=user.username, user_type='sup', image=image ,
-                    phone_number=request.POST['phone_number'])
+                profile_data = {
+                    'user': user,
+                    'name': request.POST['name'],
+                    'phone_number': request.POST['phone_number'],
+                    'image': request.FILES.get('image'),
+                    'cr_file': request.FILES.get('cr'),
+                    'bank_account_file': request.FILES.get('bank_account'),
+                    'iban': request.POST['iban'],
+                    'user_type': 'sup',
+                }
+                Profile.objects.create(**profile_data)
                 logging.info(f"Profile created for user {user.username}")
                 return redirect('login_view')
             except Exception as e:
@@ -73,6 +82,7 @@ def signup_Sup(request):
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Sup.html', {'form': form})
+
 
 
 
@@ -110,7 +120,7 @@ def profile_view(request, profile_id):
     if profile.image:
         image_url = profile.image.url
     else:
-        image_url = static('images/default.jpg')
+        image_url = static('images/logo.png')
 
     # Determine if the "Statistics" button should be shown
     show_statistics_button = profile.user.profile.user_type == 'sup'

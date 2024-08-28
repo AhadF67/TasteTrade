@@ -1,0 +1,278 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F9F9F9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px solid #67594B;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            padding: 10px 20px;
+            background-color: #fff;
+            border: 1px solid #67594B;
+            border-radius: 10px 10px 0 0;
+            color: #67594B;
+            cursor: pointer;
+            margin: 0;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab-button.active {
+            background-color: #f9f8f4;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .card {
+            background-color: #fff;
+            width: 300px;
+            margin: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .card h3 {
+            color: #333;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .card p {
+            color: #555;
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .card .actions {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .card .actions a {
+            color: #67594B;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-button {
+            padding: 10px 20px;
+            border: 1px solid #67594B;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #67594B;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .filter-button.active {
+            background-color: #f9f8f4;
+            font-weight: bold;
+        }
+
+        .actions form {
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel - Supplier Activation</h2>
+
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <div class="tab-button active" data-tab="suppliers">Suppliers</div>
+            <div class="tab-button" data-tab="businesses">Businesses</div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-container">
+            <button class="filter-button active" data-filter="all">All</button>
+            <button class="filter-button" data-filter="activated">Activated</button>
+            <button class="filter-button" data-filter="not-activated">Not Activated</button>
+        </div>
+
+        <!-- Suppliers Section -->
+        <div id="suppliers" class="tab-content active">
+            <div class="card-container">
+                {% for profile in profiles_sup %}
+                <div class="card" data-status="{% if profile.is_activated %}activated{% else %}not-activated{% endif %}">
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" alt="Supplier Logo">
+                    {% else %}
+                        <img src="{% static 'images/logo.png' %}" alt="Default Logo">
+                    {% endif %}
+
+                    <h3>{{ profile.name }}</h3>
+                    <p>Phone: {{ profile.phone_number }}</p>
+                    <p>Email: {{ profile.user.email }}</p>
+                    {% if profile.iban %}
+                        <p>IBAN: {{ profile.iban }}</p>
+                    {% else %}
+                        <p>IBAN: Not Provided</p>
+                    {% endif %}
+                    {% if profile.cr_file %}
+                        <p><a href="{{ profile.cr_file.url }}">View CR File</a></p>
+                    {% else %}
+                        <p>CR File: Not Provided</p>
+                    {% endif %}
+                    {% if profile.bank_account_file %}
+                        <p><a href="{{ profile.bank_account_file.url }}">View Bank Account File</a></p>
+                    {% else %}
+                        <p>Bank Account File: Not Provided</p>
+                    {% endif %}
+                    <div class="actions">
+                        {% if profile.is_activated %}
+                            <p>Account Activated</p>
+                            <form action="{% url 'toggle_activation' profile.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="deactivate">Deactivate Account</button>
+                            </form>
+                        {% else %}
+                            <p>Account Not Activated</p>
+                            <form action="{% url 'toggle_activation' profile.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="activate">Activate Account</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Businesses Section -->
+        <div id="businesses" class="tab-content">
+            <div class="card-container">
+                {% for profile in profiles_bus %}
+                <div class="card" data-status="{% if profile.is_activated %}activated{% else %}not-activated{% endif %}">
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" alt="Business Logo">
+                    {% else %}
+                        <img src="{% static 'images/logo.png' %}" alt="Default Logo">
+                    {% endif %}
+
+                    <h3>{{ profile.name }}</h3>
+                    <p>Phone: {{ profile.phone_number }}</p>
+                    <p>Email: {{ profile.user.email }}</p>
+                    <div class="actions">
+                        {% if profile.is_activated %}
+                            <p>Account Activated</p>
+                            <form action="{% url 'toggle_activation' profile.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="deactivate">Deactivate Account</button>
+                            </form>
+                        {% else %}
+                            <p>Account Not Activated</p>
+                            <form action="{% url 'toggle_activation' profile.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" name="activate">Activate Account</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab Navigation
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+    
+                    document.querySelector(`#${button.dataset.tab}`).classList.add('active');
+                    button.classList.add('active');
+                });
+            });
+    
+            // Filter Functionality
+            const filterButtons = document.querySelectorAll('.filter-button');
+            const suppliersCards = document.querySelectorAll('#suppliers .card');
+            const businessesCards = document.querySelectorAll('#businesses .card');
+    
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+    
+                    const filter = button.dataset.filter;
+    
+                    // Apply filter to suppliers section
+                    suppliersCards.forEach(card => {
+                        const status = card.dataset.status;
+                        
+                        if (filter === 'all' || filter === status) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+    
+                    // Apply filter to businesses section
+                    businessesCards.forEach(card => {
+                        const status = card.dataset.status;
+                        
+                        if (filter === 'all' || filter === status) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    
+</body>
+</html>
