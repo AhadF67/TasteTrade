@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.core.mail import send_mail
+from django.conf import settings
 
 def main_home(request: HttpRequest):
     context = {'home_type': 'main'}
@@ -48,6 +49,59 @@ def meet_the_team(request):
     ]
     
     return render(request, 'main/meet_the_team.html', {'team_members': team_members})
+
+
+def about_us(request):
+    return render(request, 'main/about_us.html')
+
+def our_services(request):
+    return render(request, 'main/our_services.html')
+
+
+def our_story(request):
+    return render(request, 'main/our_story.html')
+
+def sustainability(request):
+    return render(request, 'main/sustainability.html')
+
+def careers(request):
+    return render(request, 'main/careers.html')
+
+def faqs(request):
+    return render(request, 'main/faqs.html')
+
+def shipping_returns(request):
+    return render(request, 'main/shipping_returns.html')
+
+def terms_of_service(request):
+    return render(request, 'main/terms_of_service.html')
+
+def privacy_policy(request):
+    return render(request, 'main/privacy_policy.html')
+
+def submit_application(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        position = request.POST.get('position')
+        cover_letter = request.POST.get('cover_letter')
+
+        # Example of processing the application (e.g., sending an email)
+        send_mail(
+            'New Job Application',
+            f'Name: {name}\nEmail: {email}\nPhone: {phone}\nPosition: {position}\nCover Letter:\n{cover_letter}',
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.RECEIVE_APPLICATIONS_EMAIL],
+            fail_silently=False,
+        )
+
+        return redirect('success')  # Redirect to a success page or another page
+
+    return render(request, 'careers.html')
+
+def pricing(request):
+    return render(request, 'main/pricing.html')
 
 from django.shortcuts import render, redirect
 from accounts.models import Profile
@@ -108,3 +162,4 @@ def toggle_activation(request, profile_id):
             profile.is_activated = False
         profile.save()
     return redirect('admin_panel')
+

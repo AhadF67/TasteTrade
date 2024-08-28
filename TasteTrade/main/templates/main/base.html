@@ -42,50 +42,63 @@
   <hr>
   <footer class="footer bg-light py-5">
     <div class="footer-columns">
-    <div class="container d-flex flex-row" style="gap: 90px;">
-      <div class="d-flex flex-column align-items-start">
-        <div class="mb-4">
-          <img src="{% static 'main/images/logo1.png' %}" alt="logo" width="60" height="40">
+      <div class="container d-flex flex-row" style="gap: 90px;">
+        <div class="d-flex flex-column align-items-start">
+          <div class="mb-4">
+            <img src="{% static 'main/images/logo1.png' %}" alt="logo" width="60" height="40">
+          </div>
+          <div class="d-flex flex-row gap-3">
+            <a href="#">
+            <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/twitterx--v2.png" alt="twitterx--v2"/>
+            </a>
+            <a href="#">
+            <img width="20" height="20" src="https://img.icons8.com/material-outlined/24/instagram-new--v1.png" alt="instagram-new--v1"/>
+            </a>
+            <a href="#">
+              <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/youtube-play.png" alt="youtube-play"/>
+            </a>
+            <a href="https://sa.linkedin.com/in/tastetrade-website-917570325" target="_blank">
+              <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="linkedin" />
+            </a>
+                      </div>
         </div>
-        <div class="d-flex flex-row gap-3">
-          <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/twitterx--v2.png" alt="twitterx--v2"/>
-          <img width="20" height="20" src="https://img.icons8.com/material-outlined/24/instagram-new--v1.png" alt="instagram-new--v1"/>
-          <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/30/youtube-play.png" alt="youtube-play"/>
-          <img width="20" height="20" src="https://img.icons8.com/ios-filled/50/linkedin.png" alt="linkedin"/>
+  
+        <div class="footer-column">
+          <h5>Links</h5>
+          <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'about_us' %}">About Us</a></li>
+            <li><a href="{% url 'our_services' %}">Our Services</a></li>
+            <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+            <li><a href="{% url 'admin_login' %}">Admin Panel</a></li>
+          </ul>
         </div>
-      </div>
-      
-      <div class="footer-column" >
-        <h5>Links</h5>
-        <ul>
-          <li><a href="#">Shop</a></li>
-          <li><a href="#">Who We Are</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="{% url 'admin_login' %}">Admin Panel</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-column">
-        <h5>About TasteTrade</h5>
-        <ul>
-            <li><a href="#">Our Story</a></li>
+  
+        <div class="footer-column">
+          <h5>About TasteTrade</h5>
+          <ul>
+            <li><a href="{% url 'our_story' %}">Our Story</a></li>
             <li><a href="{% url 'meet_the_team' %}">Meet the Team</a></li>
-            <li><a href="#">Sustainability</a></li>
-            <li><a href="#">Careers</a></li>
-        </ul>
+            <li><a href="{% url 'sustainability' %}">Sustainability</a></li>
+            <li><a href="{% url 'careers' %}">Careers</a></li>
+          </ul>
+        </div>
+  
+        <div class="footer-column">
+          <h5>Support</h5>
+          <ul>
+            <li><a href="{% url 'faqs' %}">FAQs</a></li>
+            <li><a href="{% url 'shipping_returns' %}">Shipping & Returns</a></li>
+            <li><a href="{% url 'terms_of_service' %}">Terms of Service</a></li>
+            <li><a href="{% url 'privacy_policy' %}">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-    <div class="footer-column">
-        <h5>Support</h5>
-        <ul>
-            <li><a href="#">FAQs</a></li>
-            <li><a href="#">Shipping & Returns</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-        </ul>
-    </div>
-    </div>
-
   </footer>
+  
+
+  
   <style>
     html, body {
   height: 100%;

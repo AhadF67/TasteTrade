@@ -1,0 +1,195 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Our Story{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F4F4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .our-story {
+            background-color: #FFF;
+            padding: 60px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+        .our-story h1 {
+            color: #4A4A4A;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 36px;
+        }
+        .our-story h2 {
+            color: #4A4A4A;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .our-story p {
+            color: #777;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+        .our-story .story-section {
+            display: flex;
+            align-items: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .our-story .story-section img {
+            border-radius: 10px;
+            width: 350px; /* Fixed width for consistency */
+            height: 250px; /* Fixed height for consistency */
+            object-fit: cover; /* Ensure images cover the set dimensions */
+            margin-right: 30px;
+            display: block;
+        }
+        .our-story .story-section .text {
+            flex: 1;
+        }
+        .our-story .story-section .text h2 {
+            margin-top: 0;
+        }
+        .our-story .story-section .text ul {
+            list-style-type: disc;
+            margin: 0;
+            padding-left: 20px;
+        }
+        .our-story .story-section .text ul li {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .our-story .btn-primary {
+            display: block;
+            margin: 40px auto 0;
+            background-color: #67594B;
+            border: none;
+            color: #fff;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            width: 200px;
+        }
+        .our-story .btn-primary:hover {
+            background-color: #3e2d28;
+        }
+        .our-story .btn-primary:active {
+            background-color: #5c4b4b;
+        }
+        .story-section-btn {
+            text-align: center;
+            margin-top: 40px;
+        }
+        .story-section-btn img {
+            width: 350px; /* Adjusted width for the smaller image */
+            height: auto;
+            margin-bottom: 20px;
+        }
+        /* Additional CSS for spacing in the "Our Vision" section */
+        #section2 {
+            flex-direction: row-reverse; /* Ensure image and text are in correct order */
+        }
+        #section2 .text {
+            margin-left: 30px; /* Add space between text and image */
+        }
+    </style>
+
+    <section class="our-story">
+        <div class="container">
+            <div class="story-section" id="section1">
+                <img src="{% static 'main/images/local_business.jpg' %}" alt="Our Story Hero Image">
+                <div class="text">
+                  <h2>Our Story</h2>
+
+                    <p>At TasteTrade, we’re passionate about supporting small businesses, families, and local communities. Our platform was created with a clear mission: to connect small suppliers with businesses and individuals who value unique, high-quality products and personalized service.</p>
+                </div>
+            </div>
+
+            <div class="story-section" id="section2">
+                <div class="text">
+                    <h2>Our Vision</h2>
+                    <p>We believe in the power of local connections and the impact of small enterprises on our economy. Our vision is to provide a marketplace where smaller suppliers can shine and where buyers can discover products that truly stand out.</p>
+                </div>
+                <img src="{% static 'main/images/vision.jpg' %}" alt="Our Vision Image">
+            </div>
+
+            <div class="story-section" id="section3">
+                <img src="{% static 'main/images/management.webp' %}" alt="How We Started Image">
+                <div class="text">
+                    <h2>How We Started</h2>
+                    <p>Our journey began with a simple yet powerful idea: to level the playing field for smaller suppliers who often struggle to compete with larger corporations. We wanted to create a space where their distinctive offerings could be showcased and appreciated.</p>
+                </div>
+            </div>
+
+            <div class="story-section" id="section4">
+              <img src="{% static 'main/images/do.jpg' %}" alt="What We Do Image">  
+              <div class="text">
+                    <h2>What We Do</h2>
+                    <p>Our website serves as a dynamic platform for:</p>
+                    <ul>
+                        <li>Small Business Owners: Discovering and sourcing unique products from smaller suppliers.</li>
+                        <li>Families: Finding high-quality, local goods and services.</li>
+                        <li>Local Businesses: Connecting with suppliers who offer exceptional and specialized products.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="story-section" id="section5">
+                <img src="{% static 'main/images/smallbusiness.jpg' %}" alt="Our Commitment Image">
+                <div class="text">
+                    <h2>Our Commitment</h2>
+                    <p>We are dedicated to fostering meaningful connections between buyers and sellers, supporting local economies, and celebrating the diversity of small enterprises.</p>
+                </div>
+            </div>
+
+            <!-- Updated button section -->
+            <div class="story-section-btn">
+                <img src="{% static 'main/images/thankyou.jpg' %}" alt="Thank You Image">
+                <a href="{% url 'contact_us' %}" class="btn-primary">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Function to check if an element is in the viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        // Function to add animations to story sections in view
+        function handleScroll() {
+            const storySections = document.querySelectorAll('.our-story .story-section');
+            storySections.forEach(section => {
+                if (isInViewport(section)) {
+                    section.style.opacity = 1;
+                    section.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Run on page load and scroll
+        document.addEventListener('DOMContentLoaded', handleScroll);
+        window.addEventListener('scroll', handleScroll);
+    </script>
+{% endblock %}

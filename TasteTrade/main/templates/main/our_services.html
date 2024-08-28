@@ -1,0 +1,158 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Our Services{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F4F4F4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .services {
+            background-color: #FFF;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+        .services h1 {
+            color: #4A4A4A;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .services .service {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .services .service .icon {
+            font-size: 60px; /* Adjust this size to make it larger */
+            color: #67594B;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        .services .service h2 {
+            margin: 0;
+            color: #4A4A4A;
+            font-size: 24px; /* Adjust font size as needed */
+        }
+        .services .service p {
+            color: #777;
+            font-size: 16px; /* Adjust font size as needed */
+        }
+        .services .btn-primary {
+            display: block;
+            margin: 30px auto 0;
+            background-color: #67594B;
+            border: none;
+            color: #fff;
+            padding: 15px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .services .btn-primary:hover {
+            background-color: #3e2d28;
+        }
+        .services .btn-primary:active {
+            background-color: #5c4b4b;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <section class="services">
+        <div class="container">
+            <h1>Our Services</h1>
+            
+            <div class="service" id="service1">
+                <i class="bi bi-box icon"></i>
+                <div>
+                    <h2>Product Sourcing</h2>
+                    <p>We help you find the best products to meet your needs, sourcing from reliable suppliers to ensure quality and efficiency.</p>
+                </div>
+            </div>
+
+            <div class="service" id="service2">
+                <i class="bi bi-truck icon"></i>
+                <div>
+                    <h2>Logistics Management</h2>
+                    <p>Our logistics experts streamline your supply chain, ensuring timely delivery and optimal resource management.</p>
+                </div>
+            </div>
+
+            <div class="service" id="service3">
+                <i class="bi bi-check-circle icon"></i>
+                <div>
+                    <h2>Quality Assurance</h2>
+                    <p>We implement rigorous quality checks to ensure that every product meets our high standards before it reaches you.</p>
+                </div>
+            </div>
+
+            <div class="service" id="service4">
+                <i class="bi bi-headset icon"></i>
+                <div>
+                    <h2>Customer Support</h2>
+                    <p>Our dedicated support team is here to assist you with any questions or issues, providing prompt and professional help.</p>
+                </div>
+            </div>
+            
+            <div class="service" id="service5">
+                <i class="bi bi-gear icon"></i>
+                <div>
+                    <h2>Technical Support</h2>
+                    <p>Our technical support team provides expert assistance to ensure your systems are running smoothly and efficiently.</p>
+                </div>
+            </div>
+
+            <div class="service" id="service6">
+                <i class="bi bi-bar-chart-line icon"></i>
+                <div>
+                    <h2>Data Analysis</h2>
+                    <p>We offer comprehensive data analysis services to help you make informed decisions based on accurate and actionable insights.</p>
+                </div>
+            </div>
+
+            <a href="{% url 'contact_us' %}" class="btn-primary">Get in Touch</a>
+        </div>
+    </section>
+
+    <script>
+        // Function to check if an element is in the viewport
+        function isInViewport(element) {
+            const rect = element.getBoundingClientRect();
+            return (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+        }
+
+        // Function to add animations to service items in view
+        function handleScroll() {
+            const services = document.querySelectorAll('.services .service');
+            services.forEach(service => {
+                if (isInViewport(service)) {
+                    service.style.opacity = 1;
+                    service.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Run on page load and scroll
+        document.addEventListener('DOMContentLoaded', handleScroll);
+        window.addEventListener('scroll', handleScroll);
+    </script>
+{% endblock %}

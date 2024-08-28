@@ -1,0 +1,65 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Shipping Policy{% endblock %}
+
+{% block content %}
+  <style>
+    .shipping-policy {
+      background-color: #F5F5F5;
+      padding: 60px 30px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      max-width: 800px;
+    }
+
+    .shipping-policy h1 {
+      font-size: 36px;
+      color: #2C3E50;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .shipping-policy h2 {
+      font-size: 24px;
+      color: #2C3E50;
+      margin-bottom: 10px;
+    }
+
+    .shipping-policy p {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .shipping-policy ul {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 30px;
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+
+    .shipping-policy li {
+      margin-bottom: 10px;
+    }
+  </style>
+
+  <section class="shipping-policy">
+    <div class="container">
+      <h1>Shipping Policy</h1>
+      
+      <h2>Shipping Information</h2>
+      <p>We offer worldwide shipping, and delivery times may vary depending on your location and the shipping method chosen.</p>
+      <ul>
+        <li>Standard shipping: 2-5 business days</li>
+        <li>Express shipping: same day delivery</li>
+      </ul>
+
+      <h2>Return Policy</h2>
+      <p>All sales are final, and we do not accept returns. Please ensure that you review your order carefully before confirming your purchase.</p>
+      <p>If your item arrives damaged or incorrect, please contact our customer support team at <a href="mailto:support@yourwebsite.com">support@yourwebsite.com</a> within 3 days of receiving your order, and we will assist you with any issues.</p>
+    </div>
+  </section>
+{% endblock %}
