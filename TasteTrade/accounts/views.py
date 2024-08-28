@@ -17,6 +17,9 @@ from orders.models import Order
 from django.db.models import Sum, Count
 from django.db.models.functions import TruncDate
 import logging
+from django.shortcuts import render
+from django.contrib.auth.views import PasswordResetView
+from django.urls import reverse_lazy
 
 def signup_Bus(request):
     if request.method == 'POST':
@@ -276,3 +279,35 @@ def order_list_for_pdf(request: HttpRequest):
         'selected_status': selected_status,
     }
     return render(request, 'accounts/pdf_contract.html', context)
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+from .forms import PasswordResetRequestForm
+import random
+import string
+'''
+def password_reset_request(request):
+    if request.method == 'POST':
+        form = PasswordResetRequestForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            user = User.objects.get(email=email)
+            
+            # Generate a temporary password
+            temp_password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
+            
+            # Update user's password in the database
+            user.password = make_password(temp_password)
+            user.save()
+            
+            # Optionally, you can store the temporary password in a session or other method to provide it to the user
+            request.session['temp_password'] = temp_password
+            
+            return redirect('password_reset_done')  # Redirect to a confirmation page or login page
+    else:
+        form = PasswordResetRequestForm()
+    
+    return render(request, 'accounts/password_reset_request.html', {'form': form})
+'''

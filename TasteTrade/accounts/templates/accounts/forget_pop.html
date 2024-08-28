@@ -49,13 +49,14 @@
             width: 100%;
             font-size: 16px;
         }
-        .form-field:last-child {
-    text-align: right; 
-}
 
-.btn-arrow {
-    margin: 10px 0; 
-}
+        .form-field:last-child {
+            text-align: right; 
+        }
+
+        .btn-arrow {
+            margin: 10px 0; 
+        }
 
         .btn-arrow {
             display: inline-flex; 
@@ -129,7 +130,7 @@
             <div class="modal-body text-center">
                 <h2>Password Reset</h2>
                 <p>You will receive an email to reset your password</p>
-                <button type="button" class="btn-submit" onclick="hideConfirmation()">OK</button>
+                <button type="button" class="btn-submit" onclick="redirectToLogin()">OK</button>
             </div>
         </div>
     </div>
@@ -143,14 +144,24 @@
     $(document).ready(function() {
         $('#emailForm').submit(function(e) {
             e.preventDefault();
-            $('#emailModal').modal('hide');
-            $('#confirmationModal').modal('show');
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: form.serialize(),
+                success: function() {
+                    $('#emailModal').modal('hide');
+                    $('#confirmationModal').modal('show');
+                },
+                error: function() {
+                    alert('An error occurred. Please try again.');
+                }
+            });
         });
     });
 
-    function hideConfirmation() {
-        $('#confirmationModal').modal('hide');
-        $('#emailModal').modal('show');
+    function redirectToLogin() {
+        window.location.href = "{% url 'login_view' %}";
     }
 </script>
 </body>

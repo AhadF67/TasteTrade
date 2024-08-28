@@ -84,3 +84,16 @@ class UserUpdateForm(forms.ModelForm):
         if password or password_confirm:
             if password != password_confirm:
                 self.add_error('password_confirm', "Passwords do not match.")
+
+
+from django import forms
+from django.contrib.auth.models import User
+
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("No user with this email address.")
+        return email
