@@ -18,8 +18,8 @@ urlpatterns = [
 
     path('forget-pop/', views.forget_pop, name='forget_pop'),
     
-    path('password-reset/', views.password_reset_request, name='password_reset_request'),
-    path('password-reset-done/', TemplateView.as_view(template_name='accounts/password_reset_done.html'), name='password_reset_done'),
+    #path('password-reset/', views.password_reset_request, name='password_reset_request'),
+    #path('password-reset-done/', TemplateView.as_view(template_name='accounts/password_reset_done.html'), name='password_reset_done'),
 
     
     
