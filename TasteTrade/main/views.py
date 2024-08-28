@@ -48,3 +48,63 @@ def meet_the_team(request):
     ]
     
     return render(request, 'main/meet_the_team.html', {'team_members': team_members})
+
+from django.shortcuts import render, redirect
+from accounts.models import Profile
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import LoginForm_admin
+
+def admin_login(request):
+    if request.method == 'POST':
+        form = LoginForm_admin(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            
+            if username == 'TTadmin' and password == '123Tt':
+                request.session['is_admin'] = True
+                return redirect('admin_panel')  # Redirect to admin panel
+            else:
+                messages.error(request, 'Invalid username or password.')
+    else:
+        form = LoginForm_admin()
+    return render(request, 'main/admin_login.html', {'form': form})
+
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from accounts.models import Profile
+
+def admin_panel(request):
+    if not request.session.get('is_admin'):
+        return redirect('admin_login')
+
+    profiles_sup = Profile.objects.filter(user_type='sup')
+    profiles_bus = Profile.objects.filter(user_type='bus')
+
+    context = {
+        'profiles_sup': profiles_sup,
+        'profiles_bus': profiles_bus,
+    }
+
+    return render(request, 'main/admin-panel.html', context)
+
+
+
+def activate_supplier(request, profile_id):
+    profile = Profile.objects.get(id=profile_id)
+    profile.is_activated = True
+    profile.save()
+    return redirect('admin_panel')
+
+from django.shortcuts import redirect, get_object_or_404
+def toggle_activation(request, profile_id):
+    profile = get_object_or_404(Profile, id=profile_id)
+    if request.method == 'POST':
+        if 'activate' in request.POST:
+            profile.is_activated = True
+        elif 'deactivate' in request.POST:
+            profile.is_activated = False
+        profile.save()
+    return redirect('admin_panel')

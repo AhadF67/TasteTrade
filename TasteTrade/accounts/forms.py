@@ -30,8 +30,13 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput())
 
+# forms.py
+from django import forms
+from .models import Profile
+from django.core.validators import RegexValidator
+
 class ProfileUpdateForm(forms.ModelForm):
-      phone_number = forms.CharField(
+    phone_number = forms.CharField(
         validators=[
             RegexValidator(
                 regex=r'^0\d{7,14}$',
@@ -41,10 +46,24 @@ class ProfileUpdateForm(forms.ModelForm):
         required=False,
         help_text='Enter a phone number starting with 0 (between 8 to 15 digits).'
     )
-      class Meta:
+    cr_file = forms.FileField(required=True, help_text='Upload your CR file.')
+    bank_account_file = forms.FileField(required=True, help_text='Upload your bank account details.')
+    iban = forms.CharField(
+        validators=[
+            RegexValidator(
+                regex=r'^SA\d{22}$',
+                message="IBAN must start with 'SA' followed by 22 digits."
+            )
+        ],
+        max_length=24,
+        required=True,
+        help_text='IBAN should start with SA followed by 22 digits.'
+    )
 
-       model = Profile
-       fields = ['name', 'image', 'phone_number']  
+    class Meta:
+        model = Profile
+        fields = ['name', 'image', 'phone_number', 'cr_file', 'bank_account_file', 'iban']
+
 
 
 

@@ -63,8 +63,8 @@ def orders_summary(request):
     total_orders = orders.count()
     completed_orders = orders.filter(status='completed').count()
     canceled_orders = orders.filter(status='canceled').count()
-    in_progress_orders = orders.filter(status='in_progress').count()
-    confirmed_orders = orders.filter(status='confirmed').count()
+    pending_orders = orders.filter(status='pending').count()
+    approved_orders = orders.filter(status='approved').count()
     rejected_orders = orders.filter(status='rejected').count()
     
     context = {
@@ -73,8 +73,8 @@ def orders_summary(request):
         'total_orders': total_orders,
         'completed_orders': completed_orders,
         'canceled_orders': canceled_orders,
-        'in_progress_orders': in_progress_orders,
-        'confirmed_orders': confirmed_orders,
+        'pending_orders': pending_orders,
+        'approved_orders': approved_orders,
         'rejected_orders': rejected_orders,
     }
     
