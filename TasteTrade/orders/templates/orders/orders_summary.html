@@ -18,9 +18,9 @@
       <div class="d-flex justify-content-between px-1" style="font-size: 0.9rem; margin-bottom: 0.2rem;">
         <div class="d-flex flex-wrap justify-content-between" style="width: 100%;">
           <p style="margin-right: 10px;">Completed: {{ completed_orders }}</p>
-          <p style="margin-right: 10px;">In Progress: {{ in_progress_orders }}</p>
+          <p style="margin-right: 10px;">Approved: {{ confirmed_orders }}</p>
+          <p style="margin-right: 10px;">Pending: {{ in_progress_orders }}</p>
           <p style="margin-right: 10px;">Rejected: {{ rejected_orders }}</p>
-          <p style="margin-right: 10px;">Confirmed: {{ confirmed_orders }}</p>
           <p>Canceled: {{ canceled_orders }}</p>
         </div>
       </div>
@@ -37,9 +37,9 @@
                       <p class="card-text">Total: {{ order.total_price }} SR</p>
                       Status: 
                       <span class="badge 
-                          {% if order.status == 'in_progress' %}
+                          {% if order.status == 'pending' %}
                               badge-warning
-                          {% elif order.status == 'confirmed' %}
+                          {% elif order.status == 'approved' %}
                               badge-info
                           {% elif order.status == 'completed' %}
                               badge-success

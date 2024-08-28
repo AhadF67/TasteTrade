@@ -117,30 +117,49 @@ DURATION_MULTIPLIERS_SECOND = {
     'three_months': 12,
 }
 
+from datetime import date
+
 def order_product(request: HttpRequest, product_id):
     product = get_object_or_404(Product, id=product_id)
+    is_expired = product.expiry_date < date.today()
+    
+    if is_expired:
+        message = "This product has expired and cannot be ordered."
+    else:
+        message = None
+    
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and not is_expired:
             order = form.save(commit=False)
             order.product = product
             order.user = request.user
             
-            # Retrieve duration multipliers
             duration_first = form.cleaned_data['duration_first']
             duration_second = form.cleaned_data['duration_second']
             multiplier_first = DURATION_MULTIPLIERS_FIRST[duration_first]
             multiplier_second = DURATION_MULTIPLIERS_SECOND[duration_second]
             
-            # Calculate total price
             total = order.quantity * product.price * multiplier_first * multiplier_second
             
-            order.total_price = total 
-            order.order_number = get_random_string(length=5)  
-            order.save()
-            return redirect('success')
-
+            if order.quantity > product.quantity:
+                message = "Ordered quantity exceeds available product quantity."
+            else:
+                order.total_price = total
+                product.quantity -= order.quantity  # Subtract ordered quantity from product stock
+                product.save()
+                order.order_number = get_random_string(length=5)
+                order.save()
+                return redirect('success')
     else:
         form = OrderForm()
+    
     initial_total = product.price
-    return render(request, 'order_product.html', {'product': product, 'form': form, 'initial_total': initial_total})
+    return render(request, 'order_product.html', {
+        'product': product,
+        'form': form,
+        'initial_total': initial_total,
+        'is_expired': is_expired,
+        'message': message,
+    })
+
