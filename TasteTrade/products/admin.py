@@ -1,9 +1,9 @@
 from django.contrib import admin
-
+from .models import Product
 
 
 # Register your models here.
-
+admin.site.register(Product)
 
 #supplier_group, created = Group.objects.get_or_create(name='Supplier')
 

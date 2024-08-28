@@ -198,43 +198,43 @@ def update_profile(request):
 def supplier_statistics(request: HttpRequest):
     supplier = request.user
 
-    # Filter orders to include only those for the supplier
+    # Filter only completed orders for the supplier
+    completed_orders = Order.objects.filter(product__supplier=supplier, status='completed')
+
+    # Filter completed orders for price income data
     price_income_data = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .annotate(order_date=TruncDate('created_at'))
         .values('order_date')
         .annotate(total_income=Sum('total_price'))
         .order_by('order_date')
     )
 
-    # Group by product to get quantity per product for the current supplier
+    # Group by product to get quantity per product for completed orders
     orders_quantity_data = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .values('product__name')
         .annotate(total_quantity=Sum('quantity'))
         .order_by('product__name')
     )
 
-    # Calculate total sales for the current supplier
-    total_sales = (
-        Order.objects.filter(product__supplier=supplier)
-        .aggregate(total_sales=Sum('total_price'))['total_sales']
-    )
+    # Calculate total sales for completed orders
+    total_sales = completed_orders.aggregate(total_sales=Sum('total_price'))['total_sales']
 
-    # Get top products by sales quantity
+    # Get top products by sales quantity for completed orders
     top_products = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .values('product__name')
         .annotate(total_quantity=Sum('quantity'))
-        .order_by('-total_quantity')[:5]  
+        .order_by('-total_quantity')[:5]
     )
 
-    # Get top customers 
+    # Get top customers for completed orders
     top_customers = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .values('user__profile__name')
         .annotate(total_spending=Sum('total_price'))
-        .order_by('-total_spending')[:5] 
+        .order_by('-total_spending')[:5]
     )
 
     context = {
