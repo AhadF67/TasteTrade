@@ -94,33 +94,52 @@
         </div>
 
         <!-- Product Info Section -->
-        <div class="product-info">
-            <h3>{{ product.name }}</h3>
-            <p>{{ product.price }} SR</p>
+<div class="product-info">
+    <h3>{{ product.name }}</h3>
+    <p>Price: {{ product.price }} SR</p>
+    <p>Description: {{ product.description }}</p> 
+    <p>Supplier: {{ product.supplier.profile.name }}</p>
+    <p>
+        <a href="https://wa.me/{{ product.supplier.profile.phone_number }}" target="_blank">
+            <img src="{% static 'images/whatsapp_icon.png' %}" alt="WhatsApp" style="height: 30px;">
+            Chat with Supplier
+        </a>
+    </p>
 
-            <form method="POST" novalidate>
-                {% csrf_token %}
+    {% if is_expired %}
+        <p style="color: red;">This product has expired and cannot be ordered.</p>
+    {% elif product.quantity == 0 %}
+        <p style="color: red;">This product is out of stock and cannot be ordered.</p>
+    {% else %}
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.quantity.label_tag }} {{ form.quantity }}
+            </div>
+            
+            <div class="dropdowns-container">
                 <div class="form-group">
-                    {{ form.quantity.label_tag }} {{ form.quantity }}
+                    {{ form.duration_first.label_tag }} {{ form.duration_first }}
                 </div>
-                
-                <div class="dropdowns-container">
-                    <div class="form-group">
-                        {{ form.duration_first.label_tag }} {{ form.duration_first }}
-                    </div>
-                    <div class="form-group">
-                        {{ form.duration_second.label_tag }} {{ form.duration_second }}
-                    </div>
-                </div>
-                
                 <div class="form-group">
-                    <label for="total">Total</label>
-                    <input type="text" id="total" value="{{ initial_total }}" class="form-control" disabled>
+                    {{ form.duration_second.label_tag }} {{ form.duration_second }}
                 </div>
-                
-                <button type="submit" class="btn btn-place-order">Place Order</button>
-            </form>
-        </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="total">Total</label>
+                <input type="text" id="total" value="{{ initial_total }}" class="form-control" disabled>
+            </div>
+            
+            {% if message %}
+                <p style="color: red;">{{ message }}</p>
+            {% endif %}
+            
+            <button type="submit" class="btn btn-place-order" {% if is_expired or message %}disabled{% endif %}>Place Order</button>
+        </form>
+    {% endif %}
+</div>
+
     </div>
 </div>
 
@@ -132,7 +151,7 @@
         const totalInput = document.querySelector('#total');
         const pricePerItem = parseFloat('{{ product.price }}') || 0;
 
-        // Define multipliers (should match the ones in your view)
+        // Define multipliers 
         const DURATION_MULTIPLIERS_FIRST = {
             'once_a_week': 1,
             'twice_a_week': 2,

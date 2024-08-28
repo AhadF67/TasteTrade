@@ -105,13 +105,13 @@
                     <div class="card-body">
                         <h3 class="card-title">Order #{{ order.order_number }}</h3>
                         <p class="card-text">Product: {{ order.product.name }}</p>
-                        <p class="card-text">Total: ${{ order.total_price }}</p>
+                        <p class="card-text">Total: {{ order.total_price }} SR</p>
                         <p class="card-text">
                             Status: 
                             <span class="badge 
-                                {% if order.status == 'in_progress' %}
+                                {% if order.status == 'pending' %}
                                     badge-warning
-                                {% elif order.status == 'confirmed' %}
+                                {% elif order.status == 'approved' %}
                                     badge-info
                                 {% elif order.status == 'completed' %}
                                     badge-success
@@ -127,18 +127,18 @@
     
                         <div class="btn-group-vertical" role="group">
                             {% if user_type == 'sup' %}
-                                {% if order.status == 'in_progress' %}
+                                {% if order.status == 'pending' %}
                                     <a href="{% url 'reject_order' order.order_number %}" class="btn btn-action btn-danger mb-2">Reject</a>
-                                    <a href="{% url 'confirm_order' order.order_number %}" class="btn btn-action btn-success mb-3">Confirm</a>
+                                    <a href="{% url 'confirm_order' order.order_number %}" class="btn btn-action btn-success mb-3">Approve</a>
                                 {% elif order.status == 'completed' %}
                                     <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-action btn-primary">Review</a>
                                 {% endif %}
                             {% elif user_type == 'bus' %}
                                 {% if order.status == 'completed' %}
                                     <a href="{% url 'review_view' order.order_number order.user.username %}" class="btn btn-action btn-primary">Review</a>
-                                {% elif order.status == 'in_progress' %}
+                                {% elif order.status == 'pending' %}
                                     <a href="{% url 'cancel_order' order.order_number %}" class="btn btn-action btn-warning mb-2">Cancel</a>
-                                {% elif order.status == 'confirmed' %}
+                                {% elif order.status == 'approved' %}
                                     <a href="{% url 'checkout_order' order.order_number %}" class="btn btn-action btn-success">Checkout</a>
                                 {% endif %}
                             {% endif %}

@@ -13,13 +13,9 @@ from django.conf import settings
 from django.templatetags.static import static
 from django.contrib.auth.decorators import login_required, user_passes_test
 from products.models import Product
-
 from orders.models import Order
 from django.db.models import Sum, Count
 from django.db.models.functions import TruncDate
-
-
-
 import logging
 
 def signup_Bus(request):
@@ -38,10 +34,12 @@ def signup_Bus(request):
                     user=user, 
                     name=user.username, 
                     user_type='bus',
-                    image=image  # Assign the image if available, otherwise None
+                    image=image ,
+                    phone_number=request.POST['phone_number']
+                      # Assign the image if available, otherwise None
                 )
                 logging.info(f"Profile created for user {user.username} with ID {profile.id}")
-                return redirect('success')
+                return redirect('login_view')
             except Exception as e:
                 logging.error(f"Error creating profile for user {user.username}: {str(e)}")
                 messages.error(request, "There was an error creating your profile. Please try again.")
@@ -53,6 +51,7 @@ def signup_Bus(request):
     return render(request, 'accounts/signup_Bus.html', {'form': form})
 
 
+# views.py
 def signup_Sup(request):
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -61,9 +60,19 @@ def signup_Sup(request):
                 user = form.save(commit=False)
                 user.set_password(form.cleaned_data['password'])
                 user.save()
-                Profile.objects.create(user=user, name=user.username, user_type='sup')
+                profile_data = {
+                    'user': user,
+                    'name': request.POST['name'],
+                    'phone_number': request.POST['phone_number'],
+                    'image': request.FILES.get('image'),
+                    'cr_file': request.FILES.get('cr'),
+                    'bank_account_file': request.FILES.get('bank_account'),
+                    'iban': request.POST['iban'],
+                    'user_type': 'sup',
+                }
+                Profile.objects.create(**profile_data)
                 logging.info(f"Profile created for user {user.username}")
-                return redirect('success')
+                return redirect('login_view')
             except Exception as e:
                 logging.error(f"Error creating profile for user {user.username}: {str(e)}")
                 messages.error(request, "There was an error creating your profile. Please try again.")
@@ -73,6 +82,7 @@ def signup_Sup(request):
     else:
         form = UserForm()
     return render(request, 'accounts/signup_Sup.html', {'form': form})
+
 
 
 
@@ -110,7 +120,7 @@ def profile_view(request, profile_id):
     if profile.image:
         image_url = profile.image.url
     else:
-        image_url = static('images/default.jpg')
+        image_url = static('images/logo.png')
 
     # Determine if the "Statistics" button should be shown
     show_statistics_button = profile.user.profile.user_type == 'sup'
@@ -188,43 +198,43 @@ def update_profile(request):
 def supplier_statistics(request: HttpRequest):
     supplier = request.user
 
-    # Filter orders to include only those for the supplier
+    # Filter only completed orders for the supplier
+    completed_orders = Order.objects.filter(product__supplier=supplier, status='completed')
+
+    # Filter completed orders for price income data
     price_income_data = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .annotate(order_date=TruncDate('created_at'))
         .values('order_date')
         .annotate(total_income=Sum('total_price'))
         .order_by('order_date')
     )
 
-    # Group by product to get quantity per product for the current supplier
+    # Group by product to get quantity per product for completed orders
     orders_quantity_data = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .values('product__name')
         .annotate(total_quantity=Sum('quantity'))
         .order_by('product__name')
     )
 
-    # Calculate total sales for the current supplier
-    total_sales = (
-        Order.objects.filter(product__supplier=supplier)
-        .aggregate(total_sales=Sum('total_price'))['total_sales']
-    )
+    # Calculate total sales for completed orders
+    total_sales = completed_orders.aggregate(total_sales=Sum('total_price'))['total_sales']
 
-    # Get top products by sales quantity
+    # Get top products by sales quantity for completed orders
     top_products = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .values('product__name')
         .annotate(total_quantity=Sum('quantity'))
-        .order_by('-total_quantity')[:5]  
+        .order_by('-total_quantity')[:5]
     )
 
-    # Get top customers 
+    # Get top customers for completed orders
     top_customers = (
-        Order.objects.filter(product__supplier=supplier)
+        completed_orders
         .values('user__profile__name')
         .annotate(total_spending=Sum('total_price'))
-        .order_by('-total_spending')[:5] 
+        .order_by('-total_spending')[:5]
     )
 
     context = {

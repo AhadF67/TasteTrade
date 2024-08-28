@@ -11,29 +11,29 @@
 
   <!-- Total Sales -->
   <div class="d-flex justify-content-center">
-    <div class="card m-5" style="width: 700px;">
-        <div class="card-header text-center">
-            Total Sales
+    <div class="card p-3 shadow-sm my-4" style="width: 700px; border-radius: 10px; border: 1px solid #a0927d; background-color: #ffffff; max-width: 800px;">
+        <div class="text-center m-2 p-1" style="background-color: #F9F8F3; color: #67594B; border-radius: 5px; border: 1px solid #67594B;">
+          <h5>Total Sales</h5>
         </div>
         <div class="card-body text-center">
-            <h3>${{ total_sales|floatformat:2 }}</h3>
+            <h3>{{ total_sales|floatformat:2 }} SR</h3>
         </div>
     </div>
   </div>
 
   <!-- Top Products and Customers -->
-  <div class="d-flex justify-content-center">
+  <div class="d-flex justify-content-center gap-5">
     <!-- Top Products -->
-    <div class="card m-5" style="width: 700px;">
-        <div class="card-header">
+    <div class="card p-3 shadow-sm my-4" style="width: 700px; border-radius: 10px; border: 1px solid #a0927d; background-color: #ffffff; max-width: 800px;">
+        <div class="text-center m-2 p-1" style="background-color: #F9F8F3; color: #67594B; border-radius: 5px; border: 1px solid #67594B;">
             Top Products by Quantity Sold
         </div>
         <div class="card-body">
             <ul class="list-group">
                 {% for product in top_products %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between align-items-center mb-3" style="background-color: #F9F8F3; color: #67594B; border-radius: 5px; border: 1px solid #67594B;">
                         {{ product.product__name }}
-                        <span class="badge badge-primary badge-pill">{{ product.total_quantity }}</span>
+                        <span class="badge" style="background-color: #67594B;">{{ product.total_quantity }}</span>
                     </li>
                 {% endfor %}
             </ul>
@@ -41,16 +41,16 @@
     </div>
 
     <!-- Top Customers -->
-    <div class="card m-5" style="width: 700px;">
-        <div class="card-header">
+    <div class="card p-3 shadow-sm my-4" style="width: 700px; border-radius: 10px; border: 1px solid #a0927d; background-color: #ffffff; max-width: 800px;">
+        <div class="text-center m-2 p-1" style="background-color: #F9F8F3; color: #67594B; border-radius: 5px; border: 1px solid #67594B;">
             Top Customers by Total Spending
         </div>
         <div class="card-body">
             <ul class="list-group">
                 {% for customer in top_customers %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between align-items-center mb-3" style="background-color: #F9F8F3; color: #67594B; border-radius: 5px; border: 1px solid #67594B;">
                         {{ customer.user__profile__name }}
-                        <span class="badge badge-primary badge-pill">${{ customer.total_spending|floatformat:2 }}</span>
+                        <span class="badge" style="background-color: #67594B;">{{ customer.total_spending|floatformat:2 }} SR</span>
                     </li>
                 {% endfor %}
             </ul>
@@ -60,8 +60,8 @@
 
   <!-- Income Chart -->
   <div class="d-flex justify-content-center">
-    <div class="card m-5" style="width: 700px; height: 450px;">
-        <div class="card-header text-center">
+    <div class="card m-5" class="card p-3 shadow-sm my-4" style="width: 700px; border-radius: 10px; border: 1px solid #a0927d; background-color: #ffffff; max-width: 800px; height: 450px;">
+        <div class="text-center m-4 p-1" style="background-color: #F9F8F3; color: #67594B; border-radius: 5px; border: 1px solid #67594B;">
             Price Income Based on Order Price and Date
         </div>
         <div class="card-body">
@@ -72,8 +72,8 @@
 
   <!-- Orders Quantity Chart -->
   <div class="d-flex justify-content-center">
-    <div class="card m-5" style="width: 700px; height: 450px;">
-        <div class="card-header text-center">
+    <div class="card m-5" class="card p-3 shadow-sm my-4" style="width: 700px; border-radius: 10px; border: 1px solid #a0927d; background-color: #ffffff; max-width: 800px; height: 450px;">
+        <div class="text-center m-4 p-1" style="background-color: #F9F8F3; color: #67594B; border-radius: 5px; border: 1px solid #67594B;">
             Orders Quantity Based on Product
         </div>
         <div class="card-body">
@@ -106,10 +106,10 @@
       data: {
           labels: incomeLabels,
           datasets: [{
-              label: 'Total Income ($)',
+              label: 'Total Income (SR)',
               data: incomeData,
-              backgroundColor: 'rgba(54, 162, 235, 0.2)',
-              borderColor: 'rgba(54, 162, 235, 1)',
+              backgroundColor: 'rgba(103, 89, 75, 0.2)',
+              borderColor: 'rgba(103, 89, 75, 1)',
               borderWidth: 2,
               fill: true
           }]
@@ -145,20 +145,20 @@
               label: 'Quantity Ordered',
               data: ordersData,
               backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
+                  'rgba(136, 120, 96, 0.2)',   
+                  'rgba(118, 99, 85, 0.2)',    
+                  'rgba(156, 136, 102, 0.2)',  
+                  'rgba(133, 110, 94, 0.2)',  
+                  'rgba(179, 142, 105, 0.2)',  
+                  'rgba(122, 105, 88, 0.2)'    
               ],
               borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
+                  'rgba(136, 120, 96, 1)',     
+                  'rgba(118, 99, 85, 1)',      
+                  'rgba(156, 136, 102, 1)',    
+                  'rgba(133, 110, 94, 1)',     
+                  'rgba(179, 142, 105, 1)',    
+                  'rgba(122, 105, 88, 1)'      
               ],
               borderWidth: 1
           }]

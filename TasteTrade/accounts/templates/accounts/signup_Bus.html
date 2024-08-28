@@ -40,8 +40,8 @@
         .form-container input[type="text"],
         .form-container input[type="email"],
         .form-container input[type="password"],
-        .form-container input[type="number"],
-        .form-container input[type="file"] {
+        .form-container input[type="file"] ,
+        .form-container input[type="number"]{
             width: 100%;
             padding: 10px;
             border: 1px solid #67594B;
@@ -104,16 +104,17 @@
                     <input type="text" name="name" placeholder="Name">
                 </div>
                 <div class="form-field">
-                    <input type="number" name="number" placeholder="Number">
+                    <input type="number" name="phone_number" placeholder="Number" required>
+                </div>
+                
+                <div class="form-field">
+                    <input type="email" name="email" placeholder="Email" required>
                 </div>
                 <div class="form-field">
-                    <input type="email" name="email" placeholder="Email">
+                    <input type="password" name="password" placeholder="Password" required>
                 </div>
                 <div class="form-field">
-                    <input type="password" name="password" placeholder="Password">
-                </div>
-                <div class="form-field">
-                    <input type="password" name="re_password" placeholder="Re Password">
+                    <input type="password" name="re_password" placeholder="Re Password" required>
                 </div>
                 <div class="form-field">
                     <label for="cr-upload">Logo:</label>

@@ -43,17 +43,29 @@ def order_list(request):
     })
 
 
+from django.db.models import Sum, Q
+from django.contrib.auth.decorators import login_required
+
+@login_required
 def orders_summary(request):
     user = request.user
-    orders = Order.objects.filter(user=user)
+    user_profile = Profile.objects.get(user=user)
+    
+    if user_profile.user_type == 'sup':
+        # If the user is a supplier, filter orders by the products they supply
+        supplier_products = Product.objects.filter(supplier=user)
+        orders = Order.objects.filter(product__in=supplier_products)
+    else:
+        # If the user is a regular customer, filter orders by the user
+        orders = Order.objects.filter(user=user)
     
     total_paid = orders.aggregate(Sum('total_price'))['total_price__sum'] or 0
     total_orders = orders.count()
     completed_orders = orders.filter(status='completed').count()
     canceled_orders = orders.filter(status='canceled').count()
-    in_progress_orders = orders.filter(status='in_progress').count()
-    confirmed_orders = orders.filter(status='confirmed').count()
-    rejected_orders= orders.filter(status='reject').count()
+    pending_orders = orders.filter(status='pending').count()
+    approved_orders = orders.filter(status='approved').count()
+    rejected_orders = orders.filter(status='rejected').count()
     
     context = {
         'orders': orders,
@@ -61,12 +73,13 @@ def orders_summary(request):
         'total_orders': total_orders,
         'completed_orders': completed_orders,
         'canceled_orders': canceled_orders,
-        'in_progress_orders': in_progress_orders,
-        'confirmed_orders': confirmed_orders,
+        'pending_orders': pending_orders,
+        'approved_orders': approved_orders,
         'rejected_orders': rejected_orders,
     }
     
     return render(request, 'orders/orders_summary.html', context)
+
 
 from django.shortcuts import redirect, get_object_or_404
 from .models import Order
@@ -199,8 +212,8 @@ def contact_us(request):
             send_mail(
                 subject,
                 message_body,
-                'BlueHuawei67_@outlook.com',  # From email (use your own email here)
-                ['TasteTrade0@gmail.com'],  # To email
+                'BlueHuawei67_@outlook.com',  #from
+                ['TasteTrade0@gmail.com'],  #to
                 fail_silently=False,
             )
 
@@ -218,23 +231,7 @@ def success(request):
 from django.shortcuts import render, redirect
 from .forms import ShippingForm, PaymentForm
 
-def shipping_details(request):
-    if request.method == 'POST':
-        form = ShippingForm(request.POST)
-        if form.is_valid():
-            return redirect('payment_details')  # Redirect to payment details modal
-    else:
-        form = ShippingForm()
-    return render(request, 'orders/shipping_details.html', {'form': form})
 
-def payment_details(request):
-    if request.method == 'POST':
-        form = PaymentForm(request.POST)
-        if form.is_valid():
-            return redirect('success')  # Redirect to success page
-    else:
-        form = PaymentForm()
-    return render(request, 'orders/payment_details.html', {'form': form})
 
 def delete_pop(request):
     return render(request, 'orders/delete_POP.html')

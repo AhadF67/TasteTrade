@@ -6,6 +6,7 @@ urlpatterns = [
     path('', views.main_home, name='main_home'),
     path('home/', views.home, name='home'),
     path('meet-the-team/', views.meet_the_team, name='meet_the_team'),
+
     path('about-us/', views.about_us, name='about_us'),
     path('our-services/', views.our_services, name='our_services'),
     path('our-story/', views.our_story, name='our_story'),
@@ -17,5 +18,10 @@ urlpatterns = [
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
     path('apply/', submit_application, name='submit_application'),
     path('pricing/', views.pricing, name='pricing_page'),
+
+    path('admin-login/', views.admin_login, name='admin_login'),
+    path('admin-panel/', views.admin_panel, name='admin_panel'),
+    path('activate-supplier/<int:profile_id>/', views.activate_supplier, name='activate_supplier'),
+    path('toggle_activation/<int:profile_id>/', views.toggle_activation, name='toggle_activation'),
 
 ]
